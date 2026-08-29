@@ -1,0 +1,1 @@
+I copied the root index.html into docs/index.html so GitHub Pages (when set to use /docs) has a valid index page. If you still see a 404 after enabling Pages, wait a minute for the site to build or check that Pages source is set to Branch: main and Folder: /docs in the repository Settings -> Pages.
