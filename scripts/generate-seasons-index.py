@@ -30,7 +30,7 @@ def build_index_html(seasons):
     else:
         items = []
         for s in seasons:
-            link = f"/{REPO_OWNER}/{REPO_NAME}/{DOCS_DIR}/{s}/"
+            link = f"./{s}/"
             items.append(f"<li class='season'><a href='{link}'>{s}</a></li>")
         list_html = "\n".join(items)
 
@@ -78,7 +78,7 @@ def build_huidig_html(target_season):
         # fallback explanatory page
         html = """<!doctype html><html lang="nl"><head><meta charset="utf-8"/><title>Huidig Seizoen</title></head><body><h1>Huidig Seizoen</h1><p>Er is momenteel geen actief seizoen ingesteld.</p></body></html>"""
         return html
-    target_url = f"/{REPO_OWNER}/{REPO_NAME}/{DOCS_DIR}/{target_season}/"
+    target_url = f"../{target_season}/"
     html = f"""<!doctype html>
 <html lang="nl">
 <head>
