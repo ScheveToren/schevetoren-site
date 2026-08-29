@@ -21,6 +21,8 @@ $UploadRetries  = 3
 $IgnoreNames    = @((Split-Path $TokenFilePath -Leaf), 'desktop.ini')
 # Extensions to ignore (lowercase, without the dot)
 $IgnoreExts     = @('ps1')
+# File extensions to include in scans (improves performance)
+$IncludeExts    = @('.html', '.htm', '.css')
 # ============================
 
 # Ensure PollIntervalMs has a sensible default (prevents Start-Sleep null errors)
@@ -50,8 +52,8 @@ function Upload-File {
     $filename = [System.IO.Path]::GetFileName($fullpath)
     # Skip ignored filenames
     if ($IgnoreNames -contains $filename) { Log ("SKIP ignored file: {0}" -f $filename); return }
-    $ext = [System.IO.Path]::GetExtension($filename).TrimStart('.').ToLower()
-    if ($IgnoreExts -contains $ext) { Log ("SKIP ignored extension: {0}" -f $filename); return }
+    $ext = [System.IO.Path]::GetExtension($filename).ToLower()
+    if ($IgnoreExts -contains $ext.TrimStart('.')) { Log ("SKIP ignored extension: {0}" -f $filename); return }
 
     # preserve relative path under the watch folder so seasons can be uploaded into subfolders
     $watchRoot = (Resolve-Path $WatchFolder).ProviderPath.TrimEnd('\')
@@ -108,7 +110,10 @@ Log ("Polling watcher started. PollIntervalMs={0} StabilizeMs={1}. Ignoring: {2}
 
 while ($true) {
     try {
-        $files = Get-ChildItem -Path $WatchFolder -File -Force -ErrorAction SilentlyContinue
+        # RECURSIVE scan: include only relevant extensions to improve performance
+        $files = Get-ChildItem -Path $WatchFolder -Recurse -File -Force -ErrorAction SilentlyContinue |
+                 Where-Object { $IncludeExts -contains $_.Extension }
+
         foreach ($f in $files) {
             $path = $f.FullName
             $filename = [System.IO.Path]::GetFileName($path)
