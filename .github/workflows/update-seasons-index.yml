@@ -7,6 +7,9 @@ on:
       - 'docs/**'
       - 'scripts/generate-seasons-index.py'
       - '.github/workflows/update-seasons-index.yml'
+      
+permissions:
+  contents: write
 
 jobs:
   build:
