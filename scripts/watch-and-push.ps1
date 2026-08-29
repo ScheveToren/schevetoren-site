@@ -1,23 +1,19 @@
-#!/usr/bin/env pwsh
-
-# watch-and-push.ps1
-# Windows PowerShell script that watches a folder for standings.html and uploads it to GitHub via the REST API.
-# Edit the variables in the CONFIG section to match your environment before deploying to the club PC.
+# Updated watcher to batch-upload any changed files from Sevilla
+# Watches a folder for any file changes and uploads changed files to GitHub
+# via the Contents API. Debounces events and uploads files in a batch.
+# Edit the CONFIG block at top for your environment before running.
 
 # ========== CONFIG ==========
-$WatchFolder = 'C:\Club\standings_watch'         # folder to watch (create it on the club PC)
-$LocalFileName = 'standings.html'                  # file name to watch inside folder
-$RepoOwner = 'ScheveToren'                         # GitHub owner/org
-$RepoName = 'schevetoren-site'                     # GitHub repo name
-$Branch = 'main'                                   # branch used for Pages
-$TargetPath = 'docs/standings.html'                # path inside repo where file will be placed
-# Token retrieval: choose one method below.
-# Option A (recommended): store the token in a local file with restricted ACL and set $UseTokenFile = $true.
-# Option B: store the token as a user/machine environment variable named GITHUB_TOKEN and set $UseTokenFile = $false.
-$UseTokenFile = $true
-$TokenFilePath = 'C:\Club\github_token.txt'
-# Optional: path to a log file
-$LogFile = 'C:\Club\logs\watch.log'
+$WatchFolder    = 'C:\Club\standings_watch'     # folder Sevilla writes to
+$RepoOwner      = 'ScheveToren'                 # GitHub owner/org
+$RepoName       = 'schevetoren-site'            # GitHub repo name
+$Branch         = 'main'                        # branch used for Pages
+$TargetFolder   = 'docs'                        # target folder in repo (we will upload to docs/<filename>)
+$UseTokenFile   = $true                         # true -> read token from file, false -> read env var GITHUB_TOKEN
+$TokenFilePath  = 'C:\Club\github_token.txt'    # if using token file
+$LogFile        = 'C:\Club\logs\watch.log'      # optional log file
+$DebounceMs     = 800                           # ms to wait for more changes before uploading batch
+$UploadRetries  = 3                             # retry attempts per file
 # ============================
 
 function Log {
@@ -28,9 +24,7 @@ function Log {
         $dir = Split-Path $LogFile -Parent
         if ($dir -and -not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
         Add-Content -Path $LogFile -Value $line -Encoding UTF8
-    } catch {
-        # ignore logging errors
-    }
+    } catch {}
 }
 
 function Get-GitHubToken {
@@ -40,85 +34,125 @@ function Get-GitHubToken {
     } else {
         $t = [Environment]::GetEnvironmentVariable('GITHUB_TOKEN','User')
         if (-not $t) { $t = [Environment]::GetEnvironmentVariable('GITHUB_TOKEN','Machine') }
-        if (-not $t) { throw "GITHUB_TOKEN environment variable not set. Use setx to add it for the user or create the token file and set `$UseTokenFile = $true` in the script." }
+        if (-not $t) { throw "GITHUB_TOKEN environment variable not set." }
         return $t
     }
 }
 
-function Upload-Standings {
+# Build a safe API URL for a repo path (encode each segment, keep slashes)
+function Build-ApiUrlFromPath {
+    param([string]$repoFolder, [string]$filename)
+    $segments = @($repoFolder, $filename) | Where-Object { $_ -ne "" }
+    $encoded = ($segments | ForEach-Object { [Uri]::EscapeDataString($_) }) -join '/'
+    return "https://api.github.com/repos/$RepoOwner/$RepoName/contents/$encoded"
+}
+
+# Upload a single file (create or update). Retries on transient errors.
+function Upload-File {
+    param([string]$fullpath)
+    if (-not (Test-Path $fullpath)) {
+        Log "SKIP: file not found $fullpath"
+        return
+    }
+    $filename = [System.IO.Path]::GetFileName($fullpath)
+    $apiUrl = Build-ApiUrlFromPath -repoFolder $TargetFolder -filename $filename
+
     try {
-        $token = Get-GitHubToken
+        $bytes = [System.IO.File]::ReadAllBytes($fullpath)
     } catch {
-        Log "ERROR: Cannot read token: $($_.Exception.Message)"
+        Log "ERROR reading $fullpath: $($_.Exception.Message)"
         return
     }
+    $b64 = [Convert]::ToBase64String($bytes)
+    $token = $null
+    try { $token = Get-GitHubToken } catch { Log "ERROR reading token: $($_.Exception.Message)"; return }
 
-    $localPath = Join-Path $WatchFolder $LocalFileName
-    if (-not (Test-Path $localPath)) {
-        Log "File not found: $localPath"
-        return
-    }
+    $headers = @{ Authorization = "token $token"; Accept = "application/vnd.github+json"; 'User-Agent' = 'schevetoren-uploader' }
 
+    # check if exists to get sha
+    $sha = $null
     try {
-        Start-Sleep -Milliseconds 300 # wait for file write to complete
-
-        $content = Get-Content -Raw -Encoding UTF8 -Path $localPath
-        $bytes = [System.Text.Encoding]::UTF8.GetBytes($content)
-        $b64 = [Convert]::ToBase64String($bytes)
-
-        $apiUrl = "https://api.github.com/repos/$RepoOwner/$RepoName/contents/$TargetPath"
-        $headers = @{ Authorization = "token $token"; Accept = "application/vnd.github+json"; 'User-Agent' = 'schevetoren-uploader' }
-
-        # Check if file exists to get sha
-        $sha = $null
-        try {
-            $getResp = Invoke-RestMethod -Uri $apiUrl -Method Get -Headers $headers -ErrorAction Stop
-            $sha = $getResp.sha
-            Log "Existing file detected in repo (sha=$sha). Will update."
-        } catch {
-            if ($_.Exception.Response -and $_.Exception.Response.StatusCode -eq 404) {
-                Log "File not found in repo; will create."
-            } else {
-                Log "Error checking file: $($_.Exception.Message)"
-                return
-            }
+        $getResp = Invoke-RestMethod -Uri $apiUrl -Method Get -Headers $headers -ErrorAction Stop
+        $sha = $getResp.sha
+        Log "Found existing repo file docs/$filename (sha=$sha)."
+    } catch {
+        if ($_.Exception.Response -and $_.Exception.Response.StatusCode -eq 404) {
+            Log "No existing file docs/$filename — will create."
+        } else {
+            Log "ERROR checking existence for docs/$filename: $($_.Exception.Message)"
+            # continue; we will attempt create and let API return an error if needed
         }
+    }
 
-        $payload = @{ message = "Update standings $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"; content = $b64; branch = $Branch }
-        if ($sha) { $payload.sha = $sha }
-        $json = $payload | ConvertTo-Json -Depth 6
+    $payload = @{ message = "Update $filename $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"; content = $b64; branch = $Branch }
+    if ($sha) { $payload.sha = $sha }
+    $json = $payload | ConvertTo-Json -Depth 6
 
-        $putResp = Invoke-RestMethod -Uri $apiUrl -Method Put -Headers $headers -Body $json -ContentType 'application/json' -ErrorAction Stop
-        $commitUrl = $putResp.commit.html_url
-        Log "Upload successful. Commit: $commitUrl"
+    for ($i=1; $i -le $UploadRetries; $i++) {
+        try {
+            $putResp = Invoke-RestMethod -Uri $apiUrl -Method Put -Headers $headers -Body $json -ContentType 'application/json' -ErrorAction Stop
+            $commitUrl = $putResp.commit.html_url
+            Log "UPLOAD OK: docs/$filename -> $commitUrl"
+            return
+        } catch {
+            $err = $_.Exception
+            Log "Upload attempt $i failed for $filename: $($err.Message)"
+            Start-Sleep -Seconds (2 * $i)
+        }
+    }
+    Log "FAILED to upload $filename after $UploadRetries attempts."
+}
+
+# Debounce queue: collect changed files, then upload them together when timer elapses
+$Queue = [System.Collections.Generic.HashSet[string]]::new()
+$QueueLock = New-Object System.Object
+$timer = New-Object System.Timers.Timer
+$timer.Interval = $DebounceMs
+$timer.AutoReset = $false
+
+$timer.Add_Elapsed({
+    # take snapshot and clear queue
+    $items = @()
+    lock ($QueueLock) {
+        $items = $Queue.ToArray()
+        $Queue.Clear()
+    }
+    if ($items.Count -eq 0) { return }
+    Log "Processing batch of $($items.Count) changed file(s)."
+    foreach ($p in $items) {
+        Upload-File -fullpath $p
+    }
+})
+
+# FileSystemWatcher event action
+$action = {
+    Start-Sleep -Milliseconds 150
+    $full = $Event.SourceEventArgs.FullPath
+    $changeType = $Event.SourceEventArgs.ChangeType
+    # only consider files directly in the watched folder (no recursion)
+    try {
+        # add to queue
+        lock ($QueueLock) { $null = $Queue.Add($full) | Out-Null }
+        Log "Queued change ($changeType): $full"
+        # restart timer
+        $script:timer.Stop()
+        $script:timer.Start()
     } catch {
-        Log "Upload failed: $($_.Exception.Message)"
+        Log "Event handler error: $($_.Exception.Message)"
     }
 }
 
-# Ensure watch folder exists
+# Ensure folder exists
 if (-not (Test-Path $WatchFolder)) { New-Item -ItemType Directory -Path $WatchFolder -Force | Out-Null }
 
-# Start FileSystemWatcher
-$fsw = New-Object System.IO.FileSystemWatcher $WatchFolder, $LocalFileName
+# Start watcher for all files (you can restrict to patterns if desired)
+$fsw = New-Object System.IO.FileSystemWatcher $WatchFolder, '*.*'
 $fsw.IncludeSubdirectories = $false
 $fsw.EnableRaisingEvents = $true
 
-$action = {
-    Start-Sleep -Milliseconds 200
-    $full = $Event.SourceEventArgs.FullPath
-    $changeType = $Event.SourceEventArgs.ChangeType
-    Log "Detected $changeType on $full"
-    try {
-        Upload-Standings
-    } catch {
-        Log "Exception in Upload-Standings: $($_.Exception.Message)"
-    }
-}
-
-# Register events
+# Register Created and Changed events
 $null = Register-ObjectEvent $fsw Created -Action $action
 $null = Register-ObjectEvent $fsw Changed -Action $action
 
-Log "Watching $WatchFolder for $LocalFileName. Press Ctrl+C to exit."
+Log "Watching $WatchFolder (debounce $DebounceMs ms). Press Ctrl+C to exit."
 while ($true) { Start-Sleep -Seconds 1 }
