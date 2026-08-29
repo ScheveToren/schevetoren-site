@@ -55,7 +55,7 @@ def build_index_html(seasons):
   <header>
     <h1>Schaakvereniging De Scheve Toren — Seizoenen</h1>
     <p class="meta">Welkom — kies een seizoen hieronder. De knop "Huidig seizoen" gaat naar de actuele seizoenmap.</p>
-    <a class="current-btn" href="/{REPO_OWNER}/{REPO_NAME}/{DOCS_DIR}/HuidigSeizoen/">Huidig seizoen</a>
+    <a class="current-btn" href="./HuidigSeizoen/">Huidig seizoen</a>
   </header>
 
   <section class="seasons">
