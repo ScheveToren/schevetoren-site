@@ -125,15 +125,29 @@ async function save() {
   }
 }
 
+function csvCell(value) {
+  return `"${String(value ?? "").replace(/"/g, '""')}"`;
+}
+
 function exportCsv() {
-  const rows = [...document.querySelectorAll("#adminTable tr")].map(row =>
-    [...row.children].map(cell => `"${cell.innerText.replace(/"/g, '""')}"`).join(",")
-  );
+  // A select element's innerText is not reliable across browsers. Read its
+  // selected value explicitly so the export contains the actual status.
+  const rows = [...document.querySelectorAll("#adminTable tr")].map(row => {
+    const values = [...row.children].map(cell => {
+      const select = cell.querySelector("select");
+      if (select) return select.value === "present" ? "Aanwezig" : "Afwezig";
+      return cell.innerText.trim();
+    });
+    return values.map(csvCell).join(",");
+  });
+  const url = URL.createObjectURL(new Blob([rows.join("\n")], {
+    type: "text/csv;charset=utf-8"
+  }));
   const link = document.createElement("a");
-  link.href = URL.createObjectURL(new Blob([rows.join("\n")], { type: "text/csv;charset=utf-8" }));
+  link.href = url;
   link.download = "aanwezigheid-admin.csv";
   link.click();
-  URL.revokeObjectURL(link.href);
+  setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
