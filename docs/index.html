@@ -1,36 +1,35 @@
 <!doctype html>
 <html lang="nl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>De Scheve Toren — Seizoenen</title>
-  <style>
-    body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial; padding: 1.5rem; color:#222 }
-    header { margin-bottom: 1rem }
-    h1 { margin:0 0 .25rem 0 }
-    .seasons { margin-top: 1rem }
-    .season { margin: .5rem 0; }
-    .meta { color: #666; font-size: .95rem; }
-    .current-btn { display:inline-block; margin-top:.5rem; padding:.4rem .7rem; background:#0366d6; color:white; border-radius:4px; text-decoration:none }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Schaakvereniging De Scheve Toren — Seizoenen</h1>
-    <p class="meta">Welkom — kies een seizoen hieronder. De knop "Huidig seizoen" gaat naar de actuele seizoenmap.</p>
-    <a class="current-btn" href="./HuidigSeizoen/">Huidig seizoen</a>
-  </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>De Scheve Toren — Seizoenen</title>
+    <style>
+      body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial; padding: 1.5rem; color:#222 }
+      header { margin-bottom: 1rem }
+      h1 { margin: 0 0 .25rem 0 }
+      .meta { color: #666; font-size: .95rem }
+      .current-btn, .small-btn { display:inline-block; margin-top:.5rem; padding:.4rem .7rem; background:#0366d6; color:white; border-radius:4px; text-decoration:none; margin-right:.5rem }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Schaakvereniging De Scheve Toren — Seizoenen</h1>
+      <p class="meta">Welkom — kies een seizoen hieronder.</p>
+      <a class="current-btn" href="./HuidigSeizoen/">Huidig seizoen</a>
+      <a class="small-btn" href="./attendance.html">Aanwezigheid</a>
+    </header>
 
-  <section class="seasons">
-    <h2>Beschikbare seizoenen</h2>
-    <ul>
-<li class='season'><a href='./2026-2027/'>2026-2027</a></li>
-<li class='season'><a href='./2025-2026/'>2025-2026</a></li>
-    </ul>
-  </section>
+    <section>
+      <h2>Beschikbare seizoenen</h2>
+      <ul>
+        <li><a href="./2026-2027/">2026-2027</a></li>
+        <li><a href="./2025-2026/">2025-2026</a></li>
+      </ul>
+    </section>
 
-  <footer style="margin-top:2rem;color:#666;font-size:.9rem">
-    <p>Opmerking: historische seizoenen blijven beschikbaar wanneer ze geüpload zijn. Laatste update: 2026-09-19 UTC.</p>
-  </footer>
-</body>
+    <footer style="margin-top:2rem;color:#666;font-size:.9rem">
+      <p>Laatste update: 2026-09-19 UTC.</p>
+    </footer>
+  </body>
 </html>

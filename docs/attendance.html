@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Aanwezigheid — De Scheve Toren</title>
+    <link rel="stylesheet" href="./attendance.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">De Scheve Toren</p>
+          <h1>Aanwezigheid 2026–2027</h1>
+        </div>
+        <a class="button secondary" href="./index.html">← Terug naar seizoenoverzicht</a>
+      </header>
+
+      <section class="panel intro-panel">
+        <div>
+          <p class="status-badge">Demo + backend-ready</p>
+          <p>
+            Kies je naam, geef per speelavond aan of je aanwezig bent en voeg een notitie toe. De
+            pagina is klaar voor een later Lichess-login en Google Apps Script backend.
+          </p>
+        </div>
+      </section>
+
+      <section class="panel tool-panel">
+        <div class="tool-row">
+          <label class="field-label" for="playerSelect">Speler</label>
+          <select id="playerSelect"></select>
+        </div>
+
+        <div class="tool-row stacked">
+          <label class="field-label" for="inviteCode">Uitnodigingscode (demo)</label>
+          <input id="inviteCode" type="text" placeholder="Bijv. ST-7F4K-92QX" />
+        </div>
+
+        <div class="tool-row actions">
+          <button id="linkPlayerBtn" class="button primary" type="button">Koppel speler</button>
+          <button id="saveBtn" class="button success" type="button">Bewaar aanwezigheid</button>
+          <button id="exportBtn" class="button muted" type="button">Download CSV</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Jouw speeldagen</h2>
+        <div id="attendanceTable" class="attendance-grid"></div>
+      </section>
+    </main>
+
+    <script src="./attendance.js"></script>
+  </body>
+</html>

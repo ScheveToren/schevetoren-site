@@ -1,249 +1,165 @@
-* { box-sizing: border-box; }
+const PLAYERS = [
+  "Erik Jan Tromp","Kees Dekker","Rudi De Smit","Stefan Van der Sman","Jeroen Kleijn","Dave Theijn",
+  "Sascha Ottenhof","Aad Van Gent","Casper Ruigt","Agus Sutrisno","Piet Perrels","Wim Bergers",
+  "Ivo Wilms","Frank Stelwagen","Stijn De Smit","Gerard Rutten","Carlos Koeleman","Wouter Pietersma",
+  "Wil Boonman","Floris Van Tilburg","Richard Riemens","Tim de Jong","Ronald Riemens","Denis Pogrebniak",
+  "Marcel Lewis","Pepijn Huizer","Priyanshu Joeloemsing","Aleksander Drabarek","Naud Boelens",
+  "Arjan Van Buijtene","Miroslaw Wojcik","Bjorn Blankespoor","Vince Van Marwijk","Yufei Huang",
+  "Tim Ip","Sam Ip","Thomas Ellerbroek","Thijs van Straalen"
+];
 
-:root {
-  --bg: #f4f7fb;
-  --panel: #ffffff;
-  --border: #dfe7f1;
-  --text: #1d2a39;
-  --muted: #5d6b7b;
-  --primary: #0f6cbd;
-  --primary-dark: #0b568d;
-  --success: #1f8f5f;
-  --success-soft: #eafaf3;
-  --warning: #f4c95d;
-  --warning-soft: #fff8e6;
-  --danger: #c94f4f;
-  --danger-soft: #fdeaea;
-  --shadow: 0 14px 30px rgba(15, 30, 60, 0.08);
-}
+const WEEKS = [
+  ["2026-08-28","ALV","event"],
+  ["2026-09-04","Speeldag 1","regular"],
+  ["2026-09-11","Speeldag 2","regular"],
+  ["2026-09-18","Speeldag 3","regular"],
+  ["2026-09-25","Speeldag 4","regular"],
+  ["2026-10-02","Speeldag 5","regular"],
+  ["2026-10-09","Speeldag 6","regular"],
+  ["2026-10-16","Rapid 1","rapid"],
+  ["2026-10-30","Rapid 2","rapid"],
+  ["2026-11-06","Speeldag 7","regular"],
+  ["2026-11-13","Schaak-Off","regular"],
+  ["2026-11-20","Speeldag 8","regular"],
+  ["2026-11-27","Speeldag 9","regular"],
+  ["2026-12-04","Speeldag 10","regular"],
+  ["2026-12-11","Rapid 3","rapid"],
+  ["2026-12-18","Rapid 4 / Kerstschaak","rapid"],
+  ["2027-01-08","Speeldag 11","regular"],
+  ["2027-01-15","Speeldag 12","regular"],
+  ["2027-01-22","Speeldag 13","regular"],
+  ["2027-01-29","Speeldag 14","regular"],
+  ["2027-02-05","Speeldag 15","regular"],
+  ["2027-02-12","Speeldag 16","regular"],
+  ["2027-02-19","Speeldag 17","regular"],
+  ["2027-03-05","Speeldag 18","regular"],
+  ["2027-03-12","Rapid 5","rapid"],
+  ["2027-03-19","Rapid 6","rapid"],
+  ["2027-04-02","Speeldag 19","regular"],
+  ["2027-04-09","Speeldag 20","regular"],
+  ["2027-04-16","Speeldag 21","regular"],
+  ["2027-04-23","Speeldag 22","regular"],
+  ["2027-05-14","Speeldag 23","regular"],
+  ["2027-05-21","Speeldag 24","regular"],
+  ["2027-05-28","Speeldag 25","regular"],
+  ["2027-06-04","Speeldag 26","regular"],
+  ["2027-06-11","Speeldag 27","regular"],
+  ["2027-06-18","Speeldag 28","regular"],
+  ["2027-06-25","Speeldag 29","regular"]
+];
 
-html, body {
-  margin: 0;
-  padding: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-}
+const STORAGE_KEY = "schevetoren_attendance_v1";
+const PLAYER_KEY = "schevetoren_player_name";
+const CODE_KEY = "schevetoren_code";
 
-body {
-  min-height: 100vh;
-}
-
-.page-shell {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem 3rem;
-}
-
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1.25rem;
-}
-
-.topbar h1 {
-  margin: 0.2rem 0 0;
-  font-size: clamp(1.8rem, 2vw, 2.6rem);
-}
-
-.eyebrow {
-  margin: 0;
-  color: var(--primary);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-
-.panel {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  border-radius: 18px;
-  padding: 1.1rem 1.2rem;
-  margin-bottom: 1rem;
-}
-
-.intro-panel {
-  background: linear-gradient(135deg, #edf5ff 0%, #ffffff 100%);
-}
-
-.status-badge {
-  display: inline-block;
-  background: var(--warning-soft);
-  color: #8a6500;
-  border: 1px solid #f0d788;
-  padding: 0.3rem 0.6rem;
-  border-radius: 999px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.tool-panel {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: end;
-}
-
-.tool-row {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  min-width: 220px;
-}
-
-.tool-row.stacked {
-  flex: 1 1 240px;
-}
-
-.tool-row.actions {
-  flex-direction: row;
-  align-items: center;
-  flex-wrap: wrap;
-  min-width: 0;
-}
-
-.field-label {
-  font-weight: 600;
-  color: var(--muted);
-}
-
-select, input, textarea {
-  width: 100%;
-  border: 1px solid var(--border);
-  background: #fdfdff;
-  border-radius: 10px;
-  padding: 0.7rem 0.8rem;
-  font: inherit;
-  color: var(--text);
-}
-
-select:focus, input:focus, textarea:focus {
-  outline: 2px solid rgba(15, 108, 189, 0.18);
-  border-color: var(--primary);
-}
-
-.button {
-  appearance: none;
-  border: none;
-  border-radius: 10px;
-  padding: 0.75rem 1rem;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.button:hover {
-  transform: translateY(-1px);
-}
-
-.button.primary {
-  background: var(--primary);
-  color: #fff;
-}
-
-.button.primary:hover {
-  background: var(--primary-dark);
-}
-
-.button.success {
-  background: var(--success);
-  color: #fff;
-}
-
-.button.success:hover {
-  background: #16724a;
-}
-
-.button.secondary {
-  background: #eef4ff;
-  color: var(--primary-dark);
-}
-
-.button.muted {
-  background: #f0f3f8;
-  color: var(--text);
-}
-
-.attendance-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.day-card {
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
-  padding: 0.9rem;
-}
-
-.day-card h3 {
-  margin: 0 0 0.35rem;
-  font-size: 1rem;
-}
-
-.day-card .date-label {
-  display: block;
-  color: var(--muted);
-  font-size: 0.8rem;
-  margin-bottom: 0.8rem;
-}
-
-.inline-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.6rem;
-}
-
-.inline-controls select {
-  flex: 1;
-}
-
-.note-box {
-  margin-top: 0.5rem;
-  min-height: 60px;
-  resize: vertical;
-}
-
-.day-card[data-kind="rapid"] {
-  border-color: #f0d788;
-  background: var(--warning-soft);
-}
-
-.day-card[data-kind="event"] {
-  border-color: #c8d9ef;
-}
-
-.meta-note {
-  color: var(--muted);
-  font-size: 0.75rem;
-  margin-top: 0.4rem;
-}
-
-@media (max-width: 720px) {
-  .topbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .tool-row.actions {
-    width: 100%;
-  }
-
-  .button {
-    width: 100%;
+function readData() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+  } catch {
+    return {};
   }
 }
+
+function writeData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function getSelectedPlayer() {
+  return localStorage.getItem(PLAYER_KEY) || PLAYERS[0];
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString + "T00:00:00");
+  return date.toLocaleDateString("nl-NL", { day: "numeric", month: "short", year: "numeric" });
+}
+
+function render() {
+  const player = getSelectedPlayer();
+  const data = readData()[player] || {};
+  const table = document.getElementById("attendanceTable");
+
+  table.innerHTML = WEEKS.map(([date, label, kind]) => {
+    const selected = data[date] || "absent";
+    const note = data[`${date}-note`] || "";
+    return `
+      <article class="day-card" data-kind="${kind}">
+        <h3>${label}</h3>
+        <span class="date-label">${formatDate(date)}</span>
+        <select data-date="${date}">
+          <option value="present" ${selected === "present" ? "selected" : ""}>Aanwezig</option>
+          <option value="absent" ${selected === "absent" ? "selected" : ""}>Afwezig</option>
+        </select>
+        <textarea class="note-box" data-note="${date}" placeholder="Optionele notitie...">${note}</textarea>
+      </article>
+    `;
+  }).join("");
+}
+
+function saveAttendance() {
+  const player = getSelectedPlayer();
+  const all = readData();
+  const next = { ...(all[player] || {}) };
+
+  document.querySelectorAll("[data-date]").forEach((el) => {
+    next[el.dataset.date] = el.value;
+  });
+
+  document.querySelectorAll("[data-note]").forEach((el) => {
+    next[`${el.dataset.note}-note`] = el.value;
+  });
+
+  all[player] = next;
+  writeData(all);
+  alert("Aanwezigheid opgeslagen in deze browser.");
+}
+
+function exportCsv() {
+  const player = getSelectedPlayer();
+  const data = readData()[player] || {};
+  const rows = ["date,status,note"];
+
+  WEEKS.forEach(([date]) => {
+    const status = data[date] || "absent";
+    const note = (data[`${date}-note`] || "").replace(/"/g, '""');
+    rows.push(`${date},${status},"${note}"`);
+  });
+
+  const blob = new Blob([rows.join("\n")], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `${player.replace(/\s+/g, "_")}_2026-2027.csv`;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function bindEvents() {
+  const select = document.getElementById("playerSelect");
+  select.innerHTML = PLAYERS.map((name) => `<option value="${name}">${name}</option>`).join("");
+  select.value = getSelectedPlayer();
+  select.addEventListener("change", (event) => {
+    localStorage.setItem(PLAYER_KEY, event.target.value);
+    render();
+  });
+
+  const inviteInput = document.getElementById("inviteCode");
+  inviteInput.value = localStorage.getItem(CODE_KEY) || "";
+
+  document.getElementById("linkPlayerBtn").addEventListener("click", () => {
+    const code = inviteInput.value.trim();
+    if (!code) {
+      alert("Vul eerst een uitnodigingscode in.");
+      return;
+    }
+    localStorage.setItem(CODE_KEY, code);
+    alert(`Demo: speler gekoppeld met code ${code}. In productie wordt hier Lichess OAuth gebruikt.`);
+  });
+
+  document.getElementById("saveBtn").addEventListener("click", saveAttendance);
+  document.getElementById("exportBtn").addEventListener("click", exportCsv);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  bindEvents();
+  render();
+});
