@@ -1,0 +1,9 @@
+const API_URL="https://script.google.com/macros/s/AKfycbxvrh63zVaFHWOthXLCoe9VGDXUEizKo1YQOWlS6LN0DVHka0nUXBA2M1T421Ffzwpn/exec";
+const esc=v=>String(v??"").replace(/[&<>\"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+let season=[],players=[],attendance=[];
+const status=e=>document.getElementById("adminStatus").textContent=e;
+async function get(action){const r=await fetch(`${API_URL}?action=${action}`,{cache:"no-store"});if(!r.ok)throw Error(`API ${r.status}`);return r.json()}
+function render(){const head=document.querySelector("#adminTable thead"),body=document.querySelector("#adminTable tbody");head.innerHTML=`<tr><th>Speler</th>${season.map(w=>`<th title="${esc(w[1])}">${esc(w[0].slice(5))}<br><small>${esc(w[1])}</small></th>`).join("")}</tr>`;const map=new Map(attendance.map(r=>[`${r.player_name}|${r.date}`,r]));body.innerHTML=players.map(p=>`<tr><th>${esc(p.player_name)}</th>${season.map(w=>{const r=map.get(`${p.player_name}|${w[0]}`);return `<td class="${r?.status==="present"?"present":"absent"}">${r?.status==="present"?"P":"A"}</td>`}).join("")}</tr>`).join("")}
+async function load(){try{const [s,p,a]=await Promise.all([get("season"),get("players"),get("export")]);season=s.season||[];players=p.players||[];attendance=a.rows||[];render();status(`Verbonden. ${players.length} spelers, ${attendance.length} attendance records.`)}catch(e){status(`Laden mislukt: ${e.message}`)}}
+function exportCsv(){const rows=[...document.querySelectorAll("#adminTable tr")].map(row=>[...row.children].map(cell=>`"${cell.innerText.replace(/"/g,'""')}"`).join(","));const a=document.createElement("a"),u=URL.createObjectURL(new Blob([rows.join("\n")],{type:"text/csv;charset=utf-8"}));a.href=u;a.download="schevetoren-attendance-2026-2027.csv";a.click();URL.revokeObjectURL(u)}
+document.addEventListener("DOMContentLoaded",()=>{document.getElementById("reloadBtn").onclick=load;document.getElementById("exportBtn").onclick=exportCsv;load()});
