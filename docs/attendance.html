@@ -12,29 +12,19 @@
     <div><p class="eyebrow">De Scheve Toren</p><h1>Aanwezigheid 2026–2027</h1></div>
     <a class="button secondary" href="./index.html">← Terug</a>
   </header>
-
   <section class="panel intro-panel">
     <p class="status-badge">Aanwezigheid senioren</p>
-    <p>Klik op de schakelaar om tussen aanwezig en afwezig te wisselen. Data uit het verleden is grijs en niet meer bewerkbaar.</p>
+    <p>Klik op een schakelaar om tussen aanwezig en afwezig te wisselen. Afgelopen speelavonden zijn grijs en vergrendeld.</p>
   </section>
-
   <section class="panel tool-panel">
     <div class="tool-row"><label class="field-label" for="playerSelect">Speler</label><select id="playerSelect"></select></div>
     <div class="tool-row stacked"><label class="field-label" for="inviteCode">Uitnodigingscode (demo)</label><input id="inviteCode" type="text" placeholder="Bijv. ST-7F4K-92QX"></div>
     <div class="tool-row actions"><button id="linkPlayerBtn" class="button primary" type="button">Koppel speler</button><button id="saveBtn" class="button success" type="button">Bewaar aanwezigheid</button><button id="exportBtn" class="button muted" type="button">Download CSV</button></div>
   </section>
-
   <section class="panel">
     <div class="list-header">
-      <div class="list-heading">
-        <h2>Jouw speeldagen</h2>
-        <span class="legend"><span class="legend-dot present"></span>Aanwezig <span class="legend-dot absent"></span>Afwezig <span class="legend-dot past"></span>Verleden</span>
-      </div>
-      <div class="quick-actions">
-        <span>Snel instellen:</span>
-        <button id="allPresentBtn" class="button quick-present" type="button">Alles aanwezig</button>
-        <button id="allAbsentBtn" class="button quick-absent" type="button">Alles afwezig</button>
-      </div>
+      <div class="list-heading"><h2>Jouw speeldagen</h2><span class="legend"><span class="legend-dot present"></span>Aanwezig <span class="legend-dot absent"></span>Afwezig <span class="legend-dot past"></span>Verleden</span></div>
+      <div class="quick-actions"><span>Snel instellen:</span><button id="allAttendanceToggle" class="attendance-switch header-switch" type="button" aria-pressed="false" aria-label="Zet alle toekomstige speeldagen op afwezig"><span class="switch-track" aria-hidden="true"></span><span id="allAttendanceText" class="switch-text">Alles afwezig</span></button></div>
     </div>
     <div id="attendanceTable" class="attendance-list"></div>
   </section>
