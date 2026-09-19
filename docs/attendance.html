@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Aanwezigheid — De Scheve Toren</title>
   <link rel="stylesheet" href="./attendance.css?v=20260919-toggle">
+  <style>
+    .lichess-login { display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; margin-top:1rem; }
+    .lichess-user { color:var(--muted); margin:0; }
+    .lichess-status { color:var(--muted); margin:.5rem 0 0; }
+  </style>
 </head>
 <body>
 <main class="page-shell">
@@ -16,6 +21,12 @@
     <p class="status-badge">Aanwezigheid senioren</p>
     <p>Klik op een schakelaar om tussen aanwezig en afwezig te wisselen. Afgelopen speelavonden zijn grijs en vergrendeld.</p>
     <p id="apiStatus" class="api-status" role="status">Laden…</p>
+    <div class="lichess-login" aria-label="Lichess login">
+      <button id="lichessLoginBtn" class="button primary" type="button">Inloggen met Lichess</button>
+      <button id="lichessLogoutBtn" class="button secondary" type="button" hidden>Uitloggen</button>
+      <p id="lichessUser" class="lichess-user" hidden></p>
+    </div>
+    <p id="lichessStatus" class="lichess-status" role="status">Niet ingelogd.</p>
   </section>
   <section class="panel tool-panel">
     <div class="tool-row"><label class="field-label" for="playerSelect">Speler</label><select id="playerSelect"></select></div>
@@ -28,5 +39,6 @@
   </section>
 </main>
 <script src="./attendance.js?v=20260919-players-v2"></script>
+<script src="./lichess-auth.js?v=20260919-1"></script>
 </body>
 </html>
