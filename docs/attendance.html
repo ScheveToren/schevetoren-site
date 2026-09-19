@@ -17,13 +17,8 @@
       </header>
 
       <section class="panel intro-panel">
-        <div>
-          <p class="status-badge">Demo + backend-ready</p>
-          <p>
-            Kies je naam, geef per speelavond aan of je aanwezig bent en voeg een notitie toe. De
-            pagina is klaar voor een later Lichess-login en Google Apps Script backend.
-          </p>
-        </div>
+        <p class="status-badge">Aanwezigheid senioren</p>
+        <p>Klik op een schakelaar om tussen aanwezig en afwezig te wisselen. Een korte notitie kun je per avond toevoegen.</p>
       </section>
 
       <section class="panel tool-panel">
@@ -31,12 +26,10 @@
           <label class="field-label" for="playerSelect">Speler</label>
           <select id="playerSelect"></select>
         </div>
-
         <div class="tool-row stacked">
           <label class="field-label" for="inviteCode">Uitnodigingscode (demo)</label>
           <input id="inviteCode" type="text" placeholder="Bijv. ST-7F4K-92QX" />
         </div>
-
         <div class="tool-row actions">
           <button id="linkPlayerBtn" class="button primary" type="button">Koppel speler</button>
           <button id="saveBtn" class="button success" type="button">Bewaar aanwezigheid</button>
@@ -45,11 +38,13 @@
       </section>
 
       <section class="panel">
-        <h2>Jouw speeldagen</h2>
-        <div id="attendanceTable" class="attendance-grid"></div>
+        <div class="list-heading">
+          <h2>Jouw speeldagen</h2>
+          <span class="legend"><span class="legend-dot present"></span>Aanwezig <span class="legend-dot absent"></span>Afwezig</span>
+        </div>
+        <div id="attendanceTable" class="attendance-list"></div>
       </section>
     </main>
-
     <script src="./attendance.js"></script>
   </body>
 </html>
