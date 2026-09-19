@@ -1,4 +1,39 @@
 <!doctype html>
 <html lang="nl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Attendance admin — De Scheve Toren</title><link rel="stylesheet" href="./attendance.css"></head>
-<body><main class="page-shell"><header class="topbar"><div><p class="eyebrow">De Scheve Toren</p><h1>Attendance admin</h1></div><a class="button secondary" href="./attendance.html">← Attendance</a></header><section class="panel intro-panel"><p class="status-badge">Admin preview</p><p>Overzicht van spelers en opgeslagen aanwezigheid. Dit scherm wordt pas echt afgeschermd zodra Lichess OAuth/admin-validatie is toegevoegd.</p><p id="adminStatus" class="api-status">Laden…</p></section><section class="panel"><div class="admin-actions"><button id="reloadBtn" class="button primary">Vernieuwen</button><button id="exportBtn" class="button muted">Export CSV</button></div><div class="admin-table-wrap"><table id="adminTable"><thead></thead><tbody></tbody></table></div></section></main><script src="./admin.js?v=20260919"></script></body></html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aanwezigheid admin — De Scheve Toren</title>
+  <link rel="stylesheet" href="./attendance.css?v=20260919-admin-edit">
+  <style>
+    #adminTable select { min-width: 7.5rem; padding: .45rem .5rem; border: 1px solid var(--border); border-radius: .45rem; background: var(--panel); color: var(--text); font: inherit; }
+    #adminTable select:disabled { opacity: .6; cursor: not-allowed; }
+    #adminTable td { vertical-align: middle; }
+    .admin-actions { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
+    .save-hint { color: var(--muted); margin: 0; }
+  </style>
+</head>
+<body>
+<main class="page-shell">
+  <header class="topbar">
+    <div><p class="eyebrow">De Scheve Toren</p><h1>Aanwezigheid admin</h1></div>
+    <a class="button secondary" href="./attendance.html">← Aanwezigheid</a>
+  </header>
+  <section class="panel intro-panel">
+    <p class="status-badge">Admin</p>
+    <p>Klik op een veld om de aanwezigheid aan te passen. Wijzigingen worden pas opgeslagen wanneer je op “Wijzigingen opslaan” klikt.</p>
+    <p id="adminStatus" class="api-status" role="status">Laden…</p>
+  </section>
+  <section class="panel">
+    <div class="admin-actions">
+      <button id="reloadBtn" class="button primary" type="button">Vernieuwen</button>
+      <button id="saveBtn" class="button success" type="button">Wijzigingen opslaan</button>
+      <button id="exportBtn" class="button muted" type="button">Export CSV</button>
+      <p class="save-hint">Verleden speeldagen zijn vergrendeld.</p>
+    </div>
+    <div class="admin-table-wrap"><table id="adminTable"><thead></thead><tbody></tbody></table></div>
+  </section>
+</main>
+<script src="./admin.js?v=20260919-editable"></script>
+</body>
+</html>
