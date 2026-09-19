@@ -10,7 +10,8 @@
     #adminTable select:disabled { opacity: .6; cursor: not-allowed; }
     #adminTable td { vertical-align: middle; }
     .admin-actions { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
-    .save-hint { color: var(--muted); margin: 0; }
+    .save-hint, .lichess-user, .lichess-status { color: var(--muted); margin: 0; }
+    .lichess-login { display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; margin-top:1rem; }
   </style>
 </head>
 <body>
@@ -23,6 +24,12 @@
     <p class="status-badge">Admin</p>
     <p>Klik op een veld om de aanwezigheid aan te passen. Wijzigingen worden pas opgeslagen wanneer je op “Wijzigingen opslaan” klikt.</p>
     <p id="adminStatus" class="api-status" role="status">Laden…</p>
+    <div class="lichess-login" aria-label="Lichess login">
+      <button id="lichessLoginBtn" class="button primary" type="button">Inloggen met Lichess</button>
+      <button id="lichessLogoutBtn" class="button secondary" type="button" hidden>Uitloggen</button>
+      <p id="lichessUser" class="lichess-user" hidden></p>
+    </div>
+    <p id="lichessStatus" class="lichess-status" role="status">Niet ingelogd.</p>
   </section>
   <section class="panel">
     <div class="admin-actions">
@@ -35,5 +42,6 @@
   </section>
 </main>
 <script src="./admin.js?v=20260919-editable"></script>
+<script src="./lichess-auth.js?v=20260919-1"></script>
 </body>
 </html>
