@@ -115,7 +115,6 @@ function getPlayers() {
   const players = sheetRowsAsObjects("Players");
   if (players.length) return players;
 
-  // Keeps the admin view usable while Players is still empty.
   const names = [...new Set(getAllAttendance()
     .map(row => String(row.player_name || "").trim())
     .filter(Boolean))];
@@ -137,7 +136,6 @@ function getAttendance(playerName) {
 }
 
 function doGet(e) {
-  ensureHeaders();
   const parameters = e && e.parameter ? e.parameter : {};
   const action = String(parameters.action || "").trim();
   const player = String(parameters.player || "").trim();
@@ -225,8 +223,6 @@ function linkPlayer(payload) {
 }
 
 function doPost(e) {
-  ensureHeaders();
-
   try {
     const contents = e && e.postData && e.postData.contents ? e.postData.contents : "{}";
     const payload = JSON.parse(contents);
