@@ -5,7 +5,8 @@ from datetime import UTC, datetime
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
 DOCS = os.path.join(ROOT, "docs")
-SITE_URL = "https://schevetoren.github.io/schevetoren-site"
+
+from site_url import public_site_url  # noqa: E402
 
 PUBLIC_PAGES = [
     "index.html",
@@ -30,8 +31,8 @@ def load_post_urls():
 
 
 def build_sitemap():
-    urls = [f"{SITE_URL}/{page}" for page in PUBLIC_PAGES]
-    urls.extend(f"{SITE_URL}/{url.lstrip('./')}" for url in load_post_urls())
+    urls = [public_site_url(page) for page in PUBLIC_PAGES]
+    urls.extend(public_site_url(url.lstrip("./")) for url in load_post_urls())
     lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     today = datetime.now(UTC).strftime("%Y-%m-%d")
     for url in urls:
@@ -41,7 +42,7 @@ def build_sitemap():
 
 
 def build_robots():
-    return f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n"
+    return f"User-agent: *\nAllow: /\nSitemap: {public_site_url('sitemap.xml')}\n"
 
 
 def write_if_changed(path, content):
