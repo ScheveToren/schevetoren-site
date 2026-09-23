@@ -1,36 +1,51 @@
 <!doctype html>
 <html lang="nl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>De Scheve Toren — Seizoenen</title>
-  <style>
-    body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial; padding: 1.5rem; color:#222 }
-    header { margin-bottom: 1rem }
-    h1 { margin:0 0 .25rem 0 }
-    .seasons { margin-top: 1rem }
-    .season { margin: .5rem 0; }
-    .meta { color: #666; font-size: .95rem; }
-    .current-btn { display:inline-block; margin-top:.5rem; padding:.4rem .7rem; background:#0366d6; color:white; border-radius:4px; text-decoration:none }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>De Scheve Toren — Schaakvereniging</title>
+  <meta name="description" content="Schaakvereniging De Scheve Toren: competitie, clubavonden, standen, nieuws en aanwezigheid voor leden.">
+  <link rel="canonical" href="https://schevetoren.github.io/schevetoren-site/docs/index.html">
+  <link rel="alternate" hreflang="nl" href="https://schevetoren.github.io/schevetoren-site/docs/index.html">
+  <link rel="alternate" hreflang="en" href="https://schevetoren.github.io/schevetoren-site/docs/index.html?lang=en">
+  <meta property="og:title" content="De Scheve Toren — Schaakvereniging">
+  <meta property="og:description" content="Competitie, clubavonden, standen en nieuws.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="./assets/site.css?v=20260923">
 </head>
-<body>
-  <header>
-    <h1>Schaakvereniging De Scheve Toren — Seizoenen</h1>
-    <p class="meta">Welkom — kies een seizoen hieronder. De knop "Huidig seizoen" gaat naar de actuele seizoenmap.</p>
-    <a class="current-btn" href="./HuidigSeizoen/">Huidig seizoen</a>
+<body data-jsonld="org">
+<div id="site-header"></div>
+<main class="page-shell">
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Schaakvereniging</p>
+      <h1 data-i18n="home.hero.title">Welkom bij De Scheve Toren</h1>
+    </div>
   </header>
-
-  <section class="seasons">
-    <h2>Beschikbare seizoenen</h2>
-    <ul>
-<li class='season'><a href='./2026-2027/'>2026-2027</a></li>
-<li class='season'><a href='./2025-2026/'>2025-2026</a></li>
-    </ul>
+  <section class="hero-grid">
+    <article class="panel hero-card intro-panel">
+      <p class="status-badge">2026–2027</p>
+      <p data-i18n="home.hero.lead">Schaakvereniging in Nederland — competitie, gezelligheid en snelschaak op de clubavond.</p>
+      <div class="cta-row">
+        <a class="button primary" href="./HuidigSeizoen/" data-i18n="home.cta.season">Huidig seizoen</a>
+        <a class="button secondary" href="./attendance.html" data-i18n="home.cta.attendance">Aanwezigheid</a>
+        <a class="button secondary" href="./nieuws.html" data-i18n="home.cta.news">Nieuws</a>
+        <a class="button muted" href="./kalender/scheve-toren-2026-2027.ics" data-i18n="home.cta.calendar">Zet in agenda</a>
+      </div>
+    </article>
+    <article class="panel hero-card">
+      <h2 data-i18n="home.play.title">Clubavond</h2>
+      <p data-i18n="home.play.text">Wij spelen wekelijks in het clubseizoen. Bekijk de speelkalender en voeg de data toe aan je agenda.</p>
+      <p><a href="webcal://schevetoren.github.io/schevetoren-site/docs/kalender/scheve-toren-2026-2027.ics">webcal://…/scheve-toren-2026-2027.ics</a></p>
+    </article>
   </section>
-
-  <footer style="margin-top:2rem;color:#666;font-size:.9rem">
-    <p>Opmerking: historische seizoenen blijven beschikbaar wanneer ze geüpload zijn. Laatste update: 2026-09-19 UTC.</p>
-  </footer>
+  <section class="panel">
+    <h2 data-i18n="home.en.title">English</h2>
+    <p data-i18n="home.en.text">Visitors welcome — use NL | EN in the menu for English navigation labels.</p>
+  </section>
+</main>
+<div id="site-footer"></div>
+<script src="./config.js?v=20260923"></script>
+<script src="./assets/site.js?v=20260923"></script>
 </body>
 </html>
