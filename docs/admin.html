@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
   <title>Aanwezigheid admin — De Scheve Toren</title>
-  <link rel="stylesheet" href="./attendance.css?v=20260919-admin-edit">
+  <link rel="stylesheet" href="./assets/site.css?v=20260923-admin">
   <style>
     #adminTable select { min-width: 7.5rem; padding: .45rem .5rem; border: 1px solid var(--border); border-radius: .45rem; background: var(--panel); color: var(--text); font: inherit; }
     #adminTable select:disabled { opacity: .6; cursor: not-allowed; }
@@ -15,6 +16,7 @@
   </style>
 </head>
 <body>
+<div id="site-header"></div>
 <main class="page-shell">
   <header class="topbar">
     <div><p class="eyebrow">De Scheve Toren</p><h1>Aanwezigheid admin</h1></div>
@@ -22,7 +24,7 @@
   </header>
   <section class="panel intro-panel">
     <p class="status-badge">Admin</p>
-    <p>Klik op een veld om de aanwezigheid aan te passen. Wijzigingen worden pas opgeslagen wanneer je op “Wijzigingen opslaan” klikt.</p>
+    <p>Alleen Lichess-admins (`is_admin` in de spreadsheet) zien de volledige matrix.</p>
     <p id="adminStatus" class="api-status" role="status">Laden…</p>
     <div class="lichess-login" aria-label="Lichess login">
       <button id="lichessLoginBtn" class="button primary" type="button">Inloggen met Lichess</button>
@@ -31,7 +33,7 @@
     </div>
     <p id="lichessStatus" class="lichess-status" role="status">Niet ingelogd.</p>
   </section>
-  <section class="panel">
+  <section id="adminSection" class="panel" hidden>
     <div class="admin-actions">
       <button id="reloadBtn" class="button primary" type="button">Vernieuwen</button>
       <button id="saveBtn" class="button success" type="button">Wijzigingen opslaan</button>
@@ -41,7 +43,10 @@
     <div class="admin-table-wrap"><table id="adminTable"><thead></thead><tbody></tbody></table></div>
   </section>
 </main>
-<script src="./admin.js?v=20260919-editable"></script>
-<script src="./lichess-auth.js?v=20260919-1"></script>
+<div id="site-footer"></div>
+<script src="./config.js?v=20260923"></script>
+<script src="./assets/site.js?v=20260923"></script>
+<script src="./lichess-auth.js?v=20260923"></script>
+<script src="./admin.js?v=20260923"></script>
 </body>
 </html>
