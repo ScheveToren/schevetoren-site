@@ -3,49 +3,63 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>De Scheve Toren — Schaakvereniging</title>
-  <meta name="description" content="Schaakvereniging De Scheve Toren: competitie, clubavonden, standen, nieuws en aanwezigheid voor leden.">
-  <link rel="canonical" href="https://schevetoren.github.io/schevetoren-site/docs/index.html">
-  <link rel="alternate" hreflang="nl" href="https://schevetoren.github.io/schevetoren-site/docs/index.html">
-  <link rel="alternate" hreflang="en" href="https://schevetoren.github.io/schevetoren-site/docs/index.html?lang=en">
+  <title>De Scheve Toren — Schaakvereniging Pijnacker-Nootdorp</title>
+  <meta name="description" content="Schaakvereniging De Scheve Toren: interne competitie, jeugd, HSB/KNSB en clubnieuws in Pijnacker-Nootdorp.">
+  <link rel="canonical" href="https://schevetoren.github.io/schevetoren-site/index.html">
+  <link rel="alternate" hreflang="nl" href="https://schevetoren.github.io/schevetoren-site/index.html">
+  <link rel="alternate" hreflang="en" href="https://schevetoren.github.io/schevetoren-site/index.html?lang=en">
   <meta property="og:title" content="De Scheve Toren — Schaakvereniging">
-  <meta property="og:description" content="Competitie, clubavonden, standen en nieuws.">
+  <meta property="og:description" content="Schaken voor jong en oud in Pijnacker-Nootdorp.">
   <meta property="og:type" content="website">
-  <link rel="stylesheet" href="./assets/site.css?v=20260923">
+  <link rel="stylesheet" href="./assets/site.css?v=20260924">
 </head>
 <body data-jsonld="org">
 <div id="site-header"></div>
 <main class="page-shell">
-  <header class="topbar">
-    <div>
-      <p class="eyebrow">Schaakvereniging</p>
-      <h1 data-i18n="home.hero.title">Welkom bij De Scheve Toren</h1>
+  <section class="club-hero panel">
+    <p class="eyebrow">Schaakvereniging</p>
+    <h1 data-i18n="home.hero.title">Welkom bij De Scheve Toren</h1>
+    <p class="club-tagline" data-i18n="home.tagline">Schaken voor jong en oud in Pijnacker-Nootdorp.</p>
+    <p class="hero-lead" data-i18n="home.hero.lead">Vrijdagavond in het Denksporthuis: interne competitie in klassiek tempo (1:40+10), jeugdlessen en externe teams in de HSB en KNSB.</p>
+    <div class="cta-row">
+      <a class="button primary" href="./interne-competitie.html" data-i18n="home.cta.internal">Interne competitie</a>
+      <a class="button secondary" href="./attendance.html" data-i18n="home.cta.attendance">Aanwezigheid</a>
+      <a class="button secondary" href="./HuidigSeizoen/" data-i18n="home.cta.standings">Actuele stand</a>
+      <a class="button muted" href="./kalender/scheve-toren-2026-2027.ics" data-i18n="home.cta.calendar">Zet in agenda</a>
     </div>
-  </header>
-  <section class="hero-grid">
-    <article class="panel hero-card intro-panel">
-      <p class="status-badge">2026–2027</p>
-      <p data-i18n="home.hero.lead">Schaakvereniging in Nederland — competitie, gezelligheid en snelschaak op de clubavond.</p>
-      <div class="cta-row">
-        <a class="button primary" href="./HuidigSeizoen/" data-i18n="home.cta.season">Huidig seizoen</a>
-        <a class="button secondary" href="./attendance.html" data-i18n="home.cta.attendance">Aanwezigheid</a>
-        <a class="button secondary" href="./nieuws.html" data-i18n="home.cta.news">Nieuws</a>
-        <a class="button muted" href="./kalender/scheve-toren-2026-2027.ics" data-i18n="home.cta.calendar">Zet in agenda</a>
+  </section>
+
+  <div class="home-columns">
+    <section class="panel">
+      <div class="section-head">
+        <h2 data-i18n="home.news.title">Clubnieuws</h2>
+        <a class="text-link" href="./nieuws.html" data-i18n="home.news.all">Alle berichten →</a>
       </div>
-    </article>
-    <article class="panel hero-card">
-      <h2 data-i18n="home.play.title">Clubavond</h2>
-      <p data-i18n="home.play.text">Wij spelen wekelijks in het clubseizoen. Bekijk de speelkalender en voeg de data toe aan je agenda.</p>
-      <p><a href="webcal://schevetoren.github.io/schevetoren-site/docs/kalender/scheve-toren-2026-2027.ics">webcal://…/scheve-toren-2026-2027.ics</a></p>
-    </article>
-  </section>
-  <section class="panel">
-    <h2 data-i18n="home.en.title">English</h2>
-    <p data-i18n="home.en.text">Visitors welcome — use NL | EN in the menu for English navigation labels.</p>
-  </section>
+      <div id="newsList" class="news-grid home-news" aria-live="polite"></div>
+      <p id="newsStatus" class="api-status">Laden…</p>
+    </section>
+
+    <section class="panel calendar-panel">
+      <div class="section-head">
+        <h2 data-i18n="home.calendar.title">Speelkalender</h2>
+        <a class="text-link" href="./kalender.html" data-i18n="home.calendar.full">Volledige kalender →</a>
+      </div>
+      <div id="calendarLegend"></div>
+      <div id="calendarUpcoming"></div>
+      <p class="meta calendar-ics"><a href="webcal://schevetoren.github.io/schevetoren-site/kalender/scheve-toren-2026-2027.ics">Abonneren (webcal)</a></p>
+    </section>
+  </div>
 </main>
 <div id="site-footer"></div>
-<script src="./config.js?v=20260923"></script>
-<script src="./assets/site.js?v=20260923"></script>
+<script src="./config.js?v=20260924"></script>
+<script src="./assets/site.js?v=20260924"></script>
+<script src="./assets/news.js?v=20260924"></script>
+<script src="./assets/calendar.js?v=20260924"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  window.ScheveTorenNews?.mountNewsList({ limit: 8 });
+  window.ScheveTorenCalendar?.mountCalendar({ upcomingLimit: 5 });
+});
+</script>
 </body>
 </html>
