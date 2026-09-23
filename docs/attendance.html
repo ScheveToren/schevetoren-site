@@ -35,7 +35,9 @@
   </section>
   <section id="memberPanels" class="requires-auth" hidden>
   <section id="linkPanel" class="panel tool-panel" hidden>
-    <div class="tool-row stacked"><label class="field-label" for="inviteCode" data-i18n="attendance.invite">Uitnodigingscode</label><input id="inviteCode" type="text" placeholder="Bijv. ST-7F4K-92QX"></div>
+    <h2 class="list-heading">Koppel je account</h2>
+    <p class="meta">Vul de eenmalige code in die je van het bestuur hebt gekregen (tabblad <strong>InviteCodes</strong> in de clubspreadsheet).</p>
+    <div class="tool-row stacked"><label class="field-label" for="inviteCode" data-i18n="attendance.invite">Uitnodigingscode</label><input id="inviteCode" type="text" placeholder="Bijv. ST-7F4K-92QX" autocomplete="one-time-code"></div>
     <div class="tool-row actions"><button id="linkPlayerBtn" class="button primary" type="button" data-i18n="attendance.link">Koppel account</button></div>
   </section>
   <section id="toolPanel" class="panel tool-panel" hidden>
@@ -50,7 +52,7 @@
 <div id="site-footer"></div>
 <script src="./config.js?v=20260924-oauth2"></script>
 <script src="./assets/site.js?v=20260923"></script>
-<script src="./lichess-auth.js?v=20260924-oauth2"></script>
-<script src="./attendance.js?v=20260923"></script>
+<script src="./lichess-auth.js?v=20260924-link"></script>
+<script src="./attendance.js?v=20260924-link"></script>
 </body>
 </html>
