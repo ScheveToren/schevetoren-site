@@ -1,4 +1,5 @@
-/* Lichess OAuth (PKCE) — single callback at docs/auth/callback.html */
+/* Lichess OAuth (PKCE). No Lichess “OAuth app” registration page is required.
+   Callback file: docs/auth/callback.html → live URL …/auth/callback.html (Pages /docs root). */
 (() => {
   const CLIENT_ID = "schevetoren-site";
   const TOKEN_KEY = "schevetoren_lichess_token";
