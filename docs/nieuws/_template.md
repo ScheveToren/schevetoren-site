@@ -5,9 +5,16 @@ excerpt: "Korte samenvatting voor het overzicht."
 date: 2026-09-20
 author: "Bestuur"
 draft: true
+cover: media/unieke-slug/hero.jpg
 ---
 
 Schrijf hier de inhoud in Markdown.
+
+## Afbeelding
+
+Plaats bestanden in `docs/nieuws/berichten/media/<slug>/` en verwijs relatief:
+
+![Omschrijving](./media/unieke-slug/foto.jpg)
 
 ## FEN-diagram
 
