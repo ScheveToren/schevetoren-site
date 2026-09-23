@@ -1,4 +1,7 @@
 window.SCHEVETOREN_CONFIG = {
+  /** Canonical public origin (no repo slug). See docs/data/site-public.json */
+  PUBLIC_ORIGIN: "https://schevetoren.github.io",
+  PUBLIC_BASE_PATH: "",
   API_URL:
     "https://script.google.com/macros/s/AKfycbxvrh63zVaFHWOthXLCoe9VGDXUEizKo1YQOWlS6LN0DVHka0nUXBA2M1T421Ffzwpn/exec",
   SITE_NAME: "De Scheve Toren",
