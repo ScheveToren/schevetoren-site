@@ -29,6 +29,9 @@ jobs:
       - name: Install Python deps
         run: pip install markdown
 
+      - name: Verify generator scripts
+        run: python3 -m py_compile scripts/*.py
+
       - name: Generate site artifacts
         run: |
           python3 scripts/generate-seasons-index.py
