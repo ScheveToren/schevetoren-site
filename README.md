@@ -5,10 +5,15 @@ GitHub Pages site (`docs/`) with Lichess-linked attendance (Google Apps Script +
 ## Live site
 
 - GitHub Pages: **Source → main → /docs**
-- Public URLs omit the `docs/` folder name. Example:
-  - Home: `https://schevetoren.github.io/schevetoren-site/index.html`
-  - Attendance: `https://schevetoren.github.io/schevetoren-site/attendance.html`
-- Optional custom domain via repo **Pages** settings
+- Public URLs omit the `docs/` folder name.
+- **Compact URLs** (no `/schevetoren-site/` in the path) are configured in [`docs/data/site-public.json`](docs/data/site-public.json) and used for RSS/sitemap. Target shape:
+  - `https://schevetoren.github.io/externe-competitie.html`
+  - `https://schevetoren.github.io/attendance.html`
+- To serve at that path on GitHub, use either:
+  1. **Organization Pages**: repository named `ScheveToren.github.io` with the same `/docs` layout, or
+  2. A **custom domain** on Pages (add `docs/CNAME` + DNS); set `publicOrigin` in `site-public.json` to your domain.
+- While the site still lives in the `schevetoren-site` project repo only, GitHub serves it under `/schevetoren-site/`; internal navigation uses relative links and still works. RSS/sitemap use the compact URL from config for when you switch hosting.
+- Temporary fallback (project Pages only): set `"publicBasePath": "/schevetoren-site"` in `site-public.json` until you migrate.
 
 ## Local preview
 
@@ -23,11 +28,10 @@ python3 -m http.server 8765 --directory docs
 This site uses **PKCE** with a public client. You do **not** need to open a separate “create OAuth app” page on Lichess (older docs URLs such as `/account/oauth/app/create` no longer exist).
 
 1. **Client id** is fixed in code: `schevetoren-site` (`docs/lichess-auth.js`).
-2. **Redirect URI** must be the callback page that GitHub Pages actually serves (no `/docs/` in the URL when Pages publishes from the `/docs` folder):
-   - `https://schevetoren.github.io/schevetoren-site/auth/callback.html`
-   - With a custom domain: `https://<jouwdomein>/auth/callback.html`
-3. Test login on the live attendance page (not a `/docs/…` link):
-   - `https://schevetoren.github.io/schevetoren-site/attendance.html`
+2. **Redirect URI** must match the live callback URL (no `/docs/` in the path). Examples:
+   - Org/custom domain: `https://schevetoren.github.io/auth/callback.html` or `https://<jouwdomein>/auth/callback.html`
+   - Project Pages (legacy): `https://schevetoren.github.io/schevetoren-site/auth/callback.html`
+3. Test login on the live attendance page (same host as the callback), e.g. `…/attendance.html`.
 
 The “Inloggen met Lichess” button sends users to `https://lichess.org/oauth?…` and back to `auth/callback.html` on your site. PKCE verifier/state are stored in **localStorage** on the same origin as the attendance page; if you see “Ongeldige OAuth state”, start login again from the live site (not a copy on another host or `file://`).
 
