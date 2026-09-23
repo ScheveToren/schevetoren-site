@@ -1,0 +1,113 @@
+@import url("../attendance.css");
+
+.site-nav-wrap {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.site-nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: .85rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.site-brand {
+  font-weight: 800;
+  color: var(--primary-dark);
+  text-decoration: none;
+  letter-spacing: -.02em;
+}
+.site-links {
+  display: flex;
+  gap: .35rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.site-links a {
+  color: var(--text);
+  text-decoration: none;
+  padding: .45rem .65rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: .92rem;
+}
+.site-links a:hover,
+.site-links a.active {
+  background: #eef4ff;
+  color: var(--primary-dark);
+}
+.lang-toggle {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.lang-toggle button {
+  border: 0;
+  background: transparent;
+  padding: .35rem .65rem;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  color: var(--muted);
+}
+.lang-toggle button.active {
+  background: var(--primary);
+  color: #fff;
+}
+.site-footer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+  color: var(--muted);
+  font-size: .9rem;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 1rem;
+}
+.hero-card h2 { margin-top: 0; }
+.cta-row { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1rem; }
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+.news-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+  background: #fff;
+}
+.news-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(15,30,60,.08); }
+.news-card time { color: var(--muted); font-size: .82rem; }
+.article-body { line-height: 1.65; }
+.article-body h2, .article-body h3 { margin-top: 1.4rem; }
+.chess-diagram {
+  margin: 1.25rem 0;
+  max-width: 420px;
+}
+.chess-diagram iframe {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.chess-diagram figcaption {
+  margin-top: .45rem;
+  color: var(--muted);
+  font-size: .88rem;
+}
+@media (max-width: 820px) {
+  .hero-grid { grid-template-columns: 1fr; }
+}

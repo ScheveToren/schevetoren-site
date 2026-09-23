@@ -3,42 +3,51 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
   <title>Aanwezigheid — De Scheve Toren</title>
-  <link rel="stylesheet" href="./attendance.css?v=20260919-toggle">
+  <link rel="stylesheet" href="./assets/site.css?v=20260923">
   <style>
     .lichess-login { display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; margin-top:1rem; }
     .lichess-user { color:var(--muted); margin:0; }
     .lichess-status { color:var(--muted); margin:.5rem 0 0; }
+    #playerHeading { font-weight:700; margin:.5rem 0 0; }
   </style>
 </head>
 <body>
+<div id="site-header"></div>
 <main class="page-shell">
   <header class="topbar">
-    <div><p class="eyebrow">De Scheve Toren</p><h1>Aanwezigheid 2026–2027</h1></div>
-    <a class="button secondary" href="./index.html">← Terug</a>
+    <div><p class="eyebrow">De Scheve Toren</p><h1 data-i18n="attendance.title">Aanwezigheid 2026–2027</h1></div>
+    <a class="button secondary" href="./index.html" data-i18n="nav.back">← Terug</a>
   </header>
   <section class="panel intro-panel">
-    <p class="status-badge">Aanwezigheid senioren</p>
-    <p>Klik op een schakelaar om tussen aanwezig en afwezig te wisselen. Afgelopen speelavonden zijn grijs en vergrendeld.</p>
+    <p class="status-badge" data-i18n="attendance.badge">Aanwezigheid senioren</p>
+    <p data-i18n="attendance.intro">Log in met Lichess. Koppel je account eenmalig met een uitnodigingscode om je eigen aanwezigheid te beheren.</p>
     <p id="apiStatus" class="api-status" role="status">Laden…</p>
     <div class="lichess-login" aria-label="Lichess login">
-      <button id="lichessLoginBtn" class="button primary" type="button">Inloggen met Lichess</button>
-      <button id="lichessLogoutBtn" class="button secondary" type="button" hidden>Uitloggen</button>
+      <button id="lichessLoginBtn" class="button primary" type="button" data-i18n="auth.login">Inloggen met Lichess</button>
+      <button id="lichessLogoutBtn" class="button secondary" type="button" hidden data-i18n="auth.logout">Uitloggen</button>
       <p id="lichessUser" class="lichess-user" hidden></p>
     </div>
     <p id="lichessStatus" class="lichess-status" role="status">Niet ingelogd.</p>
+    <p id="playerHeading" hidden></p>
   </section>
-  <section class="panel tool-panel">
-    <div class="tool-row"><label class="field-label" for="playerSelect">Speler</label><select id="playerSelect"></select></div>
-    <div class="tool-row stacked"><label class="field-label" for="inviteCode">Uitnodigingscode</label><input id="inviteCode" type="text" placeholder="Bijv. ST-7F4K-92QX"></div>
-    <div class="tool-row actions"><button id="linkPlayerBtn" class="button primary" type="button">Koppel speler</button><button id="saveBtn" class="button success" type="button">Bewaar aanwezigheid</button><button id="exportBtn" class="button secondary" type="button">Download CSV</button></div>
+  <section id="linkPanel" class="panel tool-panel" hidden>
+    <div class="tool-row stacked"><label class="field-label" for="inviteCode" data-i18n="attendance.invite">Uitnodigingscode</label><input id="inviteCode" type="text" placeholder="Bijv. ST-7F4K-92QX"></div>
+    <div class="tool-row actions"><button id="linkPlayerBtn" class="button primary" type="button" data-i18n="attendance.link">Koppel account</button></div>
   </section>
-  <section class="panel">
-    <div class="list-header"><div class="list-heading"><h2>Jouw speeldagen</h2><span class="legend"><span class="legend-dot present"></span>Aanwezig <span class="legend-dot absent"></span>Afwezig <span class="legend-dot past"></span>Verleden</span></div><label class="bulk-toggle">Snel instellen: <button id="allAttendanceToggle" class="attendance-switch" type="button" aria-pressed="false"><span class="switch-track" aria-hidden="true"></span><span class="switch-text">Afwezig</span></button></label></div>
+  <section id="toolPanel" class="panel tool-panel" hidden>
+    <div class="tool-row actions"><button id="saveBtn" class="button success" type="button" data-i18n="attendance.save">Bewaar aanwezigheid</button><button id="exportBtn" class="button secondary" type="button" data-i18n="attendance.csv">Download CSV</button></div>
+  </section>
+  <section id="listPanel" class="panel" hidden>
+    <div class="list-header"><div class="list-heading"><h2 data-i18n="attendance.days">Jouw speeldagen</h2><span class="legend"><span class="legend-dot present"></span><span data-i18n="attendance.present">Aanwezig</span> <span class="legend-dot absent"></span><span data-i18n="attendance.absent">Afwezig</span> <span class="legend-dot past"></span><span data-i18n="attendance.past">Verleden</span></span></div><label class="bulk-toggle"><span data-i18n="attendance.bulk">Snel instellen:</span> <button id="allAttendanceToggle" class="attendance-switch" type="button" aria-pressed="false"><span class="switch-track" aria-hidden="true"></span><span class="switch-text">Afwezig</span></button></label></div>
     <div id="attendanceTable" class="attendance-list"></div>
   </section>
 </main>
-<script src="./attendance.js?v=20260919-players-v2"></script>
-<script src="./lichess-auth.js?v=20260919-1"></script>
+<div id="site-footer"></div>
+<script src="./config.js?v=20260923"></script>
+<script src="./assets/site.js?v=20260923"></script>
+<script src="./lichess-auth.js?v=20260923"></script>
+<script src="./attendance.js?v=20260923"></script>
 </body>
 </html>
