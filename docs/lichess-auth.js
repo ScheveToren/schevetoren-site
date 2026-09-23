@@ -9,6 +9,7 @@
   const ACCOUNT_CACHE_KEY = "schevetoren_lichess_account_cache";
   const PKCE_TS_KEY = "schevetoren_lichess_pkce_ts";
   const CALLBACK_DONE_KEY = "schevetoren_lichess_callback_done";
+  const REDIRECT_KEY = "schevetoren_lichess_redirect";
   const PKCE_TTL_MS = 15 * 60 * 1000;
 
   const base64Url = bytes =>
@@ -86,7 +87,12 @@
   function clearPkce() {
     pkceStore().removeItem(VERIFIER_KEY);
     pkceStore().removeItem(STATE_KEY);
+    pkceStore().removeItem(REDIRECT_KEY);
     pkceStore().removeItem(PKCE_TS_KEY);
+  }
+
+  function redirectUriForExchange() {
+    return getPkceItem(REDIRECT_KEY) || redirectUri();
   }
 
   async function challenge(verifier) {
@@ -113,7 +119,7 @@
     const body = new URLSearchParams({
       grant_type: "authorization_code",
       code,
-      redirect_uri: redirectUri(),
+      redirect_uri: redirectUriForExchange(),
       client_id: CLIENT_ID,
       code_verifier: storedVerifier
     });
@@ -181,13 +187,15 @@
     sessionStorage.removeItem(CALLBACK_DONE_KEY);
     const verifier = randomString(48);
     const state = encodeState(returnPath || window.location.pathname);
+    const uri = redirectUri();
     setPkceItem(VERIFIER_KEY, verifier);
     setPkceItem(STATE_KEY, state);
+    setPkceItem(REDIRECT_KEY, uri);
     sessionStorage.setItem(RETURN_KEY, returnPath || window.location.pathname);
     const params = new URLSearchParams({
       response_type: "code",
       client_id: CLIENT_ID,
-      redirect_uri: redirectUri(),
+      redirect_uri: uri,
       code_challenge: await challenge(verifier),
       code_challenge_method: "S256",
       state
