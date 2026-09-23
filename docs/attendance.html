@@ -30,8 +30,10 @@
       <p id="lichessUser" class="lichess-user" hidden></p>
     </div>
     <p id="lichessStatus" class="lichess-status" role="status">Niet ingelogd.</p>
+    <p id="loggedOutHint" class="meta" data-i18n="attendance.loggedOutHint">Log in om aanwezigheid door te geven.</p>
     <p id="playerHeading" hidden></p>
   </section>
+  <section id="memberPanels" class="requires-auth" hidden>
   <section id="linkPanel" class="panel tool-panel" hidden>
     <div class="tool-row stacked"><label class="field-label" for="inviteCode" data-i18n="attendance.invite">Uitnodigingscode</label><input id="inviteCode" type="text" placeholder="Bijv. ST-7F4K-92QX"></div>
     <div class="tool-row actions"><button id="linkPlayerBtn" class="button primary" type="button" data-i18n="attendance.link">Koppel account</button></div>
@@ -42,6 +44,7 @@
   <section id="listPanel" class="panel" hidden>
     <div class="list-header"><div class="list-heading"><h2 data-i18n="attendance.days">Jouw speeldagen</h2><span class="legend"><span class="legend-dot present"></span><span data-i18n="attendance.present">Aanwezig</span> <span class="legend-dot absent"></span><span data-i18n="attendance.absent">Afwezig</span> <span class="legend-dot past"></span><span data-i18n="attendance.past">Verleden</span></span></div><label class="bulk-toggle"><span data-i18n="attendance.bulk">Snel instellen:</span> <button id="allAttendanceToggle" class="attendance-switch" type="button" aria-pressed="false"><span class="switch-track" aria-hidden="true"></span><span class="switch-text">Afwezig</span></button></label></div>
     <div id="attendanceTable" class="attendance-list"></div>
+  </section>
   </section>
 </main>
 <div id="site-footer"></div>

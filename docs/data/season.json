@@ -3,7 +3,7 @@
   "timezone": "Europe/Amsterdam",
   "default_start": "20:00",
   "default_end": "23:00",
-  "location": "Clublocatie De Scheve Toren",
+  "location": "Het Denksporthuis, Thorbeckelaan 82A, Pijnacker",
   "events": [
     ["2026-08-28", "ALV", "event"],
     ["2026-09-04", "Speeldag 1", "regular"],
