@@ -16,8 +16,8 @@
   <section class="panel">
     <div id="calendarLegend"></div>
     <div id="calendarMonth"></div>
-    <div id="calendarUpcoming"></div>
-    <p class="meta"><a href="./kalender/scheve-toren-2026-2027.ics" data-i18n="home.cta.calendar">Zet in agenda</a> · <a href="webcal://schevetoren.github.io/schevetoren-site/kalender/scheve-toren-2026-2027.ics">webcal</a></p>
+    <h3 class="calendar-list-title">Evenementen deze maand</h3>
+    <div id="calendarMonthList"></div>
   </section>
 </main>
 <div id="site-footer"></div>
@@ -26,7 +26,12 @@
 <script src="./assets/calendar.js?v=20260924"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  window.ScheveTorenCalendar?.mountCalendar({ showMonth: true, monthId: "calendarMonth", upcomingLimit: 12 });
+  window.ScheveTorenCalendar?.mountCalendar({
+    showMonth: true,
+    monthId: "calendarMonth",
+    monthListId: "calendarMonthList",
+    enableMonthNav: true
+  });
 });
 </script>
 </body>
