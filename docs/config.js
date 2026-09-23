@@ -9,9 +9,17 @@ window.SCHEVETOREN_CONFIG = {
   CLUB_TIMEZONE: "Europe/Amsterdam",
   DEFAULT_EVENT_START: "20:00",
   DEFAULT_EVENT_END: "23:00",
+  /** Directory URL of the site root (Pages /docs), stable on every page including auth/callback. */
+  getSiteBasePath() {
+    const path = window.location.pathname;
+    if (/\/auth\/callback\.html$/i.test(path)) {
+      return path.replace(/\/auth\/callback\.html$/i, "") || "";
+    }
+    return path.replace(/\/[^/]*$/, "") || "";
+  },
   getRedirectUri() {
-    return new URL("auth/callback.html", window.location.href).origin +
-      new URL("auth/callback.html", window.location.href).pathname;
+    const base = this.getSiteBasePath();
+    return `${window.location.origin}${base}/auth/callback.html`;
   },
   getWebcalUrl(relativeIcsPath = "kalender/scheve-toren-2026-2027.ics") {
     const ics = new URL(relativeIcsPath, window.location.href);

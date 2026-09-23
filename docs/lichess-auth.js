@@ -25,8 +25,11 @@
     if (window.SCHEVETOREN_CONFIG?.getRedirectUri) {
       return window.SCHEVETOREN_CONFIG.getRedirectUri();
     }
-    const target = new URL("auth/callback.html", window.location.href);
-    return target.origin + target.pathname;
+    const path = window.location.pathname;
+    const base = /\/auth\/callback\.html$/i.test(path)
+      ? path.replace(/\/auth\/callback\.html$/i, "") || ""
+      : path.replace(/\/[^/]*$/, "") || "";
+    return `${window.location.origin}${base}/auth/callback.html`;
   }
 
   function isCallbackPage() {
@@ -119,7 +122,16 @@
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body
     });
-    if (!response.ok) throw new Error("Lichess-login mislukt.");
+    if (!response.ok) {
+      let detail = "";
+      try {
+        const err = await response.json();
+        detail = err.error_description || err.error || "";
+      } catch {
+        /* ignore */
+      }
+      throw new Error(detail ? `Lichess-login mislukt: ${detail}` : "Lichess-login mislukt.");
+    }
     const result = await response.json();
     if (!result.access_token) throw new Error("Geen toegangstoken ontvangen.");
     sessionStorage.setItem(TOKEN_KEY, result.access_token);
