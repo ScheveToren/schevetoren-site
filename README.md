@@ -4,9 +4,11 @@ GitHub Pages site (`docs/`) with Lichess-linked attendance (Google Apps Script +
 
 ## Live site
 
-- GitHub Pages: enable **Source → main → /docs**
-- Project URL pattern: `https://<org>.github.io/schevetoren-site/docs/`
-- Optional custom domain via `CNAME` in repo settings
+- GitHub Pages: **Source → main → /docs**
+- Public URLs omit the `docs/` folder name. Example:
+  - Home: `https://schevetoren.github.io/schevetoren-site/index.html`
+  - Attendance: `https://schevetoren.github.io/schevetoren-site/attendance.html`
+- Optional custom domain via repo **Pages** settings
 
 ## Local preview
 
@@ -18,12 +20,16 @@ python3 -m http.server 8765 --directory docs
 
 ## Lichess OAuth
 
-1. Create / edit OAuth app at https://lichess.org/account/oauth/app/create  
-   - Client id: `schevetoren-site` (must match `docs/lichess-auth.js`)
-2. Register **redirect URI** (exact):
-   - `https://<org>.github.io/schevetoren-site/docs/auth/callback.html`
-   - Add custom domain variant when used
-3. After deploy, test login on `docs/attendance.html`
+This site uses **PKCE** with a public client. You do **not** need to open a separate “create OAuth app” page on Lichess (older docs URLs such as `/account/oauth/app/create` no longer exist).
+
+1. **Client id** is fixed in code: `schevetoren-site` (`docs/lichess-auth.js`).
+2. **Redirect URI** must be the callback page that GitHub Pages actually serves (no `/docs/` in the URL when Pages publishes from the `/docs` folder):
+   - `https://schevetoren.github.io/schevetoren-site/auth/callback.html`
+   - With a custom domain: `https://<jouwdomein>/auth/callback.html`
+3. Test login on the live attendance page (not a `/docs/…` link):
+   - `https://schevetoren.github.io/schevetoren-site/attendance.html`
+
+The “Inloggen met Lichess” button sends users to `https://lichess.org/oauth?…` and back to `auth/callback.html` on your site.
 
 ## Google Apps Script backend
 
