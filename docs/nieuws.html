@@ -18,30 +18,12 @@
   </section>
 </main>
 <div id="site-footer"></div>
-<script src="./config.js?v=20260923"></script>
-<script src="./assets/site.js?v=20260923"></script>
+<script src="./config.js?v=20260924"></script>
+<script src="./assets/site.js?v=20260924"></script>
+<script src="./assets/news.js?v=20260924"></script>
 <script>
-document.addEventListener("DOMContentLoaded", async () => {
-  const list = document.getElementById("newsList");
-  const status = document.getElementById("newsStatus");
-  try {
-    const response = await fetch("./nieuws/posts-index.json?_=" + Date.now());
-    const posts = await response.json();
-    if (!posts.length) {
-      status.textContent = "Nog geen berichten gepubliceerd.";
-      return;
-    }
-    list.innerHTML = posts.map(post => `
-      <a class="news-card" href="${post.url}">
-        <time datetime="${post.date}">${post.date}</time>
-        <h2>${post.title}</h2>
-        <p>${post.excerpt || ""}</p>
-      </a>`).join("");
-    status.textContent = "";
-  } catch (error) {
-    status.textContent = "Nieuws kon niet worden geladen.";
-    status.className = "api-status error";
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  window.ScheveTorenNews?.mountNewsList();
 });
 </script>
 </body>
