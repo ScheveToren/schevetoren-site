@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://schevetoren.github.io/schevetoren-site/docs/sitemap.xml
