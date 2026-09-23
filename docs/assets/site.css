@@ -162,6 +162,32 @@
 .calendar-legend .dot.regular { background: var(--primary); }
 .calendar-legend .dot.rapid { background: #c17f24; }
 .calendar-legend .dot.event { background: #3d6ea8; }
+.calendar-legend .dot.external { background: #2a7a4b; }
+.calendar-legend .dot.youth { background: #7b4bb7; }
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-wrap: wrap;
+  margin-bottom: .75rem;
+}
+.calendar-nav-title {
+  font-weight: 700;
+  flex: 1;
+  text-align: center;
+  min-width: 10rem;
+  text-transform: capitalize;
+}
+.cal-nav-btn { padding: .4rem .75rem; font-size: .88rem; }
+.cal-nav-btn:disabled { opacity: .45; cursor: not-allowed; }
+.calendar-list-title { margin: 1.25rem 0 .5rem; font-size: 1.05rem; }
+.calendar-month-list { max-height: 22rem; overflow-y: auto; }
+.cal-cell.has-event.kind-external { background: #eef8f1; }
+.cal-cell.has-event.kind-youth { background: #f6f0fc; }
+.cal-ev.kind-external { color: #1e5c38; }
+.cal-ev.kind-youth { color: #5a3388; }
+.site-footer-links { margin-top: .35rem; }
+.site-footer-links a { color: var(--primary-dark); font-weight: 600; }
 .calendar-upcoming {
   list-style: none;
   margin: 0;

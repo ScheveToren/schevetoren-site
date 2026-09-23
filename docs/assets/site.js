@@ -72,7 +72,8 @@
     const mount = document.getElementById("site-footer");
     if (!mount) return;
     mount.className = "site-footer";
-    mount.innerHTML = `<p data-i18n="footer.copy">${t("footer.copy")}</p>`;
+    mount.innerHTML = `<p data-i18n="footer.copy">${t("footer.copy")}</p>
+      <p class="site-footer-links"><a href="./gedragsregels.html">Gedragsregels</a></p>`;
   }
 
   function injectJsonLd() {
