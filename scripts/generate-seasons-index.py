@@ -24,7 +24,7 @@ def find_seasons():
     entries.sort(reverse=True)  # newest first (lexicographic YYYY-YYYY works)
     return entries
 
-def build_index_html(seasons):
+def build_seizoenen_html(seasons):
     if not seasons:
         list_html = "<li>(nog geen seizoenen gepubliceerd)</li>"
     else:
@@ -40,34 +40,28 @@ def build_index_html(seasons):
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>De Scheve Toren — Seizoenen</title>
-  <style>
-    body {{ font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial; padding: 1.5rem; color:#222 }}
-    header {{ margin-bottom: 1rem }}
-    h1 {{ margin:0 0 .25rem 0 }}
-    .seasons {{ margin-top: 1rem }}
-    .season {{ margin: .5rem 0; }}
-    .meta {{ color: #666; font-size: .95rem; }}
-    .current-btn {{ display:inline-block; margin-top:.5rem; padding:.4rem .7rem; background:#0366d6; color:white; border-radius:4px; text-decoration:none }}
-  </style>
+  <title>Seizoenen — De Scheve Toren</title>
+  <meta name="description" content="Archief van competitieseizoenen van De Scheve Toren.">
+  <link rel="stylesheet" href="./assets/site.css?v=20260923">
 </head>
 <body>
-  <header>
-    <h1>Schaakvereniging De Scheve Toren — Seizoenen</h1>
-    <p class="meta">Welkom — kies een seizoen hieronder. De knop "Huidig seizoen" gaat naar de actuele seizoenmap.</p>
-    <a class="current-btn" href="./HuidigSeizoen/">Huidig seizoen</a>
+<div id="site-header"></div>
+<main class="page-shell">
+  <header class="topbar">
+    <div><p class="eyebrow">De Scheve Toren</p><h1 data-i18n="nav.seasons">Seizoenen</h1></div>
+    <a class="button secondary" href="./index.html" data-i18n="nav.back">← Terug</a>
   </header>
-
-  <section class="seasons">
-    <h2>Beschikbare seizoenen</h2>
-    <ul>
+  <section class="panel intro-panel">
+    <p class="meta">Kies een seizoen. <a href="./HuidigSeizoen/">Huidig seizoen</a> gaat naar de actuele stand.</p>
+    <ul class="seasons">
 {list_html}
     </ul>
+    <p class="meta">Laatste update: {now} UTC.</p>
   </section>
-
-  <footer style="margin-top:2rem;color:#666;font-size:.9rem">
-    <p>Opmerking: historische seizoenen blijven beschikbaar wanneer ze geüpload zijn. Laatste update: {now} UTC.</p>
-  </footer>
+</main>
+<div id="site-footer"></div>
+<script src="./config.js?v=20260923"></script>
+<script src="./assets/site.js?v=20260923"></script>
 </body>
 </html>
 """
@@ -109,11 +103,11 @@ def write_if_changed(path, content):
 
 def main():
     seasons = find_seasons()
-    index_html = build_index_html(seasons)
+    seizoenen_html = build_seizoenen_html(seasons)
     huidig_html = build_huidig_html(seasons[0] if seasons else None)
 
     changed = False
-    changed |= write_if_changed(os.path.join(DOCS_DIR, "index.html"), index_html)
+    changed |= write_if_changed(os.path.join(DOCS_DIR, "seizoenen.html"), seizoenen_html)
     changed |= write_if_changed(os.path.join(DOCS_DIR, "HuidigSeizoen", "index.html"), huidig_html)
     if changed:
         print("Files updated; workflow will commit and push changes.")
