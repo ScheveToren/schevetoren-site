@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Speelkalender — De Scheve Toren</title>
+  <link rel="stylesheet" href="./assets/site.css?v=20260924">
+</head>
+<body>
+<div id="site-header"></div>
+<main class="page-shell">
+  <header class="topbar">
+    <div><p class="eyebrow">De Scheve Toren</p><h1 data-i18n="nav.calendar">Speelkalender</h1></div>
+    <a class="button secondary" href="./index.html" data-i18n="nav.back">← Terug</a>
+  </header>
+  <section class="panel">
+    <div id="calendarLegend"></div>
+    <div id="calendarMonth"></div>
+    <div id="calendarUpcoming"></div>
+    <p class="meta"><a href="./kalender/scheve-toren-2026-2027.ics" data-i18n="home.cta.calendar">Zet in agenda</a> · <a href="webcal://schevetoren.github.io/schevetoren-site/kalender/scheve-toren-2026-2027.ics">webcal</a></p>
+  </section>
+</main>
+<div id="site-footer"></div>
+<script src="./config.js?v=20260924"></script>
+<script src="./assets/site.js?v=20260924"></script>
+<script src="./assets/calendar.js?v=20260924"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  window.ScheveTorenCalendar?.mountCalendar({ showMonth: true, monthId: "calendarMonth", upcomingLimit: 12 });
+});
+</script>
+</body>
+</html>
