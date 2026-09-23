@@ -13,10 +13,6 @@ window.SCHEVETOREN_CONFIG = {
     return new URL("auth/callback.html", window.location.href).origin +
       new URL("auth/callback.html", window.location.href).pathname;
   },
-  getWebcalUrl(relativeIcsPath = "kalender/scheve-toren-2026-2027.ics") {
-    const ics = new URL(relativeIcsPath, window.location.href);
-    return `webcal://${ics.host}${ics.pathname}`;
-  },
   getDocsBase() {
     const path = window.location.pathname;
     const marker = "/docs/";
