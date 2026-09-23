@@ -4,6 +4,7 @@
 import json
 import re
 import sys
+import urllib.parse
 import urllib.request
 from datetime import datetime
 from html import unescape
@@ -64,7 +65,7 @@ def parse_entry(entry):
 
 
 def main():
-    with urllib.request.urlopen(FEED, timeout=30) as response:
+    with urllib.request.urlopen(Feed, timeout=30) as response:
         data = json.load(response)
     written = 0
     for entry in data.get("feed", {}).get("entry", []):
