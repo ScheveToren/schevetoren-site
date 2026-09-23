@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # scripts/generate-seasons-index.py
-# Scans docs/ for directories matching YYYY-YYYY and writes docs/index.html
+# Scans docs/ for directories matching YYYY-YYYY and writes docs/seizoenen.html
 # and docs/HuidigSeizoen/index.html (meta-redirect to newest).
 
 import os
 import re
-from datetime import datetime
+from datetime import UTC, datetime
 
 REPO_OWNER = "ScheveToren"   # used in links; adjust if needed
 REPO_NAME  = "schevetoren-site"
@@ -34,7 +34,7 @@ def build_seizoenen_html(seasons):
             items.append(f"<li class='season'><a href='{link}'>{s}</a></li>")
         list_html = "\n".join(items)
 
-    now = datetime.utcnow().strftime("%Y-%m-%d")
+    now = datetime.now(UTC).strftime("%Y-%m-%d")
     html = f"""<!doctype html>
 <html lang="nl">
 <head>

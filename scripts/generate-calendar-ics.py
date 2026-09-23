@@ -2,8 +2,7 @@
 import json
 import os
 import re
-from datetime import datetime
-from urllib.parse import quote
+from datetime import UTC, datetime
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
 DATA_PATH = os.path.join(ROOT, "docs", "data", "season.json")
@@ -54,7 +53,7 @@ def build_ics(data):
         lines.extend([
             "BEGIN:VEVENT",
             f"UID:{uid}",
-            f"DTSTAMP:{datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}",
+            f"DTSTAMP:{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}",
             f"DTSTART;TZID={tz}:{dt_start}",
             f"DTEND;TZID={tz}:{dt_end}",
             fold_line(f"SUMMARY:{summary}"),

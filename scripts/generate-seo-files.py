@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import json
 import os
-from datetime import datetime
+from datetime import UTC, datetime
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
 DOCS = os.path.join(ROOT, "docs")
@@ -27,9 +27,9 @@ def load_post_urls():
 
 def build_sitemap():
     urls = [f"{SITE_URL}/{page}" for page in PUBLIC_PAGES]
-    urls.extend(f"{SITE_URL}/{url}" for url in load_post_urls())
+    urls.extend(f"{SITE_URL}/{url.lstrip('./')}" for url in load_post_urls())
     lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    today = datetime.utcnow().strftime("%Y-%m-%d")
+    today = datetime.now(UTC).strftime("%Y-%m-%d")
     for url in urls:
         lines.append(f"  <url><loc>{url}</loc><lastmod>{today}</lastmod></url>")
     lines.append("</urlset>\n")
