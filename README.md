@@ -58,6 +58,28 @@ The “Inloggen met Lichess” button sends users to `https://lichess.org/oauth?
 
 **Members:** receive invite code → log in with Lichess → link account → manage own attendance only.
 
+### Koppelen (leden)
+
+1. **Inloggen met Lichess** op [aanwezigheid](https://schevetoren.github.io/schevetoren-site/attendance.html) — dat bewijst dat jij de Lichess-account bent.
+2. **Uitnodigingscode** van het bestuur invullen en op **Koppel account** klikken.
+3. Het script zoekt die code in het tabblad **InviteCodes** (actief, nog niet `used`), koppelt jouw Lichess-gebruikersnaam aan de speler in **Players**, en markeert de code als gebruikt.
+4. Daarna kun je je eigen speeldagen zien en opslaan.
+
+Codes staan in **InviteCodes**: kolommen `code`, `player_name`, `used_by`, `used_at`, `active` (`used` / leeg = nog geldig).
+
+### UrlFetch / “geen rechten om UrlFetchApp te bellen”
+
+Elke POST (o.a. `whoami`, koppelen) laat Apps Script je Lichess-token controleren via `UrlFetchApp` naar `lichess.org`. Zonder die machtiging krijg je een cryptische Google-fout (soms vertaald als *UrlFetch app*).
+
+**Oplossing (bestuur, eenmalig):**
+
+1. Spreadsheet → **Extensions → Apps Script** — code uit [`scripts/google-apps-script-live.gs`](scripts/google-apps-script-live.gs).
+2. Kies in de editor de functie **`authorizeExternalAccess`** en druk op **Run** (▶).
+3. **Autoriseren** — o.a. “Verbinden met een externe service” / external requests toestaan.
+4. **Deploy → Manage deployments → Edit (potlood) → New version → Deploy** (of nieuwe deployment), zelfde instellingen: *Execute as: Me*, *Anyone*.
+
+Daarna werkt koppelen en aanwezigheid opslaan voor leden.
+
 ### API (privacy)
 
 | Public GET | Protected POST |
