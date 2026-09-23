@@ -44,8 +44,10 @@
       <a class="site-brand" href="./index.html">De Scheve Toren</a>
       <div class="site-links">
         ${link("index.html", "nav.home")}
-        ${link("over.html", "nav.about")}
-        ${link("seizoenen.html", "nav.seasons")}
+        ${link("interne-competitie.html", "nav.internal")}
+        ${link("externe-competitie.html", "nav.external")}
+        ${link("jeugd.html", "nav.youth")}
+        ${link("kalender.html", "nav.calendar")}
         ${link("nieuws.html", "nav.news")}
         ${link("attendance.html", "nav.attendance")}
         ${link("contact.html", "nav.contact")}
