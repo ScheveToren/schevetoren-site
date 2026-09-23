@@ -4,7 +4,10 @@ slug: gedragsregels-scheve-toren
 excerpt: "Veilige, sportieve club: gebaseerd op KNSB/NOC*NSF, aangepast voor De Scheve Toren."
 date: 2026-09-13
 author: "Erik Jan Tromp"
+draft: true
 ---
+
+> Dit bericht staat op [gedragsregels.html](../../gedragsregels.html).
 
 Tijdens de ALV is besloten de gedragsregels van de HSB over te nemen (met “HSB” gelezen als De Scheve Toren). De club voldoet nog niet aan alle punten; dit document beschrijft de **streef**situatie.
 

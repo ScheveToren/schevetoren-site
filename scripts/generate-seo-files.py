@@ -13,6 +13,7 @@ PUBLIC_PAGES = [
     "externe-competitie.html",
     "jeugd.html",
     "kalender.html",
+    "gedragsregels.html",
     "contact.html",
     "nieuws.html",
     "seizoenen.html",
