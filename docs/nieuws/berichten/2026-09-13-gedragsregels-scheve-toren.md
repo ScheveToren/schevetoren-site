@@ -9,7 +9,7 @@ draft: true
 
 > Dit bericht staat op [gedragsregels.html](../../gedragsregels.html).
 
-Tijdens de ALV is besloten de gedragsregels van de HSB over te nemen (met “HSB” gelezen als De Scheve Toren). De club voldoet nog niet aan alle punten; dit document beschrijft de **streef**situatie.
+Dit zijn de **voorlopige gedragsregels** van De Scheve Toren. Zie [gedragsregels.html](../../gedragsregels.html) voor de actuele pagina.
 
 ## Doel
 
@@ -28,4 +28,4 @@ Een veilige, sportieve en integere omgeving waarin iedereen met plezier kan scha
 
 Het bestuur kan na overleg waarschuwen, schorsen of samenwerking beëindigen en melding doen bij de KNSB.
 
-De volledige tekst staat in het clubdocument; vragen via het bestuur of de VCP.
+Vragen of opmerkingen? Neem contact op met het bestuur of de vertrouwenscontactpersonen (VCP).
