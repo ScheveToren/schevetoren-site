@@ -18,6 +18,7 @@
     <div id="calendarMonth"></div>
     <h3 class="calendar-list-title">Evenementen deze maand</h3>
     <div id="calendarMonthList"></div>
+    <p class="meta calendar-ics"><a href="./kalender/scheve-toren-2026-2027.ics">Abonneren in agenda (.ics)</a> · <a id="calendarWebcal" href="./kalender/scheve-toren-2026-2027.ics">webcal</a></p>
   </section>
 </main>
 <div id="site-footer"></div>
@@ -26,6 +27,10 @@
 <script src="./assets/calendar.js?v=20260924"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+  const webcal = document.getElementById("calendarWebcal");
+  if (webcal && window.SCHEVETOREN_CONFIG?.getWebcalUrl) {
+    webcal.href = window.SCHEVETOREN_CONFIG.getWebcalUrl();
+  }
   window.ScheveTorenCalendar?.mountCalendar({
     showMonth: true,
     monthId: "calendarMonth",
