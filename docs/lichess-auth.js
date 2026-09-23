@@ -7,6 +7,9 @@
   const STATE_KEY = "schevetoren_lichess_state";
   const RETURN_KEY = "schevetoren_lichess_return";
   const ACCOUNT_CACHE_KEY = "schevetoren_lichess_account_cache";
+  const PKCE_TS_KEY = "schevetoren_lichess_pkce_ts";
+  const CALLBACK_DONE_KEY = "schevetoren_lichess_callback_done";
+  const PKCE_TTL_MS = 15 * 60 * 1000;
 
   const base64Url = bytes =>
     btoa(String.fromCharCode(...new Uint8Array(bytes)))
@@ -22,8 +25,8 @@
     if (window.SCHEVETOREN_CONFIG?.getRedirectUri) {
       return window.SCHEVETOREN_CONFIG.getRedirectUri();
     }
-    return new URL("auth/callback.html", window.location.href).origin +
-      new URL("auth/callback.html", window.location.href).pathname;
+    const target = new URL("auth/callback.html", window.location.href);
+    return target.origin + target.pathname;
   }
 
   function isCallbackPage() {
@@ -41,11 +44,46 @@
 
   function decodeState(value) {
     try {
-      const json = atob(value.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((value.length + 3) % 4));
+      const normalized = normalizeState(value);
+      const pad = "=".repeat((4 - (normalized.length % 4)) % 4);
+      const json = atob(normalized.replace(/-/g, "+").replace(/_/g, "/") + pad);
       return JSON.parse(json);
     } catch {
       return null;
     }
+  }
+
+  function normalizeState(value) {
+    if (!value) return "";
+    try {
+      return decodeURIComponent(String(value).trim());
+    } catch {
+      return String(value).trim();
+    }
+  }
+
+  function pkceStore() {
+    return localStorage;
+  }
+
+  function setPkceItem(key, value) {
+    pkceStore().setItem(key, value);
+    pkceStore().setItem(PKCE_TS_KEY, String(Date.now()));
+  }
+
+  function getPkceItem(key) {
+    const ts = Number(pkceStore().getItem(PKCE_TS_KEY) || "0");
+    if (ts && Date.now() - ts > PKCE_TTL_MS) {
+      clearPkce();
+      return null;
+    }
+    return pkceStore().getItem(key);
+  }
+
+  function clearPkce() {
+    pkceStore().removeItem(VERIFIER_KEY);
+    pkceStore().removeItem(STATE_KEY);
+    pkceStore().removeItem(PKCE_TS_KEY);
   }
 
   async function challenge(verifier) {
@@ -61,11 +99,12 @@
     return sessionStorage.getItem(TOKEN_KEY);
   }
 
-  async function exchange(code, returnedState) {
+  async function exchange(code, returnedStateRaw) {
+    const returnedState = normalizeState(returnedStateRaw);
     const parsed = decodeState(returnedState);
-    const storedVerifier = sessionStorage.getItem(VERIFIER_KEY);
-    const storedState = sessionStorage.getItem(STATE_KEY);
-    if (!storedVerifier || storedState !== returnedState) {
+    const storedVerifier = getPkceItem(VERIFIER_KEY);
+    const storedState = normalizeState(getPkceItem(STATE_KEY));
+    if (!storedVerifier || !storedState || storedState !== returnedState) {
       throw new Error("Ongeldige OAuth state. Probeer opnieuw in te loggen.");
     }
     const body = new URLSearchParams({
@@ -84,8 +123,7 @@
     const result = await response.json();
     if (!result.access_token) throw new Error("Geen toegangstoken ontvangen.");
     sessionStorage.setItem(TOKEN_KEY, result.access_token);
-    sessionStorage.removeItem(VERIFIER_KEY);
-    sessionStorage.removeItem(STATE_KEY);
+    clearPkce();
     sessionStorage.removeItem(ACCOUNT_CACHE_KEY);
     if (parsed?.returnPath) sessionStorage.setItem(RETURN_KEY, parsed.returnPath);
   }
@@ -127,10 +165,12 @@
   }
 
   async function login(returnPath) {
+    clearPkce();
+    sessionStorage.removeItem(CALLBACK_DONE_KEY);
     const verifier = randomString(48);
     const state = encodeState(returnPath || window.location.pathname);
-    sessionStorage.setItem(VERIFIER_KEY, verifier);
-    sessionStorage.setItem(STATE_KEY, state);
+    setPkceItem(VERIFIER_KEY, verifier);
+    setPkceItem(STATE_KEY, state);
     sessionStorage.setItem(RETURN_KEY, returnPath || window.location.pathname);
     const params = new URLSearchParams({
       response_type: "code",
@@ -151,29 +191,38 @@
     window.dispatchEvent(new CustomEvent("lichess-auth-changed", { detail: null }));
   }
 
+  let callbackRunning = false;
+
   async function finishCallback() {
+    if (callbackRunning) return;
+    callbackRunning = true;
     const params = new URLSearchParams(window.location.search);
     const statusEl = document.getElementById("status");
+    const code = params.get("code");
+    const state = params.get("state");
     try {
+      if (sessionStorage.getItem(CALLBACK_DONE_KEY) === "1" && getAccessToken()) {
+        window.location.replace(sessionStorage.getItem(RETURN_KEY) || defaultReturnPath());
+        return;
+      }
       if (params.get("error")) throw new Error("Lichess-login geannuleerd.");
-      if (!params.get("code")) throw new Error("Geen autorisatiecode ontvangen.");
-      await exchange(params.get("code"), params.get("state"));
+      if (!code) throw new Error("Geen autorisatiecode ontvangen.");
+      await exchange(code, state);
+      sessionStorage.setItem(CALLBACK_DONE_KEY, "1");
       const returnPath = sessionStorage.getItem(RETURN_KEY) || defaultReturnPath();
-      sessionStorage.removeItem(RETURN_KEY);
+      window.history.replaceState({}, "", window.location.pathname);
       window.location.replace(returnPath);
     } catch (error) {
       if (statusEl) {
         statusEl.textContent = error.message;
         statusEl.className = "api-status error";
       }
+    } finally {
+      callbackRunning = false;
     }
   }
 
   async function initialisePage() {
-    if (isCallbackPage()) {
-      await finishCallback();
-      return;
-    }
     try {
       const user = await getAccount();
       render(user);
@@ -197,7 +246,7 @@
   document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("lichessLoginBtn")?.addEventListener("click", () => login(window.location.pathname));
     document.getElementById("lichessLogoutBtn")?.addEventListener("click", logout);
-    if (!isCallbackPage()) initialisePage();
-    else finishCallback();
+    if (isCallbackPage()) finishCallback();
+    else initialisePage();
   });
 })();
