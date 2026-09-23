@@ -117,11 +117,15 @@ function setSwitch(button, on) {
 
 function updatePanels() {
   const loggedIn = Boolean(token());
+  const memberPanels = document.getElementById("memberPanels");
   const linkPanel = document.getElementById("linkPanel");
   const toolPanel = document.getElementById("toolPanel");
   const listPanel = document.getElementById("listPanel");
   const playerHeading = document.getElementById("playerHeading");
+  const loggedOutHint = document.getElementById("loggedOutHint");
 
+  if (memberPanels) memberPanels.hidden = !loggedIn;
+  if (loggedOutHint) loggedOutHint.hidden = loggedIn;
   if (linkPanel) linkPanel.hidden = !loggedIn || session.linked;
   if (toolPanel) toolPanel.hidden = !loggedIn || !session.linked;
   if (listPanel) listPanel.hidden = !loggedIn || !session.linked;
