@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://schevetoren.github.io/schevetoren-site/docs/index.html</loc><lastmod>2026-09-23</lastmod></url>
-  <url><loc>https://schevetoren.github.io/schevetoren-site/docs/over.html</loc><lastmod>2026-09-23</lastmod></url>
-  <url><loc>https://schevetoren.github.io/schevetoren-site/docs/contact.html</loc><lastmod>2026-09-23</lastmod></url>
-  <url><loc>https://schevetoren.github.io/schevetoren-site/docs/nieuws.html</loc><lastmod>2026-09-23</lastmod></url>
-  <url><loc>https://schevetoren.github.io/schevetoren-site/docs/seizoenen.html</loc><lastmod>2026-09-23</lastmod></url>
-  <url><loc>https://schevetoren.github.io/schevetoren-site/docs/nieuws/berichten/voorburg-2-scheve-toren-1.html</loc><lastmod>2026-09-23</lastmod></url>
-  <url><loc>https://schevetoren.github.io/schevetoren-site/docs/nieuws/berichten/gedragsregels-scheve-toren.html</loc><lastmod>2026-09-23</lastmod></url>
-  <url><loc>https://schevetoren.github.io/schevetoren-site/docs/nieuws/berichten/schaak-off-2026.html</loc><lastmod>2026-09-23</lastmod></url>
-  <url><loc>https://schevetoren.github.io/schevetoren-site/docs/nieuws/berichten/algemene-informatie-seizoen-2026-2027.html</loc><lastmod>2026-09-23</lastmod></url>
+  <url><loc>https://schevetoren.github.io/schevetoren-site/index.html</loc><lastmod>2026-09-23</lastmod></url>
+  <url><loc>https://schevetoren.github.io/schevetoren-site/interne-competitie.html</loc><lastmod>2026-09-23</lastmod></url>
+  <url><loc>https://schevetoren.github.io/schevetoren-site/externe-competitie.html</loc><lastmod>2026-09-23</lastmod></url>
+  <url><loc>https://schevetoren.github.io/schevetoren-site/jeugd.html</loc><lastmod>2026-09-23</lastmod></url>
+  <url><loc>https://schevetoren.github.io/schevetoren-site/kalender.html</loc><lastmod>2026-09-23</lastmod></url>
+  <url><loc>https://schevetoren.github.io/schevetoren-site/contact.html</loc><lastmod>2026-09-23</lastmod></url>
+  <url><loc>https://schevetoren.github.io/schevetoren-site/nieuws.html</loc><lastmod>2026-09-23</lastmod></url>
+  <url><loc>https://schevetoren.github.io/schevetoren-site/seizoenen.html</loc><lastmod>2026-09-23</lastmod></url>
+  <url><loc>https://schevetoren.github.io/schevetoren-site/nieuws/berichten/voorburg-2-scheve-toren-1.html</loc><lastmod>2026-09-23</lastmod></url>
+  <url><loc>https://schevetoren.github.io/schevetoren-site/nieuws/berichten/gedragsregels-scheve-toren.html</loc><lastmod>2026-09-23</lastmod></url>
+  <url><loc>https://schevetoren.github.io/schevetoren-site/nieuws/berichten/schaak-off-2026.html</loc><lastmod>2026-09-23</lastmod></url>
+  <url><loc>https://schevetoren.github.io/schevetoren-site/nieuws/berichten/algemene-informatie-seizoen-2026-2027.html</loc><lastmod>2026-09-23</lastmod></url>
 </urlset>

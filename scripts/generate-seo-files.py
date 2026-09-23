@@ -5,11 +5,14 @@ from datetime import UTC, datetime
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
 DOCS = os.path.join(ROOT, "docs")
-SITE_URL = "https://schevetoren.github.io/schevetoren-site/docs"
+SITE_URL = "https://schevetoren.github.io/schevetoren-site"
 
 PUBLIC_PAGES = [
     "index.html",
-    "over.html",
+    "interne-competitie.html",
+    "externe-competitie.html",
+    "jeugd.html",
+    "kalender.html",
     "contact.html",
     "nieuws.html",
     "seizoenen.html",

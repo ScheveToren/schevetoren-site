@@ -15,7 +15,7 @@ ROOT = os.path.dirname(os.path.dirname(__file__))
 POSTS_DIR = os.path.join(ROOT, "docs", "nieuws", "berichten")
 OUT_JSON = os.path.join(ROOT, "docs", "nieuws", "posts-index.json")
 OUT_FEED = os.path.join(ROOT, "docs", "nieuws", "feed.xml")
-SITE_URL = "https://schevetoren.github.io/schevetoren-site/docs"
+SITE_URL = "https://schevetoren.github.io/schevetoren-site"
 
 FEN_RE = re.compile(
     r"^([rnbqkpRNBQKP1-8/]+\s+[wb]\s+[KQkq-]+\s+[a-h1-8-]+\s+\d+\s+\d+)$"
@@ -74,16 +74,43 @@ def quote_fen(fen):
     return quote(fen, safe="")
 
 
+IMG_RE = re.compile(r"<img\s+([^>]*?)>", re.IGNORECASE)
+
+
+def enhance_images(html_fragment):
+    def repl(match):
+        attrs = match.group(1)
+        if "loading=" not in attrs.lower():
+            attrs += ' loading="lazy"'
+        return f"<figure class=\"post-image\"><img {attrs}></figure>"
+
+    return IMG_RE.sub(repl, html_fragment)
+
+
+def cover_html(meta):
+    cover = meta.get("cover", "").strip()
+    if not cover:
+        return ""
+    src = html.escape(cover)
+    alt = html.escape(meta.get("title", ""))
+    return f'<figure class="post-cover post-image"><img src="{src}" alt="{alt}" loading="lazy"></figure>'
+
+
 def md_to_html(body):
     body = parse_fen_block(body)
     if markdown:
-        return markdown.markdown(body, extensions=["extra", "sane_lists"])
+        rendered = markdown.markdown(body, extensions=["extra", "sane_lists"])
+        return enhance_images(rendered)
     return "<pre>" + html.escape(body) + "</pre>"
 
 
 def wrap_article(meta, content_html):
     title = html.escape(meta.get("title", "Bericht"))
     date = html.escape(meta.get("date", ""))
+    cover = meta.get("cover", "").strip()
+    og_image = ""
+    if cover:
+        og_image = f'\n  <meta property="og:image" content="{html.escape(SITE_URL + "/nieuws/berichten/" + cover.lstrip("./"))}">'
     return f"""<!doctype html>
 <html lang="nl">
 <head>
@@ -93,8 +120,8 @@ def wrap_article(meta, content_html):
   <meta name="description" content="{html.escape(meta.get('excerpt', ''))}">
   <meta property="og:title" content="{title}">
   <meta property="og:description" content="{html.escape(meta.get('excerpt', ''))}">
-  <meta property="og:type" content="article">
-  <link rel="stylesheet" href="../../assets/site.css?v=20260923">
+  <meta property="og:type" content="article">{og_image}
+  <link rel="stylesheet" href="../../assets/site.css?v=20260924">
 </head>
 <body>
 <div id="site-header"></div>
@@ -103,13 +130,14 @@ def wrap_article(meta, content_html):
     <p class="status-badge">Nieuws</p>
     <h1>{title}</h1>
     <p><time datetime="{date}">{date}</time> · {html.escape(meta.get('author', 'Bestuur'))}</p>
+    {cover_html(meta)}
     <div class="article-body">{content_html}</div>
     <p><a class="button secondary" href="../nieuws.html">← Alle berichten</a></p>
   </article>
 </main>
 <div id="site-footer"></div>
-<script src="../../config.js?v=20260923"></script>
-<script src="../../assets/site.js?v=20260923"></script>
+<script src="../../config.js?v=20260924"></script>
+<script src="../../assets/site.js?v=20260924"></script>
 </body>
 </html>
 """
