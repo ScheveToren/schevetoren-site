@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Nieuws beheer — De Scheve Toren</title>
+  <link rel="stylesheet" href="./assets/site.css?v=20260923">
+</head>
+<body>
+<div id="site-header"></div>
+<main class="page-shell">
+  <header class="topbar"><div><p class="eyebrow">Admin</p><h1>Nieuws publiceren</h1></div></header>
+  <section class="panel intro-panel">
+    <p id="beheerStatus" class="api-status">Controleren…</p>
+    <div id="beheerBody" hidden>
+      <ol>
+        <li>Kopieer <a href="./nieuws/_template.md">nieuws/_template.md</a> naar <code>docs/nieuws/berichten/</code>.</li>
+        <li>Zet <code>draft: false</code> wanneer het klaar is.</li>
+        <li>Commit en push naar <code>main</code> — GitHub Actions bouwt HTML en RSS.</li>
+      </ol>
+      <p>Gebruik de <a href="https://lichess.org/editor">Lichess editor</a> voor FEN-diagrammen.</p>
+    </div>
+  </section>
+</main>
+<div id="site-footer"></div>
+<script src="./config.js?v=20260923"></script>
+<script src="./assets/site.js?v=20260923"></script>
+<script src="./lichess-auth.js?v=20260923"></script>
+<script>
+async function postJson(payload) {
+  const url = window.SCHEVETOREN_CONFIG.API_URL;
+  const token = window.ScheveTorenAuth?.getAccessToken?.() || "";
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({ ...payload, token })
+  });
+  return response.json();
+}
+document.addEventListener("DOMContentLoaded", async () => {
+  const status = document.getElementById("beheerStatus");
+  const body = document.getElementById("beheerBody");
+  window.addEventListener("lichess-auth-changed", check);
+  check();
+  async function check() {
+    if (!window.ScheveTorenAuth?.getAccessToken?.()) {
+      status.textContent = "Log in met Lichess (admin) om deze uitleg te zien.";
+      body.hidden = true;
+      return;
+    }
+    try {
+      const who = await postJson({ action: "whoami" });
+      if (!who.is_admin) {
+        status.textContent = "Geen admin-rechten voor nieuwsbeheer.";
+        body.hidden = true;
+        return;
+      }
+      status.textContent = "Je bent admin — zo publiceer je nieuws:";
+      body.hidden = false;
+    } catch {
+      status.textContent = "Kon admin-status niet controleren.";
+    }
+  }
+});
+</script>
+</body>
+</html>

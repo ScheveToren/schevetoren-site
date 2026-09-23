@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Nieuws — De Scheve Toren</title>
+  <meta name="description" content="Nieuws en updates van Schaakvereniging De Scheve Toren.">
+  <link rel="alternate" type="application/rss+xml" title="De Scheve Toren RSS" href="./nieuws/feed.xml">
+  <link rel="stylesheet" href="./assets/site.css?v=20260923">
+</head>
+<body>
+<div id="site-header"></div>
+<main class="page-shell">
+  <header class="topbar"><div><p class="eyebrow">De Scheve Toren</p><h1 data-i18n="nav.news">Nieuws</h1></div></header>
+  <section class="panel">
+    <div id="newsList" class="news-grid" aria-live="polite"></div>
+    <p id="newsStatus" class="api-status">Laden…</p>
+  </section>
+</main>
+<div id="site-footer"></div>
+<script src="./config.js?v=20260923"></script>
+<script src="./assets/site.js?v=20260923"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const list = document.getElementById("newsList");
+  const status = document.getElementById("newsStatus");
+  try {
+    const response = await fetch("./nieuws/posts-index.json?_=" + Date.now());
+    const posts = await response.json();
+    if (!posts.length) {
+      status.textContent = "Nog geen berichten gepubliceerd.";
+      return;
+    }
+    list.innerHTML = posts.map(post => `
+      <a class="news-card" href="${post.url}">
+        <time datetime="${post.date}">${post.date}</time>
+        <h2>${post.title}</h2>
+        <p>${post.excerpt || ""}</p>
+      </a>`).join("");
+    status.textContent = "";
+  } catch (error) {
+    status.textContent = "Nieuws kon niet worden geladen.";
+    status.className = "api-status error";
+  }
+});
+</script>
+</body>
+</html>
