@@ -11,6 +11,7 @@
     .lichess-user { color:var(--muted); margin:0; }
     .lichess-status { color:var(--muted); margin:.5rem 0 0; }
     #playerHeading { font-weight:700; margin:.5rem 0 0; }
+    [hidden] { display: none !important; }
   </style>
 </head>
 <body>
@@ -22,7 +23,7 @@
   </header>
   <section class="panel intro-panel">
     <p class="status-badge" data-i18n="attendance.badge">Aanwezigheid senioren</p>
-    <p data-i18n="attendance.intro">Log in met Lichess. Koppel je account eenmalig met een uitnodigingscode om je eigen aanwezigheid te beheren.</p>
+    <p id="attendanceIntro" data-i18n="attendance.intro">Log in met Lichess. Koppel je account eenmalig met een uitnodigingscode om je eigen aanwezigheid te beheren.</p>
     <p id="apiStatus" class="api-status" role="status">Laden…</p>
     <div class="lichess-login" aria-label="Lichess login">
       <button id="lichessLoginBtn" class="button primary" type="button" data-i18n="auth.login">Inloggen met Lichess</button>
@@ -41,7 +42,7 @@
     <div class="tool-row actions"><button id="linkPlayerBtn" class="button primary" type="button" data-i18n="attendance.link">Koppel account</button></div>
   </section>
   <section id="toolPanel" class="panel tool-panel" hidden>
-    <div class="tool-row actions"><button id="saveBtn" class="button success" type="button" data-i18n="attendance.save">Bewaar aanwezigheid</button><button id="exportBtn" class="button secondary" type="button" data-i18n="attendance.csv">Download CSV</button></div>
+    <div class="tool-row actions"><button id="saveBtn" class="button success" type="button" data-i18n="attendance.save">Bewaar aanwezigheid</button></div>
   </section>
   <section id="listPanel" class="panel" hidden>
     <div class="list-header"><div class="list-heading"><h2 data-i18n="attendance.days">Jouw speeldagen</h2><span class="legend"><span class="legend-dot present"></span><span data-i18n="attendance.present">Aanwezig</span> <span class="legend-dot absent"></span><span data-i18n="attendance.absent">Afwezig</span> <span class="legend-dot past"></span><span data-i18n="attendance.past">Verleden</span></span></div><label class="bulk-toggle"><span data-i18n="attendance.bulk">Snel instellen:</span> <button id="allAttendanceToggle" class="attendance-switch" type="button" aria-pressed="false"><span class="switch-track" aria-hidden="true"></span><span class="switch-text">Afwezig</span></button></label></div>
@@ -53,6 +54,6 @@
 <script src="./config.js?v=20260924-oauth2"></script>
 <script src="./assets/site.js?v=20260923"></script>
 <script src="./lichess-auth.js?v=20260924-link"></script>
-<script src="./attendance.js?v=20260924-attfix"></script>
+<script src="./attendance.js?v=20260924-ui"></script>
 </body>
 </html>
