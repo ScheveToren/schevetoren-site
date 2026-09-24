@@ -133,7 +133,7 @@ def wrap_article(meta, content_html):
     <p><time datetime="{date}">{date}</time> · {html.escape(meta.get('author', 'Bestuur'))}</p>
     {cover_html(meta)}
     <div class="article-body">{content_html}</div>
-    <p><a class="button secondary" href="../nieuws.html">← Alle berichten</a></p>
+    <p><a class="button secondary" href="../../nieuws.html">← Alle berichten</a></p>
   </article>
 </main>
 <div id="site-footer"></div>
