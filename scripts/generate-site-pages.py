@@ -139,20 +139,40 @@ def write_gedragsregels(data):
     meta = esc(data.get("metaDescription", ""))
     badge = data.get("badge")
     badge_html = f'    <p class="status-badge">{esc(badge)}</p>\n' if badge else ""
-    intro = data.get("introHtml", "")
+    intro_parts = data.get("introParagraphs") or []
+    if intro_parts:
+        intro_block = "\n".join(f"    <p>{esc(p)}</p>" for p in intro_parts)
+    else:
+        intro = data.get("introHtml", "")
+        intro_block = f"    <p>{intro}</p>" if intro else ""
     sections_html = []
     for sec in data.get("sections") or []:
         h = esc(sec.get("heading", ""))
+        heading_html = f"    <h2>{h}</h2>\n" if h else ""
         st = sec.get("type")
         if st == "paragraph":
-            sections_html.append(f"    <h2>{h}</h2>\n    <p>{esc(sec.get('text', ''))}</p>")
+            sections_html.append(f"{heading_html}    <p>{esc(sec.get('text', ''))}</p>")
         elif st == "paragraphs":
-            sections_html.append(f"    <h2>{h}</h2>")
+            block = [heading_html.rstrip()] if h else []
             for t in sec.get("texts") or []:
-                sections_html.append(f"    <p>{esc(t)}</p>")
+                block.append(f"    <p>{esc(t)}</p>")
+            sections_html.append("\n".join(block))
         elif st == "ordered_list":
             items = "".join(f"      <li>{item}</li>\n" for item in (sec.get("items") or []))
-            sections_html.append(f"    <h2>{h}</h2>\n    <ol>\n{items}    </ol>")
+            sections_html.append(f"{heading_html}    <ol>\n{items}    </ol>")
+        elif st == "unordered_list":
+            items = "".join(f"      <li>{item}</li>\n" for item in (sec.get("items") or []))
+            sections_html.append(f"{heading_html}    <ul>\n{items}    </ul>")
+        elif st == "definitions":
+            parts = []
+            for item in sec.get("items") or []:
+                term = esc(item.get("term", ""))
+                if item.get("html"):
+                    text = item["html"]
+                else:
+                    text = esc(item.get("text", ""))
+                parts.append(f"      <dt><strong>{term}</strong></dt>\n      <dd>{text}</dd>")
+            sections_html.append(f"{heading_html}    <dl class=\"def-list\">\n" + "\n".join(parts) + "\n    </dl>")
     body = "\n\n".join(sections_html)
     return f"""<!doctype html>
 <!-- Generated from docs/content/pages/gedragsregels.json — do not edit by hand -->
@@ -172,7 +192,7 @@ def write_gedragsregels(data):
     <a class="button secondary" href="./index.html" data-i18n="nav.back">← Terug</a>
   </header>
   <section class="panel intro-panel article-body">
-{badge_html}    <p>{intro}</p>
+{badge_html}{intro_block}
 
 {body}
   </section>
