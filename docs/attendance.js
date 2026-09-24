@@ -31,6 +31,7 @@ const CACHE_TTL = 10 * 60 * 1000;
 let weeks = [...FALLBACK_WEEKS];
 let saveInProgress = false;
 let session = { linked: false, player_name: "", lichess_username: "", is_admin: false };
+let sessionReady = false;
 
 const esc = v => String(v ?? "").replace(/[&<>\"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" }[c]));
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -137,15 +138,19 @@ function updatePanels() {
   const listPanel = document.getElementById("listPanel");
   const playerHeading = document.getElementById("playerHeading");
   const loggedOutHint = document.getElementById("loggedOutHint");
+  const attendanceIntro = document.getElementById("attendanceIntro");
+  const showMemberTools = loggedIn && sessionReady && session.linked;
+  const showLinkFlow = loggedIn && sessionReady && !session.linked;
 
   if (memberPanels) memberPanels.hidden = !loggedIn;
   if (loggedOutHint) loggedOutHint.hidden = loggedIn;
-  if (linkPanel) linkPanel.hidden = !loggedIn || session.linked;
-  if (toolPanel) toolPanel.hidden = !loggedIn || !session.linked;
-  if (listPanel) listPanel.hidden = !loggedIn || !session.linked;
+  if (linkPanel) linkPanel.hidden = !showLinkFlow;
+  if (toolPanel) toolPanel.hidden = !showMemberTools;
+  if (listPanel) listPanel.hidden = !showMemberTools;
+  if (attendanceIntro) attendanceIntro.hidden = showMemberTools;
   if (playerHeading) {
-    playerHeading.hidden = !session.linked;
-    playerHeading.textContent = session.linked ? `Jouw aanwezigheid — ${session.player_name}` : "";
+    playerHeading.hidden = !showMemberTools;
+    playerHeading.textContent = showMemberTools ? `Jouw aanwezigheid — ${session.player_name}` : "";
   }
 }
 
@@ -204,8 +209,10 @@ async function loadSeason() {
 }
 
 async function refreshSession() {
+  sessionReady = false;
   if (!token()) {
     session = { linked: false, player_name: "", lichess_username: "", is_admin: false };
+    sessionReady = true;
     updatePanels();
     setStatus("Log in met Lichess om je aanwezigheid te beheren.", false);
     render({});
@@ -221,6 +228,7 @@ async function refreshSession() {
       lichess_username: who.lichess_username || "",
       is_admin: Boolean(who.is_admin)
     };
+    sessionReady = true;
     updatePanels();
     if (!session.linked) {
       setStatus("Koppel je Lichess-account met een uitnodigingscode van het bestuur.", false);
@@ -229,6 +237,7 @@ async function refreshSession() {
     }
     await loadPlayer();
   } catch (error) {
+    sessionReady = true;
     setStatus(`Sessie kon niet worden geladen: ${friendlyApiError(error)}`, false);
     updatePanels();
   }
@@ -283,21 +292,6 @@ async function save() {
   }
 }
 
-function csv() {
-  if (!session.linked) return;
-  const name = session.player_name;
-  const data = readCache(name);
-  const head = ["Speler", ...weeks.map(w => w[0])];
-  const values = [name, ...weeks.map(w => (data[w[0]] === "present" ? "1" : "0"))];
-  const text = [head, values].map(row => row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(",")).join("\n");
-  const link = document.createElement("a");
-  const url = URL.createObjectURL(new Blob([text], { type: "text/csv;charset=utf-8" }));
-  link.href = url;
-  link.download = "attendance.csv";
-  link.click();
-  URL.revokeObjectURL(url);
-}
-
 async function bindEvents() {
   const invite = document.getElementById("inviteCode");
   if (invite) invite.value = localStorage.getItem(CKEY) || "";
@@ -318,7 +312,6 @@ async function bindEvents() {
   });
 
   document.getElementById("saveBtn")?.addEventListener("click", save);
-  document.getElementById("exportBtn")?.addEventListener("click", csv);
   document.getElementById("allAttendanceToggle")?.addEventListener("click", () => {
     setAll(document.getElementById("allAttendanceToggle").getAttribute("aria-pressed") !== "true");
   });
