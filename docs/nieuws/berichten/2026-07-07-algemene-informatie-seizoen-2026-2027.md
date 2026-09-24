@@ -6,52 +6,83 @@ date: 2026-07-07
 author: "Erik Jan Tromp"
 ---
 
-Informatie over het seizoen 2026/2027 (wordt aangevuld zodra er meer bekend is).
+*(Informatie gaat nog bijgewerkt worden, zodra meer bekend is.)*
 
-## Locatie
+## Informatie over het seizoen 2026/2027
+
+### Locatie
 
 De schaakclub speelt in **Het Denksporthuis**, Thorbeckelaan 82A, 2641 WD Pijnacker.
 
-Parkeer achter het gebouw (onder het afdak voor de ingang).
+Het is de bedoeling om te parkeren op de parkeerplaats achter het Denksporthuis. Daar zijn ruim voldoende parkeerplaatsen; hiervoor moet onder het afdak voor de ingang gereden worden.
 
-## Speeltijden
+### Speeltijden
 
 De Scheve Toren speelt op **vrijdagavond**.
 
-- Jeugd: half uur les + half uur competitie  
-  - Stap 1: **18:45**  
-  - Stap 2 en 3: **19:15**  
-  - Stap 4 en hoger: **19:45**
-- **Senioren: start 20:00**
+De jeugd krijgt een half uur les gevolgd door een half uur competitie.
 
-**Interne competitie senioren:** HSB-tempo **1 uur 40 minuten per speler + 10 seconden increment** (tot ca. 24:00).
+- Jeugd stap 1: **18:45**
+- Jeugd stap 2 en 3: **19:15**
+- Jeugd stap 4 en hoger: **19:45**
 
-**Met jeugd of op afspraak:** **40 minuten + 10 seconden increment** (ca. 20:00–21:30).
+De senioren beginnen om **20:00**.
 
-## Speeldata (vrijdagen)
+Partijen hebben het HSB-tempo van **1 uur 40 minuten per persoon met 10 seconden increment** (van 20:00 tot maximaal 24:00).
+
+Partijen met jeugd of op afspraak hebben het tempo **40 minuten per persoon met 10 seconden increment** (van 20:00 tot 21:30).
+
+### Speeldata (vrijdagen)
 
 | Periode | Data | Opmerking |
 | --- | --- | --- |
 | Augustus | 28 | ALV, geen jeugd |
 | September | 4, 11, 18, 25 | |
-| Oktober | 2, 9, 16, 30 | 9, 16, 30 = rapid (R) |
-| November | 6, 13, 20, 27 | Schaak-Off op 13 |
-| December | 4, 11, 18 | 11, 18 = rapid; kerstschaak 18 |
-| Januari | 8, 15, 22, 29 | Grand Prix 17 |
+| Oktober | 2, **9 (R)**, **16 (R)**, **30 (R)** | |
+| November | 6, 13, 20, 27 | Schaak-Off (13) |
+| December | 4, **11 (R)**, **18 (R)** | Kerstschaak (18) |
+| Januari | 8, 15, 22, 29 | Grand-prix (17) |
 | Februari | 5, 12, 19 | |
-| Maart | 5, 12, 19 | 12, 19 = rapid |
+| Maart | 5, **12 (R)**, **19 (R)** | |
 | April | 2, 9, 16, 23 | |
 | Mei | 14, 21, 28 | |
 | Juni | 4, 11, 18, 25 | |
 
-**Geen schaken:** 23 okt (herfstvakantie), 25 dec, 1 jan, 26 feb (voorjaarsvakantie), 26 mrt (Goede Vrijdag), 30 apr (meivakantie), 7 mei (hemelvaart).
+Tijdens speeldagen met **(R)** wordt een **interne rapidcompetitie** gespeeld:
 
-Avonden met **(R)** zijn **interne rapidcompetitie**, los van het klassieke tempo.
+- 9 oktober 2026
+- 16 oktober 2026
+- 30 oktober 2026
+- 11 december 2026
+- 18 december 2026
+- 12 maart 2027
+- 19 maart 2027
 
-## Contributie 2026/2027
+### Dagen dat er niet gespeeld wordt
 
-- Senioren: **€135**
-- Senioren alleen extern spelen: **€85**
-- Jeugd: **€85**
+| Periode | Datum | Reden |
+| --- | --- | --- |
+| Oktober | 23 | Herfstvakantie |
+| December | 25 | Kerst |
+| Januari | 1 | Kerstvakantie |
+| Februari | 26 | Voorjaarsvakantie |
+| Maart | 26 | Goede Vrijdag |
+| April | 30 | Meivakantie |
+| Mei | 7 | Hemelvaartweekend |
 
-Zie ook [Jeugd](../../jeugd.html) voor de Grand Prix-kalender en [Externe competitie](../../externe-competitie.html) voor HSB- en KNSB-wedstrijden.
+Deze data staan niet in de [clubkalender](../../kalender.html); alleen de vrijdagavonden waar wij spelen.
+
+### Externe competities en Grand Prix
+
+Overzichten met actuele uitslagen en datums:
+
+- [Externe competitie](../../externe-competitie.html) — HSB (Scheve Toren 1 en 2) en KNSB
+- [Jeugd](../../jeugd.html) — Grand Prix-kalender jeugdtoernooien
+
+### Contributie
+
+Voor het seizoen 2026/2027 is de contributie vastgesteld op:
+
+- **€135** voor senioren
+- **€85** voor senioren die alleen extern spelen
+- **€85** voor jeugdleden
