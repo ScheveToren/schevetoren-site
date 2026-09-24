@@ -91,7 +91,7 @@ Board members with `is_admin` can publish news, page JSON, and calendar ICS from
 3. Run **`authorizeExternalAccess`** once in the editor (Lichess + GitHub API permissions), then deploy a new web app version.
 4. On beheer, use **Test GitHub-verbinding** to verify.
 
-CMS POST actions (admin + Lichess token): `cms-status`, `cms-test-commit`, `cms-publish-news`, `cms-publish-page`, `cms-get-page`, `cms-upload-ics`.
+CMS POST actions (admin + Lichess token): `cms-status`, `cms-test-commit`, `cms-list-news`, `cms-get-news`, `cms-publish-news`, `cms-publish-page`, `cms-get-page`, `cms-upload-ics`.
 
 ### API (privacy)
 
