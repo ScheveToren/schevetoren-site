@@ -37,6 +37,7 @@ Bij een foutmelding: noteer de tekst op het scherm; vaak ontbreken admin-rechten
 ## Nieuws
 
 - Berichten worden `.md`-bestanden onder `docs/nieuws/berichten/`.
+- **Bestaand bericht bewerken:** kies in het dropdown **Bestaand bericht** → **Laden**, pas aan → **Publiceren** (overschrijft hetzelfde `.md`-bestand). Alleen berichten in `posts-index.json` staan in de lijst; zeer nieuwe/draft-only bestanden staan eventueel nog niet in de dropdown tot CI has gelopen.
 - **Concept** (`draft`) verschijnt niet op de publieke nieuwspagina tot je draft uitzet en opnieuw publiceert.
 - Diagrammen: Markdown-blokken ` ```fen ` (zoals in het bestaande nieuws).
 - Afbeeldingen: nog niet via CMS uploaden — voeg ze toe via GitHub of vraag IT.
