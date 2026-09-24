@@ -233,7 +233,7 @@ def main():
         except ValueError as error:
             print(error, file=sys.stderr)
             sys.exit(1)
-        write_if_changed(html_path, wrap_article(post["meta", content_html))
+        write_if_changed(html_path, wrap_article(post["meta"], content_html))
 
 
 if __name__ == "__main__":
