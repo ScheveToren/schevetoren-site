@@ -38,7 +38,8 @@ def parse_frontmatter(text):
 
 
 def parse_fen_block(body):
-    pattern = re.compile(r"```fen\s*\n([\s\S]*?)```", re.MULTILINE)
+    # Newline after ```fen, or FEN on the same line as ```fen (CMS paste quirks).
+    pattern = re.compile(r"```fen\s*(?:\n| )([\s\S]*?)```", re.MULTILINE)
 
     def repl(match):
         raw = match.group(1).strip()
@@ -52,14 +53,11 @@ def parse_fen_block(body):
                 caption = line.split(":", 1)[1].strip()
             elif line.lower().startswith("orientation:"):
                 orientation = line.split(":", 1)[1].strip().lower()
-        fen_line = fen.splitlines()[0].strip() if "\n" not in fen else fen.splitlines()[0].strip()
+        fen_line = fen.splitlines()[0].strip()
         if not FEN_RE.match(fen_line):
             raise ValueError(f"Invalid FEN: {fen_line}")
         color = "black" if orientation == "black" else "white"
-        src = (
-            "https://lichess.org/embed/board?"
-            + f"fen={quote_fen(fen_line)}&theme=brown&pieceSet=merida&color={color}"
-        )
+        src = lichess_analysis_embed_url(fen_line, color)
         cap = f"<figcaption>{html.escape(caption)}</figcaption>" if caption else ""
         return (
             f'<figure class="chess-diagram"><iframe title="Schaakdiagram" '
@@ -69,10 +67,20 @@ def parse_fen_block(body):
     return pattern.sub(repl, body)
 
 
-def quote_fen(fen):
-    from urllib.parse import quote
+def lichess_analysis_embed_url(fen_line, color="white"):
+    """Lichess iframe embed (see https://lichess.org/developers). FEN uses underscores."""
+    from urllib.parse import urlencode
 
-    return quote(fen, safe="")
+    fen_param = fen_line.strip().replace(" ", "_")
+    query = urlencode(
+        {
+            "fen": fen_param,
+            "color": color,
+            "theme": "brown",
+            "pieceSet": "merida",
+        }
+    )
+    return f"https://lichess.org/embed/analysis?{query}"
 
 
 IMG_RE = re.compile(r"<img\s+([^>]*?)>", re.IGNORECASE)
@@ -225,7 +233,7 @@ def main():
         except ValueError as error:
             print(error, file=sys.stderr)
             sys.exit(1)
-        write_if_changed(html_path, wrap_article(post["meta"], content_html))
+        write_if_changed(html_path, wrap_article(post["meta", content_html))
 
 
 if __name__ == "__main__":
