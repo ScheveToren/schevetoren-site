@@ -2,32 +2,176 @@
   "title": "Gedragsregels",
   "metaDescription": "Gedragsregels en integriteitsbeleid van Schaakvereniging De Scheve Toren.",
   "showBack": true,
-  "badge": "Voorlopige versie",
-  "introHtml": "Dit zijn de <strong>voorlopige gedragsregels</strong> van Schaakvereniging De Scheve Toren. Ze zijn gebaseerd op de gedragsregels van de Haagse Schaakbond en sluiten aan bij het integriteitsbeleid van de KNSB.",
+  "badge": "In ontwikkeling",
+  "introParagraphs": [
+    "Dit artikel is nog onder constructie. Tijdens de afgelopen Algemene Leden Vergadering is besloten om de gedragsregels van de HSB over te nemen. Dit artikel is dan ook een kopie van de gedragsregels van de HSB, waarbij HSB is vervangen door Scheve Toren waar dat op de club van toepassing is.",
+    "De Scheve Toren voldoet nog niet aan alle regels zoals beschreven in dit document."
+  ],
   "sections": [
     {
-      "heading": "Doel",
+      "heading": "1. Doel en uitgangspunten",
       "type": "paragraph",
-      "text": "Een veilige, sportieve en integere omgeving waarin iedereen met plezier kan schaken — in lijn met het integriteitsbeleid van NOC*NSF, de KNSB-gedragscode en de regeling Gratis VOG Sport."
+      "text": "De Scheve Toren streeft naar een veilige, sportieve en integere omgeving waarin iedereen met plezier aan de schaaksport kan deelnemen. Daarvoor heeft de Scheve Toren een aantal gedragsregels opgesteld die gelden voor bestuursleden van de Scheve Toren, vrijwilligers van de Scheve Toren en overige organisatorisch betrokkenen bij activiteiten van de Scheve Toren en volgt hierbij de uitgangspunten van het integriteitsbeleid van NOC*NSF, de Gedragscode van de Koninklijke Nederlandse Schaakbond (KNSB), en de Regeling Gratis VOG Sport."
     },
     {
-      "heading": "Kernregels (samenvatting)",
-      "type": "ordered_list",
+      "heading": "2. Definities",
+      "type": "paragraph",
+      "text": "In deze gedragsregels worden verschillende afkortingen en begrippen gebruikt. Deze zijn als volgt gedefinieerd:"
+    },
+    {
+      "heading": "",
+      "type": "definitions",
       "items": [
-        "<strong>Respect</strong> — tegenstanders, kader, bestuur en materiaal.",
-        "<strong>Beslissingen</strong> — geen agressie of denigrerende opmerkingen richting wedstrijdleiding of organisatie.",
-        "<strong>Geen discriminatie, pesten of intimidatie</strong> — online of op de club.",
-        "<strong>Jeugd &amp; VOG</strong> — trainers, begeleiders en bestuur met jeugdcontact hebben een geldige VOG waar vereist.",
-        "<strong>Media</strong> — foto’s op de clubsite/sociale media mogen tenzij bezwaar (ouders voor jeugd).",
-        "<strong>Melden</strong> — vertrouwenscontactpersonen (VCP) zijn aanspreekpunt; ernstige zaken via KNSB/ISR."
+        {
+          "term": "HSB",
+          "text": "Haagse Schaakbond, het regionale overkoepelende orgaan voor schaakverenigingen in de regio Den Haag, waaronder Delft, Westland en Zoetermeer, gericht op het stimuleren en bevorderen van de schaaksport. De HSB organiseert en/of ondersteunt schaakactiviteiten in de regio, waaronder competities, toernooien, trainingen en bijeenkomsten."
+        },
+        {
+          "term": "NOC*NSF",
+          "text": "Koepelorganisatie van de georganiseerde sport in Nederland."
+        },
+        {
+          "term": "KNSB",
+          "text": "Koninklijke Nederlandse Schaakbond, de landelijke overkoepelende organisatie ter bevordering van de schaaksport in heel Nederland."
+        },
+        {
+          "term": "Vrijwilligers",
+          "text": "Personen die uitsluitend namens de Scheve Toren betrokken zijn bij de uitvoering van schaakactiviteiten van de Scheve Toren waarbij sprake is van contact met jeugd of kwetsbare personen."
+        },
+        {
+          "term": "Grensoverschrijdend gedrag",
+          "text": "Gedrag dat een grens bij iemand overschrijdt en als vijandig, vernederend of intimiderend wordt ervaren (zoals geweld, discriminatie of machtsmisbruik). De ervaring van de sporter is hierbij leidend."
+        },
+        {
+          "term": "Functioneel lichamelijk contact",
+          "text": "Kernbegrippen: noodzakelijkheid (de aanraking dient een duidelijk doel); professionele distantie (het contact mag nooit een emotionele of seksuele lading hebben); transparantie (de handeling moet logisch en uitlegbaar zijn)."
+        },
+        {
+          "term": "Meldplicht",
+          "text": "Melding maken van (vermoedens van) grensoverschrijdend gedrag bij de VCP, de KNSB en het ISR. Geldt voor de bestuursleden en vrijwilligers van de Scheve Toren."
+        },
+        {
+          "term": "VCP",
+          "text": "Vertrouwenscontactpersoon. Een eerste aanspreekpunt voor vragen of meldingen over grensoverschrijdend gedrag."
+        },
+        {
+          "term": "ISR",
+          "text": "Instituut Sportrecht. Behandelt klachten vanuit de sport die kunnen leiden tot een rechtszaak."
+        }
       ]
     },
     {
-      "heading": "Handhaving",
+      "heading": "3. Algemeen gedrag",
+      "type": "paragraph",
+      "text": "Iedereen die namens de Scheve Toren actief is:"
+    },
+    {
+      "heading": "",
+      "type": "unordered_list",
+      "items": [
+        "Gedraagt zich respectvol tegenover anderen.",
+        "Reageert op beslissingen van wedstrijdleiding, organisatie of bestuur zonder agressie of denigrerende opmerkingen.",
+        "Communiceert opbouwend en eerlijk – verbaal, schriftelijk en online.",
+        "Voorkomt discriminatie, pesten, intimidatie of roddelvorming.",
+        "Let op eigen gedrag én spreekt anderen aan op grensoverschrijdend gedrag.",
+        "Respecteert eigendommen van de Scheve Toren en van anderen.",
+        "Houdt zich aan de regels van de KNSB en andere relevante organisaties."
+      ]
+    },
+    {
+      "heading": "4. Gedrag van bestuursleden en vrijwilligers van de Scheve Toren",
+      "type": "unordered_list",
+      "items": [
+        "Bestuursleden en vrijwilligers geven het goede voorbeeld in gedrag en communicatie.",
+        "Zij bewaken het beleid rondom sociale veiligheid en integriteit.",
+        "Vrijwilligers die met jeugd of kwetsbare personen werken, bezitten een geldige VOG*.",
+        "Bestuursleden en vrijwilligers respecteren de privacy van leden en gebruiken persoonsgegevens alleen voor organisatorische doeleinden.",
+        "Bij (vermoedens van) grensoverschrijdend gedrag geldt voor de bestuursleden en vrijwilligers een meldplicht conform KNSB- en NOC*NSF-richtlijnen bij de VCP, de KNSB, de HSB en het ISR.",
+        "Belangenverstrengeling (en ook de schijn van) van alle betrokkenen moet vermeden worden."
+      ]
+    },
+    {
+      "heading": "5. Gedrag van trainers/lesgevers van de Scheve Toren",
+      "type": "paragraph",
+      "text": "Naast de algemene regels geldt voor trainers en lesgevers namens de Scheve Toren specifiek:"
+    },
+    {
+      "heading": "",
+      "type": "unordered_list",
+      "items": [
+        "Een trainer/lesgever zorgt voor een veilige leeromgeving waarin iedereen zich kan ontwikkelen.",
+        "Hij/zij maakt duidelijke afspraken over omgangsvormen en grenzen.",
+        "Lichamelijk contact van trainers/lesgevers is uitsluitend functioneel en gepast.",
+        "Er zijn geen privécontacten van trainers/lesgevers met jeugdleden buiten het georganiseerde verband zonder toestemming van ouders/verzorgers.",
+        "Digitale communicatie van trainers/lesgevers met jeugdleden verloopt via officiële clubkanalen of onder ouderlijk toezicht.",
+        "Een trainer/lesgever meldt (vermoedens van) grensoverschrijdend gedrag direct bij de VCP, de KNSB, de HSB en het ISR."
+      ]
+    },
+    {
+      "heading": "6. Gedrag van deelnemers, begeleiders en begeleidende ouders",
+      "type": "unordered_list",
+      "items": [
+        "Deelnemers tonen sportiviteit, respect en eerlijkheid tegenover tegenstanders, arbiters en begeleiders.",
+        "Begeleidende ouders en begeleiders gedragen zich ondersteunend en positief. Zij zijn geen onderdeel van de partij en gedragen zich ook naar die rol.",
+        "Lichamelijk contact van begeleiders is uitsluitend functioneel en gepast.",
+        "Er zijn geen privécontacten van begeleiders met jeugdleden buiten het georganiseerde verband zonder toestemming van ouders/verzorgers.",
+        "Digitale communicatie van begeleiders met jeugdleden verloopt via officiële clubkanalen of onder ouderlijk toezicht.",
+        "Verbaal of fysiek grensoverschrijdend gedrag wordt niet getolereerd.",
+        "Gebruik van alcohol, drugs of tabak tijdens evenementen voor jeugd (t/m 20 jaar) is niet toegestaan. Dit geldt ook voor oudere aanwezigen. Bij alle evenementen (ook die voor alle leeftijden) is voor jeugd (t/m 18 jaar) gebruik van alcohol, drugs of tabak niet toegestaan.",
+        "Bij klachten of vragen over het gedrag van deelnemers of begeleiders kan in eerste instantie contact worden opgenomen met de VCP."
+      ]
+    },
+    {
+      "heading": "7. Vertrouwenspersoon",
+      "type": "unordered_list",
+      "items": [
+        "De Scheve Toren heeft een vertrouwenscommissie ingesteld* waarvan de leden individueel, of de commissie als geheel, aangesproken kunnen worden als vertrouwenscontactpersoon (VCP).",
+        "De VCP is onafhankelijk en maakt geen deel uit van het Scheve Toren-bestuur.",
+        "De VCP kan meldingen, vragen of zorgen over gedrag, veiligheid of integriteit aanhoren maar doet zelf geen onderzoek ernaar. De VCP heeft een doorverwijsfunctie voor melders en een adviesfunctie voor preventie.",
+        "Meldingen worden vertrouwelijk behandeld en leiden waar nodig tot actie of melding bij de HSB, KNSB of het ISR."
+      ]
+    },
+    {
+      "heading": "8. Gebruik van (sociale) media",
+      "type": "unordered_list",
+      "items": [
+        "Bij deelname aan evenementen georganiseerd door de Scheve Toren wordt ervan uitgegaan dat de deelnemers en alle aanwezigen toestemming geven voor het maken en publiceren van foto’s en berichten op de Scheve Toren-website en andere sociale media. Indien achteraf bezwaar wordt gemaakt, zullen deze foto’s en berichten zo snel mogelijk verwijderd worden. Voor jeugdleden kan dit verzoek door een ouder of wettelijke vertegenwoordiger gedaan worden. De naam van de deelnemer zal in de uitslag blijven staan.",
+        "Online gedrag van vrijwilligers en bestuursleden van de Scheve Toren dient in lijn te zijn met de waarden van sportiviteit en respect.",
+        "Het gebruik van (sociale) media om anderen te kleineren, te beledigen of uit te sluiten is verboden."
+      ]
+    },
+    {
+      "heading": "9. Handhaving en sancties",
       "type": "paragraphs",
       "texts": [
-        "Het bestuur kan na overleg waarschuwen, schorsen of samenwerking beëindigen en melding doen bij de KNSB.",
-        "Vragen of opmerkingen? Neem contact op met het bestuur of de vertrouwenscontactpersonen (VCP)."
+        "Bij overtreding van de gedragsregels kan het Scheve Toren-bestuur na contact met de VCP en eventuele andere betrokkenen maatregelen treffen, waaronder:"
+      ]
+    },
+    {
+      "heading": "",
+      "type": "unordered_list",
+      "items": [
+        "een waarschuwing;",
+        "schorsing van deelname aan activiteiten;",
+        "tijdelijke of definitieve ontzegging van functies of samenwerking;",
+        "melding bij de KNSB of andere relevante instanties."
+      ]
+    },
+    {
+      "heading": "10. Verklaring Omtrent het Gedrag (VOG)",
+      "type": "unordered_list",
+      "items": [
+        "Voor vrijwilligers van de Scheve Toren zoals trainers, begeleiders, jeugdcoördinatoren, vertrouwenspersonen en bestuursleden waarbij sprake is van contact met jeugd of kwetsbare personen is een VOG verplicht*.",
+        "De Scheve Toren maakt gebruik van het Gratis VOG-beleid via NOC*NSF.",
+        "Daarnaast ontvangt iedere vrijwilliger of bestuurslid van de Scheve Toren informatie over de gedragsregels. De vrijwilliger of het bestuurslid van de Scheve Toren verklaart deze informatie te hebben gelezen en na te leven."
+      ]
+    },
+    {
+      "heading": "11. Slotbepalingen",
+      "type": "paragraphs",
+      "texts": [
+        "Deze gedragsregels worden jaarlijks geëvalueerd door het Scheve Toren-bestuur. De evaluatie en eventuele wijzigingen worden besproken tijdens de algemene ledenvergadering.",
+        "Door het uitvoeren van of deelname aan schaakactiviteiten verklaren vrijwilligers en bestuursleden van de Scheve Toren zich akkoord met deze gedragsregels."
       ]
     }
   ]
