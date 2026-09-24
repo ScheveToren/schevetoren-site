@@ -93,6 +93,9 @@
 .news-card time { color: var(--muted); font-size: .82rem; }
 .article-body { line-height: 1.65; }
 .article-body h2, .article-body h3 { margin-top: 1.4rem; }
+.article-body dl.def-list { margin: 0 0 1rem; }
+.article-body dl.def-list dt { margin-top: .85rem; }
+.article-body dl.def-list dd { margin: .35rem 0 0 1rem; color: var(--text); }
 .chess-diagram {
   margin: 1.25rem 0;
   max-width: 420px;
