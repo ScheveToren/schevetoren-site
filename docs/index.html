@@ -45,7 +45,7 @@
       </div>
       <div id="calendarLegend"></div>
       <div id="calendarUpcoming"></div>
-      <p class="meta calendar-ics"><a href="./kalender/scheve-toren-2026-2027.ics">Abonneren in agenda (.ics)</a> · <a id="calendarWebcal" href="./kalender/scheve-toren-2026-2027.ics">webcal</a></p>
+      <p class="meta calendar-ics"><a data-ics-link href="./kalender/scheve-toren-2026-2027.ics">Abonneren in agenda (.ics)</a> · <a id="calendarWebcal" href="./kalender/scheve-toren-2026-2027.ics">webcal</a></p>
     </section>
   </div>
 </main>
@@ -54,12 +54,9 @@
 <script src="./assets/site.js?v=20260924"></script>
 <script src="./assets/news.js?v=20260924"></script>
 <script src="./assets/calendar.js?v=20260924"></script>
+<script src="./assets/calendar-feed.js?v=20260924-cms"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const webcal = document.getElementById("calendarWebcal");
-  if (webcal && window.SCHEVETOREN_CONFIG?.getWebcalUrl) {
-    webcal.href = window.SCHEVETOREN_CONFIG.getWebcalUrl();
-  }
   window.ScheveTorenNews?.mountNewsList({ limit: 8 });
   window.ScheveTorenCalendar?.mountCalendar({ upcomingLimit: 5 });
 });

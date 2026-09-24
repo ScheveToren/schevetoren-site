@@ -1,0 +1,34 @@
+{
+  "title": "Gedragsregels",
+  "metaDescription": "Gedragsregels en integriteitsbeleid van Schaakvereniging De Scheve Toren.",
+  "showBack": true,
+  "badge": "Voorlopige versie",
+  "introHtml": "Dit zijn de <strong>voorlopige gedragsregels</strong> van Schaakvereniging De Scheve Toren. Ze zijn gebaseerd op de gedragsregels van de Haagse Schaakbond en sluiten aan bij het integriteitsbeleid van de KNSB.",
+  "sections": [
+    {
+      "heading": "Doel",
+      "type": "paragraph",
+      "text": "Een veilige, sportieve en integere omgeving waarin iedereen met plezier kan schaken — in lijn met het integriteitsbeleid van NOC*NSF, de KNSB-gedragscode en de regeling Gratis VOG Sport."
+    },
+    {
+      "heading": "Kernregels (samenvatting)",
+      "type": "ordered_list",
+      "items": [
+        "<strong>Respect</strong> — tegenstanders, kader, bestuur en materiaal.",
+        "<strong>Beslissingen</strong> — geen agressie of denigrerende opmerkingen richting wedstrijdleiding of organisatie.",
+        "<strong>Geen discriminatie, pesten of intimidatie</strong> — online of op de club.",
+        "<strong>Jeugd &amp; VOG</strong> — trainers, begeleiders en bestuur met jeugdcontact hebben een geldige VOG waar vereist.",
+        "<strong>Media</strong> — foto’s op de clubsite/sociale media mogen tenzij bezwaar (ouders voor jeugd).",
+        "<strong>Melden</strong> — vertrouwenscontactpersonen (VCP) zijn aanspreekpunt; ernstige zaken via KNSB/ISR."
+      ]
+    },
+    {
+      "heading": "Handhaving",
+      "type": "paragraphs",
+      "texts": [
+        "Het bestuur kan na overleg waarschuwen, schorsen of samenwerking beëindigen en melding doen bij de KNSB.",
+        "Vragen of opmerkingen? Neem contact op met het bestuur of de vertrouwenscontactpersonen (VCP)."
+      ]
+    }
+  ]
+}

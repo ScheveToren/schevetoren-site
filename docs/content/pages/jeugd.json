@@ -1,0 +1,31 @@
+{
+  "title": "Jeugd",
+  "metaDescription": "Jeugdschaak bij De Scheve Toren: lestijden, Grand Prix en clubavond.",
+  "i18nTitleKey": "nav.youth",
+  "showBack": true,
+  "intro": {
+    "paragraph": "Op vrijdagavond in het Denksporthuis. Jeugd krijgt een half uur les gevolgd door een half uur competitie.",
+    "schedule": [
+      { "label": "Jeugd stap 1", "time": "start 18:45" },
+      { "label": "Jeugd stap 2 en 3", "time": "start 19:15" },
+      { "label": "Jeugd stap 4 en hoger", "time": "start 19:45" }
+    ],
+    "callout": "Partijen met jeugd of op afspraak: **40 minuten per speler + 10 seconden increment** (ca. 20:00–21:30)."
+  },
+  "gpTable": {
+    "heading": "Grand Prix kalender (jeugdtoernooien)",
+    "columns": ["GP", "Datum", "Vereniging", "Tijden", "Plaats"],
+    "rows": [
+      ["GP1", "zo 11 okt 2026", "Botwinnik", "13:00 – 17:00", "Zoetermeer"],
+      ["GP2", "za 7 nov 2026", "SHTV", "9:30 – 18:00", "Den Haag"],
+      ["GP3", "zo 29 nov 2026", "Promotie", "9:30 – 18:00", "Zoetermeer"],
+      ["GP4", "za 16 jan 2027", "Scheve Toren", "9:30 – 18:00", "Pijnacker"],
+      ["GP5", "za 20 feb 2027", "Schaakmat", "13:00 – 17:00", "Naaldwijk"],
+      ["GP6", "za 20 mrt 2027", "Haeghe Ooievaar", "9:30 – 18:00", "Den Haag"],
+      ["GP7", "za 24 apr 2027", "Lierse", "13:00 – 17:00", "De Lier"],
+      ["GP8", "zo 23 mei 2027", "DSC", "9:30 – 18:00", "Delft"],
+      ["GP9", "za 12 jun 2027", "Rijswijk", "9:30 – 18:00", "Rijswijk"]
+    ],
+    "footnoteHtml": "Contributie jeugdleden seizoen 2026/2027: €85 (zie ook <a href=\"./nieuws/berichten/algemene-informatie-seizoen-2026-2027.html\">algemene seizoensinformatie</a>)."
+  }
+}
