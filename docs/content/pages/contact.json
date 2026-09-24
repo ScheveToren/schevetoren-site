@@ -1,0 +1,33 @@
+{
+  "title": "Contact",
+  "metaDescription": "Contact en route naar Schaakvereniging De Scheve Toren.",
+  "i18nTitleKey": "nav.contact",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Voor vragen over lidmaatschap, uitnodigingscodes of de website kun je contact opnemen met het bestuur via de clubkanalen."
+    },
+    {
+      "type": "labeled",
+      "label": "Locatie",
+      "html": "Het Denksporthuis, Thorbeckelaan 82A, 2641 WD Pijnacker.<br>\n    Parkeren achter het gebouw (onder het afdak voor de ingang)."
+    },
+    {
+      "type": "labeled",
+      "label": "Clubavond",
+      "text": "vrijdag; senioren vanaf 20:00."
+    },
+    {
+      "type": "link",
+      "label": "Speelkalender",
+      "href": "./kalender.html",
+      "text": "Kalender op de site"
+    },
+    {
+      "type": "link",
+      "label": "Gedragsregels",
+      "href": "./gedragsregels.html",
+      "text": "Gedragsregels Scheve Toren"
+    }
+  ]
+}

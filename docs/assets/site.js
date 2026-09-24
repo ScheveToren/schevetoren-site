@@ -73,7 +73,7 @@
     if (!mount) return;
     mount.className = "site-footer";
     mount.innerHTML = `<p data-i18n="footer.copy">${t("footer.copy")}</p>
-      <p class="site-footer-links"><a href="./gedragsregels.html">Gedragsregels</a></p>`;
+      <p class="site-footer-links"><a href="./gedragsregels.html">Gedragsregels</a> · <a href="./beheer.html">Beheer</a></p>`;
   }
 
   function injectJsonLd() {
