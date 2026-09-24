@@ -4,7 +4,7 @@ const SEASON = [
   ["2026-08-28", "ALV", "event"], ["2026-09-04", "Speeldag 1", "regular"],
   ["2026-09-11", "Speeldag 2", "regular"], ["2026-09-18", "Speeldag 3", "regular"],
   ["2026-09-25", "Speeldag 4", "regular"], ["2026-10-02", "Speeldag 5", "regular"],
-  ["2026-09-09", "Speeldag 6", "regular"], ["2026-10-16", "Rapid 1", "rapid"],
+  ["2026-10-09", "Speeldag 6", "regular"], ["2026-10-16", "Rapid 1", "rapid"],
   ["2026-10-30", "Rapid 2", "rapid"], ["2026-11-06", "Speeldag 7", "regular"],
   ["2026-11-13", "Schaak-Off", "regular"], ["2026-11-20", "Speeldag 8", "regular"],
   ["2026-11-27", "Speeldag 9", "regular"], ["2026-12-04", "Speeldag 10", "regular"],
