@@ -37,13 +37,14 @@ jobs:
           python3 scripts/generate-seasons-index.py
           python3 scripts/generate-calendar-ics.py
           python3 scripts/generate-posts-index.py
+          python3 scripts/generate-site-pages.py
           python3 scripts/generate-seo-files.py
 
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/seizoenen.html docs/HuidigSeizoen/index.html docs/kalender docs/nieuws docs/sitemap.xml docs/robots.txt || true
+          git add docs/seizoenen.html docs/HuidigSeizoen/index.html docs/kalender docs/nieuws docs/contact.html docs/jeugd.html docs/gedragsregels.html docs/sitemap.xml docs/robots.txt || true
           if ! git diff --staged --quiet; then
             git commit -m "Automated: update generated site files"
             git push -u origin main
