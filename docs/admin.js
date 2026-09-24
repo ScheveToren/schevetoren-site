@@ -83,7 +83,9 @@ async function post(payload) {
     redirect: "follow"
   });
   const data = await response.json();
-  if (!response.ok || data.ok === false) throw Error(data.error || `API ${response.status}`);
+  if (!response.ok || data.ok === false) {
+    throw Error(data.message || data.error || `API ${response.status}`);
+  }
   return data;
 }
 
@@ -124,11 +126,16 @@ async function save() {
       if (!byPlayer.has(playerName)) byPlayer.set(playerName, []);
       byPlayer.get(playerName).push({ date: select.dataset.date, status: select.value, note: "" });
     });
+    let totalRecords = 0;
     for (const [playerName, rows] of byPlayer) {
-      await post({ action: "save-attendance", player: playerName, rows });
+      const result = await post({ action: "save-attendance", player: playerName, rows });
+      if (!result.records) {
+        throw Error(result.message || result.error || `Geen rijen opgeslagen voor ${playerName}`);
+      }
+      totalRecords += result.records;
     }
     await load();
-    setStatus("Wijzigingen opgeslagen.");
+    setStatus(`Wijzigingen opgeslagen (${totalRecords} rijen in totaal).`);
   } catch (error) {
     setStatus(`Opslaan mislukt: ${error.message}`, false);
   } finally {
