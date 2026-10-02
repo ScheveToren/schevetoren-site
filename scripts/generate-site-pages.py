@@ -2,7 +2,6 @@
 """Generate static HTML club pages from docs/content/pages/*.json"""
 import html
 import json
-import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
