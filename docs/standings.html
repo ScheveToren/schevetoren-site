@@ -100,14 +100,26 @@
 <script src="./config.js?v=20260924-cms"></script>
 <script src="./assets/site.js?v=20260924-cms"></script>
 <script>
+  function applyTab(target) {
+    document.querySelectorAll('.tab').forEach((button) => {
+      button.classList.toggle('active', button.dataset.target === target);
+    });
+    document.querySelectorAll('.standings-panel').forEach((panel) => {
+      panel.classList.toggle('active', panel.id === target);
+    });
+  }
+
   document.querySelectorAll('.tab').forEach((button) => {
     button.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach((b) => b.classList.toggle('active', b === button));
-      document.querySelectorAll('.standings-panel').forEach((panel) => {
-        panel.classList.toggle('active', panel.id === button.dataset.target);
-      });
+      applyTab(button.dataset.target);
     });
   });
+
+  const params = new URLSearchParams(window.location.search);
+  const requestedTab = params.get('tab');
+  if (requestedTab === 'jeugd' || requestedTab === 'senioren') {
+    applyTab(requestedTab);
+  }
 </script>
 </body>
 </html>
