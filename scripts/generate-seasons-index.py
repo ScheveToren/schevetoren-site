@@ -52,7 +52,7 @@ def build_seizoenen_html(seasons):
     <a class="button secondary" href="./index.html" data-i18n="nav.back">← Terug</a>
   </header>
   <section class="panel intro-panel">
-    <p class="meta">Kies een seizoen. <a href="./HuidigSeizoen/">Huidig seizoen</a> gaat naar de actuele stand.</p>
+    <p class="meta">Kies een seizoen. <a href="./standings.html">Huidig seizoen</a> gaat naar de actuele stand.</p>
     <ul class="seasons">
 {list_html}
     </ul>
@@ -72,16 +72,17 @@ def build_huidig_html(target_season):
         # fallback explanatory page
         html = """<!doctype html><html lang="nl"><head><meta charset="utf-8"/><title>Huidig Seizoen</title></head><body><h1>Huidig Seizoen</h1><p>Er is momenteel geen actief seizoen ingesteld.</p></body></html>"""
         return html
-    target_url = f"../{target_season}/"
+    # Keep HuidigSeizoen as a stable entry point into the combined standings page.
+    target_url = "../standings.html"
     html = f"""<!doctype html>
 <html lang="nl">
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="refresh" content="0;url={target_url}" />
-  <title>Redirecting to {target_season}</title>
+  <title>Redirecting to standings</title>
 </head>
 <body>
-  <p>Redirecting to <a href="{target_url}">{target_season}</a></p>
+  <p>Redirecting to <a href="{target_url}">uitslagen</a> ({target_season}).</p>
 </body>
 </html>
 """

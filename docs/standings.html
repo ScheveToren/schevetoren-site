@@ -5,64 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Uitslagen — De Scheve Toren</title>
   <meta name="description" content="Senioren- en jeugdstandings van De Scheve Toren.">
-  <link rel="stylesheet" href="./assets/site.css?v=20260924-cms">
-  <style>
-    .standings-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .5rem;
-      margin: 1rem 0 1.25rem;
-    }
-    .standings-tabs button {
-      border: 1px solid var(--border, #dfe6ee);
-      background: #fff;
-      color: var(--text, #1d2b3a);
-      border-radius: 999px;
-      padding: .55rem .9rem;
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .standings-tabs button.active {
-      background: var(--primary, #2e6bff);
-      color: #fff;
-      border-color: var(--primary, #2e6bff);
-    }
-    .standings-panel {
-      display: none;
-    }
-    .standings-panel.active {
-      display: block;
-    }
-    .season-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .5rem;
-      margin: 0 0 1rem;
-      padding: 0;
-      list-style: none;
-    }
-    .season-links a {
-      display: inline-block;
-      padding: .45rem .7rem;
-      border-radius: 999px;
-      background: #f3f6fb;
-      color: var(--primary-dark, #183b73);
-      text-decoration: none;
-      font-weight: 700;
-    }
-    .season-links a:hover {
-      background: #e8f0ff;
-    }
-    .standings-frame {
-      width: 100%;
-      min-height: 1200px;
-      border: 1px solid var(--border, #dfe6ee);
-      border-radius: 12px;
-      background: #fff;
-      border: 1px solid #dfe6ee;
-    }
-  </style>
+  <link rel="stylesheet" href="./assets/site.css?v=20261002-standings">
 </head>
 <body>
 <div id="site-header"></div>
@@ -79,19 +22,19 @@
     </div>
 
     <div id="senioren" class="standings-panel active">
-      <ul class="season-links">
-        <li><a href="./2026-2027/" target="senior-frame">2026-2027</a></li>
-        <li><a href="./2025-2026/" target="senior-frame">2025-2026</a></li>
+      <ul class="season-links" data-frame="senior-frame">
+        <li><a href="./2026-2027/" class="active">2026-2027</a></li>
+        <li><a href="./2025-2026/">2025-2026</a></li>
       </ul>
-      <iframe class="standings-frame" name="senior-frame" id="senior-frame" src="./2026-2027/" title="Senioren standings"></iframe>
+      <div class="standings-content" id="senior-frame" data-default="./2026-2027/" aria-live="polite"></div>
     </div>
 
     <div id="jeugd" class="standings-panel">
-      <ul class="season-links">
-        <li><a href="./jeugd/2026-2027/" target="jeugd-frame">2026-2027</a></li>
-        <li><a href="./jeugd/2025-2026/" target="jeugd-frame">2025-2026</a></li>
+      <ul class="season-links" data-frame="jeugd-frame">
+        <li><a href="./jeugd/2026-2027/" class="active">2026-2027</a></li>
+        <li><a href="./jeugd/2025-2026/">2025-2026</a></li>
       </ul>
-      <iframe class="standings-frame" name="jeugd-frame" id="jeugd-frame" src="./jeugd/2026-2027/" title="Jeugd standings"></iframe>
+      <div class="standings-content" id="jeugd-frame" data-default="./jeugd/2026-2027/" aria-live="polite"></div>
     </div>
   </section>
 </main>
@@ -99,8 +42,10 @@
 <script src="./config.js?v=20260924-cms"></script>
 <script src="./assets/site.js?v=20260924-cms"></script>
 <script>
+  const loaded = {};
+
   function applyTab(target) {
-    document.querySelectorAll('.tab').forEach((button) => {
+    document.querySelectorAll('.standings-tabs .tab').forEach((button) => {
       button.classList.toggle('active', button.dataset.target === target);
     });
     document.querySelectorAll('.standings-panel').forEach((panel) => {
@@ -108,15 +53,115 @@
     });
   }
 
-  document.querySelectorAll('.tab').forEach((button) => {
+  function markActiveSeason(frameId, url) {
+    const list = document.querySelector(`.season-links[data-frame="${frameId}"]`);
+    if (!list) return;
+    const absolute = new URL(url, window.location.href).href;
+    list.querySelectorAll('a').forEach((link) => {
+      const href = new URL(link.getAttribute('href'), window.location.href).href;
+      link.classList.toggle('active', href === absolute || absolute.startsWith(href));
+    });
+  }
+
+  function rewriteAssetUrls(root, baseUrl) {
+    root.querySelectorAll('[href], [src]').forEach((el) => {
+      ['href', 'src'].forEach((attr) => {
+        const value = el.getAttribute(attr);
+        if (!value || value.startsWith('#') || value.startsWith('data:') || value.startsWith('mailto:') || value.startsWith('javascript:')) {
+          return;
+        }
+        try {
+          el.setAttribute(attr, new URL(value, baseUrl).href);
+        } catch (_) {}
+      });
+    });
+  }
+
+  function collectBodyNodes(doc) {
+    const nodes = [];
+    for (const node of Array.from(doc.body.childNodes)) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const tag = node.tagName;
+        if (tag === 'STYLE') continue;
+        if (tag === 'LINK' && (node.getAttribute('rel') || '').toLowerCase() === 'stylesheet') continue;
+        if (tag === 'SCRIPT') continue;
+      }
+      nodes.push(node.cloneNode(true));
+    }
+    return nodes;
+  }
+
+  async function resolveSeasonDocument(url, depth = 0) {
+    const response = await fetch(url, { cache: 'no-store' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const html = await response.text();
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const baseUrl = new URL(url, window.location.href);
+
+    if (depth < 2) {
+      const elements = Array.from(doc.body.children).filter((el) => el.tagName !== 'SCRIPT');
+      if (elements.length === 1 && elements[0].tagName === 'IFRAME') {
+        const src = elements[0].getAttribute('src');
+        if (src) {
+          return resolveSeasonDocument(new URL(src, baseUrl).href, depth + 1);
+        }
+      }
+    }
+
+    return { doc, baseUrl: baseUrl.href };
+  }
+
+  async function loadSeasonPanel(frameId, url) {
+    const container = document.getElementById(frameId);
+    if (!container) return;
+
+    container.innerHTML = '<p class="api-status">Laden…</p>';
+    markActiveSeason(frameId, url);
+
+    try {
+      const { doc, baseUrl } = await resolveSeasonDocument(url);
+      const nodes = collectBodyNodes(doc);
+      container.innerHTML = '';
+      nodes.forEach((node) => container.appendChild(node));
+
+      container.querySelectorAll('style').forEach((style) => style.remove());
+      container.querySelectorAll('link[rel="stylesheet"]').forEach((link) => link.remove());
+      rewriteAssetUrls(container, baseUrl);
+
+      container.querySelectorAll('a[href]').forEach((anchor) => {
+        anchor.addEventListener('click', (event) => {
+          const href = anchor.getAttribute('href');
+          if (!href || href.startsWith('#') || href.startsWith('mailto:')) return;
+          let absolute;
+          try {
+            absolute = new URL(href, baseUrl);
+          } catch (_) {
+            return;
+          }
+          if (absolute.origin !== window.location.origin) return;
+          event.preventDefault();
+          loadSeasonPanel(frameId, absolute.href);
+        });
+      });
+
+      loaded[frameId] = url;
+    } catch (error) {
+      container.innerHTML = '<p class="api-status error">Kon de standings niet laden. Controleer of dit seizoen al gepubliceerd is.</p>';
+    }
+  }
+
+  function ensurePanelLoaded(target) {
+    const frameId = target === 'jeugd' ? 'jeugd-frame' : 'senior-frame';
+    const frame = document.getElementById(frameId);
+    if (!frame || loaded[frameId]) return;
+    loadSeasonPanel(frameId, frame.dataset.default);
+  }
+
+  document.querySelectorAll('.standings-tabs .tab').forEach((button) => {
     button.addEventListener('click', () => {
       const target = button.dataset.target;
       applyTab(target);
-      const frameId = target === 'jeugd' ? 'jeugd-frame' : 'senior-frame';
-      const iframe = document.getElementById(frameId);
-      if (!iframe.src || iframe.src === window.location.href || iframe.src.endsWith('#')) {
-        iframe.src = target === 'jeugd' ? './jeugd/2026-2027/' : './2026-2027/';
-      }
+      ensurePanelLoaded(target);
     });
   });
 
@@ -124,17 +169,18 @@
     link.addEventListener('click', (event) => {
       event.preventDefault();
       const href = link.getAttribute('href');
-      const targetId = link.getAttribute('target');
-      const iframe = document.getElementById(targetId);
-      if (iframe) iframe.src = href;
-      const tab = targetId === 'jeugd-frame' ? 'jeugd' : 'senioren';
+      const list = link.closest('.season-links');
+      const frameId = list?.dataset.frame;
+      const tab = frameId === 'jeugd-frame' ? 'jeugd' : 'senioren';
       applyTab(tab);
+      if (frameId) loadSeasonPanel(frameId, href);
     });
   });
 
   const params = new URLSearchParams(window.location.search);
   const tab = params.get('tab') === 'jeugd' ? 'jeugd' : 'senioren';
   applyTab(tab);
+  ensurePanelLoaded(tab);
 </script>
 </body>
 </html>
