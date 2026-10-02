@@ -88,6 +88,25 @@ def write_jeugd(data):
         "        <tr>" + "".join(f"<td>{esc(cell)}</td>" for cell in row) + "</tr>" for row in rows
     )
     foot = gp.get("footnoteHtml", "")
+
+    standings = data.get("standings") or {}
+    standings_links = standings.get("links") or []
+    standings_li = "\n".join(
+        f'      <li><a href="{esc(link.get("href", "./standings.html"))}">{esc(link.get("text", link.get("label", "Uitslagen")))}</a></li>'
+        for link in standings_links
+    )
+    standings_block = ""
+    if standings_li:
+        heading = esc(standings.get("heading", "Uitslagen"))
+        standings_block = f"""
+  <section class="panel">
+    <h2>{heading}</h2>
+    <ul>
+{standings_li}
+    </ul>
+  </section>
+"""
+
     return f"""<!doctype html>
 <!-- Generated from docs/content/pages/jeugd.json — do not edit by hand -->
 <html lang="nl">
@@ -124,6 +143,7 @@ def write_jeugd(data):
     </table>
     <p class="meta">{foot}</p>
   </section>
+{standings_block}
 </main>
 <div id="site-footer"></div>
 <script src="./config.js?v={CSS_V}"></script>
