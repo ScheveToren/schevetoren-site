@@ -312,38 +312,252 @@ figure.post-image { margin: 1rem 0; }
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 1rem;
-}
-.standings-content table {
-  border-collapse: collapse;
-  width: max-content;
-  min-width: 100%;
+  padding: 1rem 1.1rem 1.25rem;
   font: inherit;
-  font-size: .88rem;
-  color: inherit;
-  background: #fff;
-}
-.standings-content th,
-.standings-content td {
-  border: 1px solid var(--border);
-  padding: .4rem .55rem;
-  text-align: left;
-  vertical-align: top;
-}
-.standings-content th {
-  background: #faf6f0;
-  font-weight: 700;
+  font-size: .9rem;
+  color: var(--text);
 }
 .standings-content a {
   color: var(--primary-dark);
   font-weight: 650;
+  text-decoration: none;
 }
+.standings-content a:hover { text-decoration: underline; }
 .standings-content img { max-width: 100%; height: auto; }
 .standings-content iframe {
   width: 100%;
   min-height: 70vh;
   border: 0;
 }
+.standings-content br { display: none; }
+
+/* Reset Sevilla layout tables — no box-in-box borders */
+.standings-content table {
+  border-collapse: collapse;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  width: auto;
+  max-width: 100%;
+}
+.standings-content th,
+.standings-content td {
+  border: 0;
+  padding: 0;
+  vertical-align: top;
+  text-align: left;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+}
+.standings-content #HeaderTable,
+.standings-content #RoundPage,
+.standings-content #RankingPage,
+.standings-content #ProgressPage,
+.standings-content #PlayerPage,
+.standings-content #XRefPage,
+.standings-content #GameFilePage,
+.standings-content table.MainTitle,
+.standings-content table.MenuTable,
+.standings-content td.MainTable {
+  width: 100%;
+}
+.standings-content tr.MainTable > td.MainTable:first-child {
+  width: 12.5rem;
+  min-width: 10rem;
+  padding-right: 1.25rem;
+}
+.standings-content tr.MainTable > td.MainTable:last-child:not(:first-child) {
+  width: auto;
+}
+
+/* Title block */
+.standings-content .MainTitle {
+  width: 100%;
+  margin: 0 0 .85rem;
+}
+.standings-content .MainTitleRow td {
+  border: 0;
+  padding: .1rem 0;
+  background: transparent;
+  color: var(--primary-dark);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -.01em;
+}
+.standings-content .MainTitleRow + .MainTitleRow td {
+  color: var(--muted);
+  font-weight: 650;
+  font-size: .95rem;
+}
+.standings-content .SingleLineTitle,
+.standings-content .SingleLineRow td {
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+/* Competition meta */
+.standings-content .CompInfoTable {
+  width: 100%;
+  max-width: 36rem;
+  margin: 0 0 1.1rem;
+  font-size: .82rem;
+}
+.standings-content .CompInfoTable td {
+  padding: .28rem .55rem .28rem 0;
+  border: 0;
+}
+.standings-content .CompInfoTable td:nth-child(odd) {
+  color: var(--muted);
+  font-weight: 650;
+  white-space: nowrap;
+  width: 6.5rem;
+}
+.standings-content .CompInfoTable td:nth-child(even) {
+  color: var(--text);
+  padding-right: 1.25rem;
+}
+.standings-content .CompInfoTable td:nth-child(even):empty {
+  opacity: .35;
+}
+.standings-content .CompInfoTable td:nth-child(even):empty::after {
+  content: "—";
+  color: var(--muted);
+}
+
+/* Side menu */
+.standings-content .MenuTable {
+  width: 100%;
+  margin: 0;
+}
+.standings-content .MenuTable td {
+  padding: 0;
+}
+.standings-content .MenuTable ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.standings-content .MenuTable ul ul {
+  margin: .2rem 0 .45rem;
+  padding-left: .75rem;
+  border-left: 2px solid var(--border);
+}
+.standings-content .MenuTable li {
+  margin: .15rem 0;
+  line-height: 1.35;
+}
+.standings-content .MenuGroupName {
+  display: block;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: .35rem;
+}
+.standings-content .MenuTable a {
+  display: inline-block;
+  padding: .15rem 0;
+  color: var(--primary-dark);
+  font-weight: 650;
+}
+
+.standings-content .RankColumns,
+.standings-content .RankColumn {
+  width: 100%;
+  border: 0;
+  background: transparent;
+}
+.standings-content .PlayerListTable,
+.standings-content .RankingTable,
+.standings-content .XRefTable,
+.standings-content .PlayerDataTable,
+.standings-content .GameTable {
+  width: max-content;
+  min-width: 100%;
+  margin: 0 0 1rem;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.standings-content .GameListTable th,
+.standings-content .GameListTable td,
+.standings-content .PlayerListTable th,
+.standings-content .PlayerListTable td,
+.standings-content .RankingTable th,
+.standings-content .RankingTable td,
+.standings-content .XRefTable th,
+.standings-content .XRefTable td,
+.standings-content .PlayerDataTable th,
+.standings-content .PlayerDataTable td,
+.standings-content .GameTable th,
+.standings-content .GameTable td {
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  padding: .4rem .55rem;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.standings-content .GameListTable tr > *:last-child,
+.standings-content .PlayerListTable tr > *:last-child,
+.standings-content .RankingTable tr > *:last-child,
+.standings-content .XRefTable tr > *:last-child,
+.standings-content .PlayerDataTable tr > *:last-child,
+.standings-content .GameTable tr > *:last-child {
+  border-right: 0;
+}
+.standings-content .GameListTable tr:last-child > *,
+.standings-content .PlayerListTable tr:last-child > *,
+.standings-content .RankingTable tr:last-child > *,
+.standings-content .XRefTable tr:last-child > *,
+.standings-content .PlayerDataTable tr:last-child > *,
+.standings-content .GameTable tr:last-child > * {
+  border-bottom: 0;
+}
+.standings-content .GameListHeader td,
+.standings-content .PlayerListHeader td,
+.standings-content .RankingHeader td,
+.standings-content .XRefHeader,
+.standings-content .XRefHeader td,
+.standings-content .PlayerDataHeader td,
+.standings-content .PlayerListTitle,
+.standings-content .PlayerListTitle td,
+.standings-content .RankingTitle,
+.standings-content .RankingTitle td {
+  background: #faf6f0;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+.standings-content .GameListOddLine td,
+.standings-content .PlayerListOddLine td,
+.standings-content .RankingOddLine td,
+.standings-content .XRefOddLine td {
+  background: #fff;
+}
+.standings-content .GameListEvenLine td,
+.standings-content .PlayerListEvenLine td,
+.standings-content .RankingEvenLine td,
+.standings-content .XRefEvenLine td {
+  background: #fbf8f3;
+}
+.standings-content .XRefCell,
+.standings-content .XRefAxis {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.standings-content .PlayerDataCaption {
+  color: var(--muted);
+  font-weight: 650;
+}
+.standings-content .Memo,
+.standings-content .MemoRow td {
+  color: var(--muted);
+  font-size: .85rem;
+  padding: .35rem 0;
+}
+
 .seasons {
   display: flex;
   flex-wrap: wrap;
@@ -364,4 +578,22 @@ figure.post-image { margin: 1rem 0; }
 @media (max-width: 820px) {
   .hero-grid { grid-template-columns: 1fr; }
   .home-columns { grid-template-columns: 1fr; }
+  .standings-content tr.MainTable {
+    display: flex;
+    flex-direction: column;
+  }
+  .standings-content tr.MainTable > td.MainTable {
+    display: block;
+    width: 100% !important;
+    min-width: 0;
+    padding-right: 0;
+    padding-bottom: .85rem;
+  }
+  .standings-content .MenuTable ul ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .15rem .75rem;
+    border-left: 0;
+    padding-left: 0;
+  }
 }
