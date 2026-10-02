@@ -61,14 +61,29 @@
       border-radius: 12px;
       background: #fff;
       overflow: hidden;
+      padding: 1rem;
+      box-sizing: border-box;
     }
     .standings-frame-inner {
       width: 100%;
-      min-height: 1200px;
       background: #fff;
     }
-    .standings-frame-inner > * {
-      max-width: none;
+    .standings-frame-inner table {
+      border-collapse: collapse;
+      width: 100%;
+      font: inherit;
+      color: inherit;
+      background: #fff;
+    }
+    .standings-frame-inner th,
+    .standings-frame-inner td {
+      border: 1px solid #ccc;
+      padding: 0.4rem;
+      text-align: left;
+    }
+    .standings-frame-inner th {
+      background: #f9f9f9;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -128,26 +143,25 @@
       const body = doc.body;
 
       container.innerHTML = '';
+
       for (const node of Array.from(body.childNodes)) {
-        container.appendChild(node.cloneNode(true));
+        const cloned = node.cloneNode(true);
+        
+        if (cloned.nodeType === Node.ELEMENT_NODE) {
+          if (cloned.tagName === 'STYLE') {
+            cloned.remove();
+          } else if (cloned.tagName === 'LINK' && cloned.getAttribute('rel') === 'stylesheet') {
+            cloned.remove();
+          } else {
+            container.appendChild(cloned);
+          }
+        } else {
+          container.appendChild(cloned);
+        }
       }
 
-      const baseUrl = new URL(url, window.location.href);
-      const seasonCss = new URL('sevilla.css', baseUrl).toString();
-      const siteCss = './assets/site.css?v=20260924-cms';
-
-      const existingStylesheets = container.querySelectorAll('link[rel="stylesheet"]');
-      existingStylesheets.forEach((link) => link.remove());
-
-      const siteLink = document.createElement('link');
-      siteLink.rel = 'stylesheet';
-      siteLink.href = siteCss;
-      container.insertBefore(siteLink, container.firstChild);
-
-      const seasonLink = document.createElement('link');
-      seasonLink.rel = 'stylesheet';
-      seasonLink.href = seasonCss;
-      container.insertBefore(seasonLink, siteLink.nextSibling);
+      container.querySelectorAll('style').forEach((style) => style.remove());
+      container.querySelectorAll('link[rel="stylesheet"]').forEach((link) => link.remove());
 
       container.querySelectorAll('a').forEach((a) => {
         a.target = '_blank';
