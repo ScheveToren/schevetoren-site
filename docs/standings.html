@@ -60,6 +60,15 @@
       border: 1px solid var(--border, #dfe6ee);
       border-radius: 12px;
       background: #fff;
+      overflow: hidden;
+    }
+    .standings-frame-inner {
+      width: 100%;
+      min-height: 1200px;
+      background: #fff;
+    }
+    .standings-frame-inner > * {
+      max-width: none;
     }
   </style>
 </head>
@@ -72,8 +81,6 @@
   </header>
 
   <section class="panel intro-panel">
-    <p>Hieronder staan de actuele senioren- en jeugdstandings. De links openen in een embedded viewer, zodat je makkelijk kunt navigeren binnen de individuele seizoenpagina's.</p>
-
     <div class="standings-tabs" aria-label="Uitslagen tabs">
       <button class="tab active" type="button" data-target="senioren">Senioren</button>
       <button class="tab" type="button" data-target="jeugd">Jeugd</button>
@@ -84,7 +91,7 @@
         <li><a href="./2026-2027/" target="senior-frame">2026-2027</a></li>
         <li><a href="./2025-2026/" target="senior-frame">2025-2026</a></li>
       </ul>
-      <iframe class="standings-frame" name="senior-frame" src="./2026-2027/" title="Senioren standings"></iframe>
+      <div class="standings-frame"><div class="standings-frame-inner" id="senior-frame"></div></div>
     </div>
 
     <div id="jeugd" class="standings-panel">
@@ -92,7 +99,7 @@
         <li><a href="./jeugd/2026-2027/" target="jeugd-frame">2026-2027</a></li>
         <li><a href="./jeugd/2025-2026/" target="jeugd-frame">2025-2026</a></li>
       </ul>
-      <iframe class="standings-frame" name="jeugd-frame" src="./jeugd/2026-2027/" title="Jeugd standings"></iframe>
+      <div class="standings-frame"><div class="standings-frame-inner" id="jeugd-frame"></div></div>
     </div>
   </section>
 </main>
@@ -101,31 +108,81 @@
 <script src="./assets/site.js?v=20260924-cms"></script>
 <script>
   function applyTab(target) {
-    // Remove active class from all tabs and panels
     document.querySelectorAll('.tab').forEach((button) => {
-      button.classList.remove('active');
+      button.classList.toggle('active', button.dataset.target === target);
     });
     document.querySelectorAll('.standings-panel').forEach((panel) => {
-      panel.classList.remove('active');
+      panel.classList.toggle('active', panel.id === target);
     });
-    
-    // Add active class to the target tab and panel
-    document.querySelector(`[data-target="${target}"]`)?.classList.add('active');
-    document.getElementById(target)?.classList.add('active');
+  }
+
+  async function loadSeasonPanel(targetId, url) {
+    const container = document.getElementById(targetId);
+    if (!container) return;
+
+    try {
+      const response = await fetch(url, { cache: 'no-store' });
+      if (!response.ok) throw new Error('Failed to load standings');
+      const html = await response.text();
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const body = doc.body;
+
+      container.innerHTML = '';
+      for (const node of Array.from(body.childNodes)) {
+        container.appendChild(node.cloneNode(true));
+      }
+
+      const baseUrl = new URL(url, window.location.href);
+      const seasonCss = new URL('sevilla.css', baseUrl).toString();
+      const siteCss = './assets/site.css?v=20260924-cms';
+
+      const existingStylesheets = container.querySelectorAll('link[rel="stylesheet"]');
+      existingStylesheets.forEach((link) => link.remove());
+
+      const siteLink = document.createElement('link');
+      siteLink.rel = 'stylesheet';
+      siteLink.href = siteCss;
+      container.insertBefore(siteLink, container.firstChild);
+
+      const seasonLink = document.createElement('link');
+      seasonLink.rel = 'stylesheet';
+      seasonLink.href = seasonCss;
+      container.insertBefore(seasonLink, siteLink.nextSibling);
+
+      container.querySelectorAll('a').forEach((a) => {
+        a.target = '_blank';
+        a.rel = 'noopener';
+      });
+    } catch (error) {
+      container.innerHTML = '<p>Kon de standings niet laden.</p>';
+    }
   }
 
   document.querySelectorAll('.tab').forEach((button) => {
     button.addEventListener('click', () => {
       applyTab(button.dataset.target);
+      const target = button.dataset.target;
+      const url = target === 'jeugd' ? './jeugd/2026-2027/' : './2026-2027/';
+      loadSeasonPanel(target === 'jeugd' ? 'jeugd-frame' : 'senior-frame', url);
     });
   });
 
-  // Check for tab parameter in URL on page load
+  document.querySelectorAll('.season-links a').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      const href = link.getAttribute('href');
+      const targetId = link.getAttribute('target');
+      const tab = targetId === 'jeugd-frame' ? 'jeugd' : 'senioren';
+      applyTab(tab);
+      loadSeasonPanel(targetId, href);
+    });
+  });
+
   const params = new URLSearchParams(window.location.search);
   const requestedTab = params.get('tab');
-  if (requestedTab === 'jeugd') {
-    applyTab('jeugd');
-  }
+  const defaultTab = requestedTab === 'jeugd' ? 'jeugd' : 'senioren';
+  applyTab(defaultTab);
+  loadSeasonPanel(defaultTab === 'jeugd' ? 'jeugd-frame' : 'senior-frame', defaultTab === 'jeugd' ? './jeugd/2026-2027/' : './2026-2027/');
 </script>
 </body>
 </html>
