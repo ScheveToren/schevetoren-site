@@ -101,12 +101,17 @@
 <script src="./assets/site.js?v=20260924-cms"></script>
 <script>
   function applyTab(target) {
+    // Remove active class from all tabs and panels
     document.querySelectorAll('.tab').forEach((button) => {
-      button.classList.toggle('active', button.dataset.target === target);
+      button.classList.remove('active');
     });
     document.querySelectorAll('.standings-panel').forEach((panel) => {
-      panel.classList.toggle('active', panel.id === target);
+      panel.classList.remove('active');
     });
+    
+    // Add active class to the target tab and panel
+    document.querySelector(`[data-target="${target}"]`)?.classList.add('active');
+    document.getElementById(target)?.classList.add('active');
   }
 
   document.querySelectorAll('.tab').forEach((button) => {
@@ -115,10 +120,11 @@
     });
   });
 
+  // Check for tab parameter in URL on page load
   const params = new URLSearchParams(window.location.search);
   const requestedTab = params.get('tab');
-  if (requestedTab === 'jeugd' || requestedTab === 'senioren') {
-    applyTab(requestedTab);
+  if (requestedTab === 'jeugd') {
+    applyTab('jeugd');
   }
 </script>
 </body>
