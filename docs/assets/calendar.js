@@ -158,7 +158,7 @@
     }
 
     return `<div class="calendar-month"><h3 class="calendar-month-title">${monthName}</h3>
-      <div class="cal-weekdays"><span>Ma</span><span>Di</span><span>Wo</span><span>Do</span><span>Vr</span><span>Za</span><span>So</span></div>
+      <div class="cal-weekdays"><span>Ma</span><span>Di</span><span>Wo</span><span>Do</span><span>Vr</span><span>Za</span><span>Zo</span></div>
       <div class="cal-grid">${cells}</div></div>`;
   }
 
