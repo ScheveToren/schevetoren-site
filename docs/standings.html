@@ -1,21 +1,113 @@
 <!doctype html>
 <html lang="nl">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Standings — De Scheve Toren</title>
-    <style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:2rem;color:#111}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:0.4rem;text-align:left}</style>
-  </head>
-  <body>
-    <h1>Standings</h1>
-    <p>Placeholder standings. The club PC script will overwrite this file with the latest standings.</p>
-    <table>
-      <thead><tr><th>Place</th><th>Player</th><th>Points</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td>Jan</td><td>5</td></tr>
-        <tr><td>2</td><td>Piet</td><td>4</td></tr>
-      </tbody>
-    </table>
-    <p style="margin-top:1rem;color:#666">Last updated: placeholder</p>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Uitslagen — De Scheve Toren</title>
+  <meta name="description" content="Senioren- en jeugdstandings van De Scheve Toren.">
+  <link rel="stylesheet" href="./assets/site.css?v=20260924-cms">
+  <style>
+    .standings-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin: 1rem 0 1.25rem;
+    }
+    .standings-tabs button {
+      border: 1px solid var(--border, #dfe6ee);
+      background: #fff;
+      color: var(--text, #1d2b3a);
+      border-radius: 999px;
+      padding: .55rem .9rem;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .standings-tabs button.active {
+      background: var(--primary, #2e6bff);
+      color: #fff;
+      border-color: var(--primary, #2e6bff);
+    }
+    .standings-panel {
+      display: none;
+    }
+    .standings-panel.active {
+      display: block;
+    }
+    .season-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin: 0 0 1rem;
+      padding: 0;
+      list-style: none;
+    }
+    .season-links a {
+      display: inline-block;
+      padding: .45rem .7rem;
+      border-radius: 999px;
+      background: #f3f6fb;
+      color: var(--primary-dark, #183b73);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .season-links a:hover {
+      background: #e8f0ff;
+    }
+    .standings-frame {
+      width: 100%;
+      min-height: 1200px;
+      border: 1px solid var(--border, #dfe6ee);
+      border-radius: 12px;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+<div id="site-header"></div>
+<main class="page-shell">
+  <header class="topbar">
+    <div><p class="eyebrow">De Scheve Toren</p><h1>Uitslagen</h1></div>
+    <a class="button secondary" href="./index.html" data-i18n="nav.back">← Terug</a>
+  </header>
+
+  <section class="panel intro-panel">
+    <p>Hieronder staan de actuele senioren- en jeugdstandings. De links openen in een embedded viewer, zodat je makkelijk kunt navigeren binnen de individuele seizoenpagina's.</p>
+
+    <div class="standings-tabs" aria-label="Uitslagen tabs">
+      <button class="tab active" type="button" data-target="senioren">Senioren</button>
+      <button class="tab" type="button" data-target="jeugd">Jeugd</button>
+    </div>
+
+    <div id="senioren" class="standings-panel active">
+      <ul class="season-links">
+        <li><a href="./2026-2027/" target="senior-frame">2026-2027</a></li>
+        <li><a href="./2025-2026/" target="senior-frame">2025-2026</a></li>
+      </ul>
+      <iframe class="standings-frame" name="senior-frame" src="./2026-2027/" title="Senioren standings"></iframe>
+    </div>
+
+    <div id="jeugd" class="standings-panel">
+      <ul class="season-links">
+        <li><a href="./jeugd/2026-2027/" target="jeugd-frame">2026-2027</a></li>
+        <li><a href="./jeugd/2025-2026/" target="jeugd-frame">2025-2026</a></li>
+      </ul>
+      <iframe class="standings-frame" name="jeugd-frame" src="./jeugd/2026-2027/" title="Jeugd standings"></iframe>
+    </div>
+  </section>
+</main>
+<div id="site-footer"></div>
+<script src="./config.js?v=20260924-cms"></script>
+<script src="./assets/site.js?v=20260924-cms"></script>
+<script>
+  document.querySelectorAll('.tab').forEach((button) => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach((b) => b.classList.toggle('active', b === button));
+      document.querySelectorAll('.standings-panel').forEach((panel) => {
+        panel.classList.toggle('active', panel.id === button.dataset.target);
+      });
+    });
+  });
+</script>
+</body>
 </html>
