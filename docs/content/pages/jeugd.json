@@ -33,7 +33,7 @@
     "links": [
       {
         "label": "Bekijk de jeugdstandings per seizoen",
-        "href": "./standings.html",
+        "href": "./standings.html?tab=jeugd",
         "text": "Jeugduitslagen"
       }
     ]
