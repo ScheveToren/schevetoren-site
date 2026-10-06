@@ -1,0 +1,416 @@
+{
+  "season": "2026-2027",
+  "updatedAt": "2026-10-06T17:15:15Z",
+  "source": "netstand",
+  "teams": [
+    {
+      "id": "hsb-1",
+      "title": "Scheve Toren 1 — HSB 1e klasse A",
+      "teamUrl": "https://hsb.netstand.nl/teams/view/559",
+      "divisionUrl": "https://hsb.netstand.nl/divisions/view/58",
+      "matches": [
+        {
+          "round": "Ronde 1",
+          "date": "15-09-2026",
+          "dateIso": "2026-09-15",
+          "home": "Voorburg 2",
+          "away": "Scheve Toren 1",
+          "score": "3½ – 4½",
+          "homeIsUs": false,
+          "awayIsUs": true
+        },
+        {
+          "round": "Ronde 2",
+          "date": "09-10-2026",
+          "dateIso": "2026-10-09",
+          "home": "Scheve Toren 1",
+          "away": "RSC-Belgisch Park 1",
+          "score": "?",
+          "homeIsUs": true,
+          "awayIsUs": false
+        },
+        {
+          "round": "Ronde 3",
+          "date": "19-11-2026",
+          "dateIso": "2026-11-19",
+          "home": "SHTV 2",
+          "away": "Scheve Toren 1",
+          "score": "?",
+          "homeIsUs": false,
+          "awayIsUs": true
+        },
+        {
+          "round": "Ronde 4",
+          "date": "11-12-2026",
+          "dateIso": "2026-12-11",
+          "home": "Scheve Toren 1",
+          "away": "DD 3",
+          "score": "?",
+          "homeIsUs": true,
+          "awayIsUs": false
+        },
+        {
+          "round": "Ronde 5",
+          "date": "10-02-2027",
+          "dateIso": "2027-02-10",
+          "home": "DSC 3 (jeugd)",
+          "away": "Scheve Toren 1",
+          "score": "?",
+          "homeIsUs": false,
+          "awayIsUs": true
+        },
+        {
+          "round": "Ronde 6",
+          "date": "19-03-2027",
+          "dateIso": "2027-03-19",
+          "home": "Scheve Toren 1",
+          "away": "Botwinnik 2",
+          "score": "?",
+          "homeIsUs": true,
+          "awayIsUs": false
+        },
+        {
+          "round": "Ronde 7",
+          "date": "06-06-2066",
+          "dateIso": "2066-06-06",
+          "home": "Scheve Toren 1",
+          "away": "Promotie 2",
+          "score": "?",
+          "homeIsUs": true,
+          "awayIsUs": false
+        }
+      ],
+      "standings": [
+        {
+          "rank": 1,
+          "team": "DD 3",
+          "mp": "2",
+          "bp": "5.5",
+          "isUs": false
+        },
+        {
+          "rank": 2,
+          "team": "RSC-Belgisch Park 1",
+          "mp": "2",
+          "bp": "5.5",
+          "isUs": false
+        },
+        {
+          "rank": 3,
+          "team": "Scheve Toren 1",
+          "mp": "2",
+          "bp": "4.5",
+          "isUs": true
+        },
+        {
+          "rank": 4,
+          "team": "Promotie 2",
+          "mp": "2",
+          "bp": "4.5",
+          "isUs": false
+        },
+        {
+          "rank": 5,
+          "team": "Voorburg 2",
+          "mp": "0",
+          "bp": "3.5",
+          "isUs": false
+        },
+        {
+          "rank": 6,
+          "team": "Botwinnik 2",
+          "mp": "0",
+          "bp": "3.5",
+          "isUs": false
+        },
+        {
+          "rank": 7,
+          "team": "SHTV 2",
+          "mp": "0",
+          "bp": "2.5",
+          "isUs": false
+        },
+        {
+          "rank": 8,
+          "team": "DSC 3 (jeugd)",
+          "mp": "0",
+          "bp": "2.5",
+          "isUs": false
+        }
+      ]
+    },
+    {
+      "id": "hsb-2",
+      "title": "Scheve Toren 2 — HSB 2e klasse A",
+      "teamUrl": "https://hsb.netstand.nl/teams/view/551",
+      "divisionUrl": "https://hsb.netstand.nl/divisions/view/60",
+      "matches": [
+        {
+          "round": "Ronde 1",
+          "date": "23-09-2026",
+          "dateIso": "2026-09-23",
+          "home": "Haeghe Ooievaar 2",
+          "away": "Scheve Toren 2",
+          "score": "2 – 6",
+          "homeIsUs": false,
+          "awayIsUs": true
+        },
+        {
+          "round": "Ronde 2",
+          "date": "16-10-2026",
+          "dateIso": "2026-10-16",
+          "home": "Scheve Toren 2",
+          "away": "DSC 6",
+          "score": "?",
+          "homeIsUs": true,
+          "awayIsUs": false
+        },
+        {
+          "round": "Ronde 3",
+          "date": "30-10-2026",
+          "dateIso": "2026-10-30",
+          "home": "DCSV",
+          "away": "Scheve Toren 2",
+          "score": "?",
+          "homeIsUs": false,
+          "awayIsUs": true
+        },
+        {
+          "round": "Ronde 4",
+          "date": "18-12-2026",
+          "dateIso": "2026-12-18",
+          "home": "Scheve Toren 2",
+          "away": "Wassenaar",
+          "score": "?",
+          "homeIsUs": true,
+          "awayIsUs": false
+        },
+        {
+          "round": "Ronde 5",
+          "date": "18-02-2027",
+          "dateIso": "2027-02-18",
+          "home": "DSC 8",
+          "away": "Scheve Toren 2",
+          "score": "?",
+          "homeIsUs": false,
+          "awayIsUs": true
+        },
+        {
+          "round": "Ronde 6",
+          "date": "12-03-2027",
+          "dateIso": "2027-03-12",
+          "home": "Scheve Toren 2",
+          "away": "HSV",
+          "score": "?",
+          "homeIsUs": true,
+          "awayIsUs": false
+        },
+        {
+          "round": "Ronde 7",
+          "date": "06-06-2066",
+          "dateIso": "2066-06-06",
+          "home": "Scheve Toren 2",
+          "away": "Promotie 4",
+          "score": "?",
+          "homeIsUs": true,
+          "awayIsUs": false
+        }
+      ],
+      "standings": [
+        {
+          "rank": 1,
+          "team": "DSC 6",
+          "mp": "2",
+          "bp": "7.5",
+          "isUs": false
+        },
+        {
+          "rank": 2,
+          "team": "Scheve Toren 2",
+          "mp": "2",
+          "bp": "6",
+          "isUs": true
+        },
+        {
+          "rank": 3,
+          "team": "HSV",
+          "mp": "2",
+          "bp": "5",
+          "isUs": false
+        },
+        {
+          "rank": 4,
+          "team": "Wassenaar",
+          "mp": "2",
+          "bp": "4.5",
+          "isUs": false
+        },
+        {
+          "rank": 5,
+          "team": "DCSV",
+          "mp": "0",
+          "bp": "3.5",
+          "isUs": false
+        },
+        {
+          "rank": 6,
+          "team": "Promotie 4",
+          "mp": "0",
+          "bp": "3",
+          "isUs": false
+        },
+        {
+          "rank": 7,
+          "team": "Haeghe Ooievaar 2",
+          "mp": "0",
+          "bp": "2",
+          "isUs": false
+        },
+        {
+          "rank": 8,
+          "team": "DSC 8",
+          "mp": "0",
+          "bp": "0.5",
+          "isUs": false
+        }
+      ]
+    },
+    {
+      "id": "knsb-1",
+      "title": "KNSB — klasse 6H (Scheve Toren 1)",
+      "teamUrl": "https://knsb.netstand.nl/teams/view/7355",
+      "divisionUrl": "https://knsb.netstand.nl/divisions/view/696",
+      "matches": [
+        {
+          "round": "Ronde 1",
+          "date": "03-10-2026",
+          "dateIso": "2026-10-03",
+          "home": "Onesimus 1",
+          "away": "De Scheve Toren 1",
+          "score": "1½ – 6½",
+          "homeIsUs": false,
+          "awayIsUs": true
+        },
+        {
+          "round": "Ronde 2",
+          "date": "31-10-2026",
+          "dateIso": "2026-10-31",
+          "home": "De Scheve Toren 1",
+          "away": "Kasteel Lekstroom 2",
+          "score": "?",
+          "homeIsUs": true,
+          "awayIsUs": false
+        },
+        {
+          "round": "Ronde 3",
+          "date": "21-11-2026",
+          "dateIso": "2026-11-21",
+          "home": "Kennemer Combinatie 5",
+          "away": "De Scheve Toren 1",
+          "score": "?",
+          "homeIsUs": false,
+          "awayIsUs": true
+        },
+        {
+          "round": "Ronde 4",
+          "date": "12-12-2026",
+          "dateIso": "2026-12-12",
+          "home": "De Scheve Toren 1",
+          "away": "Overschie 2",
+          "score": "?",
+          "homeIsUs": true,
+          "awayIsUs": false
+        },
+        {
+          "round": "Ronde 5",
+          "date": "09-01-2027",
+          "dateIso": "2027-01-09",
+          "home": "Voorburg 1",
+          "away": "De Scheve Toren 1",
+          "score": "?",
+          "homeIsUs": false,
+          "awayIsUs": true
+        },
+        {
+          "round": "Ronde 6",
+          "date": "13-03-2027",
+          "dateIso": "2027-03-13",
+          "home": "HWP Haarlem 5",
+          "away": "De Scheve Toren 1",
+          "score": "?",
+          "homeIsUs": false,
+          "awayIsUs": true
+        },
+        {
+          "round": "Ronde 7",
+          "date": "03-04-2027",
+          "dateIso": "2027-04-03",
+          "home": "De Scheve Toren 1",
+          "away": "Sliedrecht 4",
+          "score": "?",
+          "homeIsUs": true,
+          "awayIsUs": false
+        }
+      ],
+      "standings": [
+        {
+          "rank": 1,
+          "team": "De Scheve Toren 1",
+          "mp": "2",
+          "bp": "6.5",
+          "isUs": true
+        },
+        {
+          "rank": 2,
+          "team": "Voorburg 1",
+          "mp": "2",
+          "bp": "6",
+          "isUs": false
+        },
+        {
+          "rank": 3,
+          "team": "Overschie 2",
+          "mp": "2",
+          "bp": "5.5",
+          "isUs": false
+        },
+        {
+          "rank": 4,
+          "team": "HWP Haarlem 5",
+          "mp": "2",
+          "bp": "5.5",
+          "isUs": false
+        },
+        {
+          "rank": 5,
+          "team": "Sliedrecht 4",
+          "mp": "0",
+          "bp": "2.5",
+          "isUs": false
+        },
+        {
+          "rank": 6,
+          "team": "Kennemer Combinatie 5",
+          "mp": "0",
+          "bp": "2.5",
+          "isUs": false
+        },
+        {
+          "rank": 7,
+          "team": "Kasteel Lekstroom 2",
+          "mp": "0",
+          "bp": "2",
+          "isUs": false
+        },
+        {
+          "rank": 8,
+          "team": "Onesimus 1",
+          "mp": "0",
+          "bp": "1.5",
+          "isUs": false
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

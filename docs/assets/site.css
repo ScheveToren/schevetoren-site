@@ -237,6 +237,12 @@
 .cal-ev { display: block; margin-top: .15rem; line-height: 1.2; color: var(--primary-dark); }
 .calendar-month-title { margin: 0 0 .5rem; text-transform: capitalize; }
 .info-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.info-table tr.is-us td { background: #f3f7ff; font-weight: 600; }
+.panel .subhead {
+  margin: 1.1rem 0 .45rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
 .info-table th, .info-table td {
   border: 1px solid var(--border);
   padding: .45rem .55rem;
@@ -304,6 +310,33 @@ figure.post-image { margin: 1rem 0; }
 .season-links a:hover { transform: translateY(-1px); }
 .season-links a.active {
   background: var(--primary);
+  color: #fff;
+}
+.group-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  margin: -.25rem 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+.group-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .4rem .75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: .92rem;
+}
+.group-links a:hover { transform: translateY(-1px); }
+.group-links a.active {
+  background: var(--primary-dark, #1f3b6d);
+  border-color: var(--primary-dark, #1f3b6d);
   color: #fff;
 }
 .standings-content {

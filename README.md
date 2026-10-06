@@ -128,9 +128,19 @@ python3 scripts/generate-site-pages.py
 python3 scripts/generate-seo-files.py
 ```
 
+## Externe competitie (NetStand)
+
+[`scripts/fetch-netstand.py`](scripts/fetch-netstand.py) reads team/division pages from HSB/KNSB NetStand (sources in [`docs/data/externe-sources.json`](docs/data/externe-sources.json)) and writes [`docs/data/externe-competitie.json`](docs/data/externe-competitie.json). [`docs/externe-competitie.html`](docs/externe-competitie.html) renders that JSON. GitHub Action [`.github/workflows/fetch-netstand.yml`](.github/workflows/fetch-netstand.yml) runs daily (and on manual dispatch).
+
+```bash
+python3 scripts/fetch-netstand.py
+```
+
 ## Sevilla standings watcher
 
 See existing [`scripts/watch-and-push.ps1`](scripts/watch-and-push.ps1) — uploads season HTML into `docs/<season>/`.
+
+Youth standings: [`scripts/upload-youth-standings.ps1`](scripts/upload-youth-standings.ps1) — club laptop uses a separate folder `C:\JeugdUitslagen\` (export into `2026-2027\`, token in `github_token.txt`, start with `Start-Upload.bat`). Files land in `docs/jeugd/<season>/`.
 
 ## Security notes
 

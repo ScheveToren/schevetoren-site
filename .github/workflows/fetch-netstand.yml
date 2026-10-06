@@ -1,0 +1,39 @@
+name: Fetch NetStand externe competitie
+
+on:
+  schedule:
+    # Daily 06:15 UTC (~08:15 NL winter / 07:15 summer)
+    - cron: "15 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Fetch NetStand data
+        run: python3 scripts/fetch-netstand.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/externe-competitie.json
+          if git diff --staged --quiet; then
+            echo "No NetStand changes"
+          else
+            git commit -m "Automated: update externe competitie from NetStand"
+            git push
+          fi

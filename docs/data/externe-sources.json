@@ -1,0 +1,29 @@
+{
+  "season": "2026-2027",
+  "teams": [
+    {
+      "id": "hsb-1",
+      "title": "Scheve Toren 1 — HSB 1e klasse A",
+      "baseUrl": "https://hsb.netstand.nl",
+      "teamPath": "/teams/view/559",
+      "divisionPath": "/divisions/view/58",
+      "clubNameHints": ["Scheve Toren 1", "De Scheve Toren 1"]
+    },
+    {
+      "id": "hsb-2",
+      "title": "Scheve Toren 2 — HSB 2e klasse A",
+      "baseUrl": "https://hsb.netstand.nl",
+      "teamPath": "/teams/view/551",
+      "divisionPath": "/divisions/view/60",
+      "clubNameHints": ["Scheve Toren 2", "De Scheve Toren 2"]
+    },
+    {
+      "id": "knsb-1",
+      "title": "KNSB — klasse 6H (Scheve Toren 1)",
+      "baseUrl": "https://knsb.netstand.nl",
+      "teamPath": "/teams/view/7355",
+      "divisionPath": "/divisions/view/696",
+      "clubNameHints": ["De Scheve Toren 1", "Scheve Toren 1", "Scheve Toren"]
+    }
+  ]
+}
