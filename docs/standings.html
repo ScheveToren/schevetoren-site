@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Uitslagen — De Scheve Toren</title>
   <meta name="description" content="Senioren- en jeugdstandings van De Scheve Toren.">
-  <link rel="stylesheet" href="./assets/site.css?v=20261007-jeugd-grp">
+  <link rel="stylesheet" href="./assets/site.css?v=20261007-jeugd-folders">
 </head>
 <body>
 <div id="site-header"></div>
@@ -35,7 +35,7 @@
         <li><a href="./jeugd/2025-2026/" data-season="2025-2026">2025-2026</a></li>
       </ul>
       <ul class="group-links" id="jeugd-group-links" data-frame="jeugd-frame" aria-label="Jeugdgroepen"></ul>
-      <div class="standings-content" id="jeugd-frame" data-default="./jeugd/2026-2027/Grp1-PLst.html" aria-live="polite"></div>
+      <div class="standings-content" id="jeugd-frame" data-default="./jeugd/2026-2027/groep-1/" aria-live="polite"></div>
     </div>
   </section>
 </main>
@@ -45,11 +45,10 @@
 <script>
   const loaded = {};
 
-  // Sevilla exports multiple groups as Grp1-*.html / Grp2-*.html in the season folder.
-  // entry = ranking/player list page; Sevilla's own menu navigates rounds etc.
+  // Each group is a folder under docs/jeugd/<seizoen>/ with its own Sevilla export (index.html).
   const JEUGD_GROUPS = [
-    { id: 'groep-1', label: 'Groep 1', entry: 'Grp1-PLst.html' },
-    { id: 'groep-2', label: 'Groep 2', entry: 'Grp2-PLst.html' },
+    { id: 'groep-1', label: 'Groep 1' },
+    { id: 'groep-2', label: 'Groep 2' },
   ];
 
   let jeugdSeason = '2026-2027';
@@ -57,7 +56,7 @@
 
   function jeugdUrl(season = jeugdSeason, groupId = jeugdGroup) {
     const group = JEUGD_GROUPS.find((g) => g.id === groupId) || JEUGD_GROUPS[0];
-    return `./jeugd/${season}/${group.entry}`;
+    return `./jeugd/${season}/${group.id}/`;
   }
 
   function applyTab(target) {
