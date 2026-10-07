@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Uitslagen — De Scheve Toren</title>
   <meta name="description" content="Senioren- en jeugdstandings van De Scheve Toren.">
-  <link rel="stylesheet" href="./assets/site.css?v=20261002-standings-polish">
+  <link rel="stylesheet" href="./assets/site.css?v=20261007-jeugd-grp">
 </head>
 <body>
 <div id="site-header"></div>
@@ -30,11 +30,12 @@
     </div>
 
     <div id="jeugd" class="standings-panel">
-      <ul class="season-links" data-frame="jeugd-frame">
-        <li><a href="./jeugd/2026-2027/" class="active">2026-2027</a></li>
-        <li><a href="./jeugd/2025-2026/">2025-2026</a></li>
+      <ul class="season-links" id="jeugd-season-links" data-frame="jeugd-frame">
+        <li><a href="./jeugd/2026-2027/" class="active" data-season="2026-2027">2026-2027</a></li>
+        <li><a href="./jeugd/2025-2026/" data-season="2025-2026">2025-2026</a></li>
       </ul>
-      <div class="standings-content" id="jeugd-frame" data-default="./jeugd/2026-2027/" aria-live="polite"></div>
+      <ul class="group-links" id="jeugd-group-links" data-frame="jeugd-frame" aria-label="Jeugdgroepen"></ul>
+      <div class="standings-content" id="jeugd-frame" data-default="./jeugd/2026-2027/Grp1-PLst.html" aria-live="polite"></div>
     </div>
   </section>
 </main>
@@ -43,6 +44,21 @@
 <script src="./assets/site.js?v=20260924-cms"></script>
 <script>
   const loaded = {};
+
+  // Sevilla exports multiple groups as Grp1-*.html / Grp2-*.html in the season folder.
+  // entry = ranking/player list page; Sevilla's own menu navigates rounds etc.
+  const JEUGD_GROUPS = [
+    { id: 'groep-1', label: 'Groep 1', entry: 'Grp1-PLst.html' },
+    { id: 'groep-2', label: 'Groep 2', entry: 'Grp2-PLst.html' },
+  ];
+
+  let jeugdSeason = '2026-2027';
+  let jeugdGroup = 'groep-1';
+
+  function jeugdUrl(season = jeugdSeason, groupId = jeugdGroup) {
+    const group = JEUGD_GROUPS.find((g) => g.id === groupId) || JEUGD_GROUPS[0];
+    return `./jeugd/${season}/${group.entry}`;
+  }
 
   function applyTab(target) {
     document.querySelectorAll('.standings-tabs .tab').forEach((button) => {
@@ -60,6 +76,30 @@
     list.querySelectorAll('a').forEach((link) => {
       const href = new URL(link.getAttribute('href'), window.location.href).href;
       link.classList.toggle('active', href === absolute || absolute.startsWith(href));
+    });
+  }
+
+  function renderJeugdGroups() {
+    const list = document.getElementById('jeugd-group-links');
+    if (!list) return;
+    list.innerHTML = JEUGD_GROUPS.map((group) => {
+      const active = group.id === jeugdGroup ? ' class="active"' : '';
+      return `<li><a href="${jeugdUrl(jeugdSeason, group.id)}" data-group="${group.id}"${active}>${group.label}</a></li>`;
+    }).join('');
+
+    list.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        jeugdGroup = link.dataset.group || jeugdGroup;
+        applyTab('jeugd');
+        loadSeasonPanel('jeugd-frame', jeugdUrl());
+      });
+    });
+  }
+
+  function markActiveJeugdSeason() {
+    document.querySelectorAll('#jeugd-season-links a').forEach((link) => {
+      link.classList.toggle('active', link.dataset.season === jeugdSeason);
     });
   }
 
@@ -116,7 +156,12 @@
     if (!container) return;
 
     container.innerHTML = '<p class="api-status">Laden…</p>';
-    markActiveSeason(frameId, url);
+    if (frameId === 'jeugd-frame') {
+      markActiveJeugdSeason();
+      renderJeugdGroups();
+    } else {
+      markActiveSeason(frameId, url);
+    }
 
     try {
       const { doc, baseUrl } = await resolveSeasonDocument(url);
@@ -146,7 +191,7 @@
 
       loaded[frameId] = url;
     } catch (error) {
-      container.innerHTML = '<p class="api-status error">Kon de standings niet laden. Controleer of dit seizoen al gepubliceerd is.</p>';
+      container.innerHTML = '<p class="api-status error">Kon de standings niet laden. Controleer of dit seizoen/groep al gepubliceerd is.</p>';
     }
   }
 
@@ -154,7 +199,8 @@
     const frameId = target === 'jeugd' ? 'jeugd-frame' : 'senior-frame';
     const frame = document.getElementById(frameId);
     if (!frame || loaded[frameId]) return;
-    loadSeasonPanel(frameId, frame.dataset.default);
+    const url = target === 'jeugd' ? jeugdUrl() : frame.dataset.default;
+    loadSeasonPanel(frameId, url);
   }
 
   document.querySelectorAll('.standings-tabs .tab').forEach((button) => {
@@ -165,20 +211,36 @@
     });
   });
 
-  document.querySelectorAll('.season-links a').forEach((link) => {
+  document.querySelectorAll('#senioren .season-links a').forEach((link) => {
     link.addEventListener('click', (event) => {
       event.preventDefault();
-      const href = link.getAttribute('href');
-      const list = link.closest('.season-links');
-      const frameId = list?.dataset.frame;
-      const tab = frameId === 'jeugd-frame' ? 'jeugd' : 'senioren';
-      applyTab(tab);
-      if (frameId) loadSeasonPanel(frameId, href);
+      applyTab('senioren');
+      loadSeasonPanel('senior-frame', link.getAttribute('href'));
+    });
+  });
+
+  document.querySelectorAll('#jeugd-season-links a').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      jeugdSeason = link.dataset.season || jeugdSeason;
+      applyTab('jeugd');
+      loadSeasonPanel('jeugd-frame', jeugdUrl());
     });
   });
 
   const params = new URLSearchParams(window.location.search);
   const tab = params.get('tab') === 'jeugd' ? 'jeugd' : 'senioren';
+  const groupParam = (params.get('groep') || params.get('group') || '').trim();
+  if (groupParam) {
+    const normalized = groupParam.startsWith('groep-') ? groupParam : `groep-${groupParam}`;
+    if (JEUGD_GROUPS.some((g) => g.id === normalized)) jeugdGroup = normalized;
+  }
+  const seasonParam = (params.get('seizoen') || params.get('season') || '').trim();
+  if (seasonParam && document.querySelector(`#jeugd-season-links a[data-season="${seasonParam}"]`)) {
+    jeugdSeason = seasonParam;
+  }
+
+  renderJeugdGroups();
   applyTab(tab);
   ensurePanelLoaded(tab);
 </script>
