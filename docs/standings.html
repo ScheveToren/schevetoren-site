@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Uitslagen — De Scheve Toren</title>
   <meta name="description" content="Senioren- en jeugdstandings van De Scheve Toren.">
-  <link rel="stylesheet" href="./assets/site.css?v=20261007-jeugd-folders">
+  <link rel="stylesheet" href="./assets/site.css?v=20261007-jeugd-grp-entry">
 </head>
 <body>
 <div id="site-header"></div>
@@ -35,7 +35,7 @@
         <li><a href="./jeugd/2025-2026/" data-season="2025-2026">2025-2026</a></li>
       </ul>
       <ul class="group-links" id="jeugd-group-links" data-frame="jeugd-frame" aria-label="Jeugdgroepen"></ul>
-      <div class="standings-content" id="jeugd-frame" data-default="./jeugd/2026-2027/groep-1/" aria-live="polite"></div>
+      <div class="standings-content" id="jeugd-frame" data-default="./jeugd/2026-2027/groep-1/Grp1-PLst.html" aria-live="polite"></div>
     </div>
   </section>
 </main>
@@ -45,10 +45,11 @@
 <script>
   const loaded = {};
 
-  // Each group is a folder under docs/jeugd/<seizoen>/ with its own Sevilla export (index.html).
+  // Folder per group under docs/jeugd/<seizoen>/. Sevilla index.html always opens Grp1,
+  // so each tab loads the matching GrpN entry file inside that folder.
   const JEUGD_GROUPS = [
-    { id: 'groep-1', label: 'Groep 1' },
-    { id: 'groep-2', label: 'Groep 2' },
+    { id: 'groep-1', label: 'Groep 1', entry: 'Grp1-PLst.html' },
+    { id: 'groep-2', label: 'Groep 2', entry: 'Grp2-PLst.html' },
   ];
 
   let jeugdSeason = '2026-2027';
@@ -56,7 +57,7 @@
 
   function jeugdUrl(season = jeugdSeason, groupId = jeugdGroup) {
     const group = JEUGD_GROUPS.find((g) => g.id === groupId) || JEUGD_GROUPS[0];
-    return `./jeugd/${season}/${group.id}/`;
+    return `./jeugd/${season}/${group.id}/${group.entry}`;
   }
 
   function applyTab(target) {
