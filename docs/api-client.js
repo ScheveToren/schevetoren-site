@@ -39,7 +39,12 @@
     "unsupported_media",
     "media_too_large",
     "invalid_cover_path",
-    "invalid_pdf_path"
+    "invalid_pdf_path",
+    "missing_fields",
+    "invalid_contact",
+    "rate_limited",
+    "contact_email_not_configured",
+    "contact_send_failed"
   ]);
 
   function endpoints() {

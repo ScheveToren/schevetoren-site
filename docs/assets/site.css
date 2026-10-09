@@ -705,3 +705,40 @@ figure.post-image { margin: 1rem 0; }
     padding-left: 0;
   }
 }
+
+.contact-form-panel {
+  position: relative;
+}
+.contact-form-panel .field-label {
+  display: block;
+  font-weight: 600;
+  margin: .75rem 0 .3rem;
+}
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+  width: 100%;
+  max-width: 36rem;
+  padding: .55rem .7rem;
+  border: 1px solid var(--border);
+  border-radius: .45rem;
+  font: inherit;
+  background: #fff;
+}
+.contact-form textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+.contact-form-actions {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.contact-hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
