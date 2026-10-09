@@ -1,5 +1,11 @@
 const SHEET_ID = "1tj5ZwW3U0D5IsXyuimu7Yv7tAuGAbuoW4-3POTtSwew";
 
+/**
+ * Failover backend for the club site. Primary API can run on a Raspberry Pi
+ * (see server/ in this repo) with SQLite + Sheets sync. Keep this Apps Script
+ * web app deployed and set docs/config.js API_FALLBACK_URL to its /exec URL.
+ */
+
 const SEASON = [
   ["2026-08-28", "ALV", "event"], ["2026-09-04", "Speeldag 1", "regular"],
   ["2026-09-11", "Speeldag 2", "regular"], ["2026-09-18", "Speeldag 3", "regular"],
@@ -395,6 +401,12 @@ function doPost(e) {
       return jsonResponse(cmsUploadIcs(payload));
     }
 
+    if (action === "cms-upload-news-media") {
+      const auth = requireCmsAdmin(token);
+      if (!auth.ok) return jsonResponse({ ok: false, error: auth.error || "forbidden" });
+      return jsonResponse(cmsUploadNewsMedia(payload));
+    }
+
     if (action === "bulk-set") {
       const auth = resolveAuth(token);
       if (!auth.ok || !auth.linked) return jsonResponse({ ok: false, error: "forbidden" });
@@ -510,12 +522,82 @@ function githubPutTextFile(repoPath, content, message) {
   };
 }
 
+function githubPutBinaryFile(repoPath, base64Content, message) {
+  const meta = githubGetFileMeta(repoPath);
+  if (!meta.ok) return meta;
+  const encoded = repoPath.split("/").map(encodeURIComponent).join("/");
+  const payload = {
+    message,
+    content: String(base64Content || "").replace(/\s/g, ""),
+    branch: GITHUB_BRANCH
+  };
+  if (meta.exists && meta.sha) payload.sha = meta.sha;
+  const result = githubApiRequest(`/contents/${encoded}`, { method: "put", payload });
+  if (!result.ok) return result;
+  return {
+    ok: true,
+    path: repoPath,
+    commit: result.body.commit && result.body.commit.sha,
+    html_url: result.body.content && result.body.content.html_url
+  };
+}
+
 function sanitizeSlug(slug) {
   return String(slug || "")
     .trim()
     .toLowerCase()
     .replace(/[^a-z0-9-]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+function sanitizeFilename(name) {
+  const base = String(name || "file")
+    .trim()
+    .replace(/\\/g, "/")
+    .split("/")
+    .pop();
+  const cleaned = base
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return cleaned || "file";
+}
+
+function detectMediaKindFromBytes(bytes, filename, kindHint) {
+  const hint = String(kindHint || "").toLowerCase();
+  const lower = String(filename || "").toLowerCase();
+  const asStr = function (arr) {
+    return String.fromCharCode.apply(null, arr);
+  };
+  const isPdf = bytes.length >= 4 && asStr(bytes.slice(0, 4)) === "%PDF";
+  const isJpeg = bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
+  const isPng =
+    bytes.length >= 8 && bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47;
+  const isGif = bytes.length >= 3 && asStr(bytes.slice(0, 3)) === "GIF";
+  const isWebp =
+    bytes.length >= 12 && asStr(bytes.slice(0, 4)) === "RIFF" && asStr(bytes.slice(8, 12)) === "WEBP";
+
+  if (hint === "pdf" || lower.endsWith(".pdf") || isPdf) {
+    if (!isPdf) return { ok: false, error: "invalid_pdf" };
+    return { ok: true, kind: "pdf", ext: "pdf" };
+  }
+  if (isJpeg || lower.endsWith(".jpg") || lower.endsWith(".jpeg")) {
+    if (!isJpeg) return { ok: false, error: "invalid_image" };
+    return { ok: true, kind: "image", ext: "jpg" };
+  }
+  if (isPng || lower.endsWith(".png")) {
+    if (!isPng) return { ok: false, error: "invalid_image" };
+    return { ok: true, kind: "image", ext: "png" };
+  }
+  if (isGif || lower.endsWith(".gif")) {
+    if (!isGif) return { ok: false, error: "invalid_image" };
+    return { ok: true, kind: "image", ext: "gif" };
+  }
+  if (isWebp || lower.endsWith(".webp")) {
+    if (!isWebp) return { ok: false, error: "invalid_image" };
+    return { ok: true, kind: "image", ext: "webp" };
+  }
+  return { ok: false, error: "unsupported_media" };
 }
 
 function buildNewsMarkdown(fields) {
@@ -526,8 +608,16 @@ function buildNewsMarkdown(fields) {
   const excerpt = String(fields.excerpt || "").trim();
   const draft = fields.draft === true || String(fields.draft).toLowerCase() === "true";
   const body = String(fields.body || "").trim();
+  const cover = String(fields.cover || "").trim();
+  const pdf = String(fields.pdf || "").trim();
   if (!title || !slug || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     return { ok: false, error: "invalid_news_fields" };
+  }
+  if (cover && !/^(\.\/)?media\/[a-z0-9._\/-]+$/i.test(cover)) {
+    return { ok: false, error: "invalid_cover_path" };
+  }
+  if (pdf && !/^(\.\/)?media\/[a-z0-9._\/-]+\.pdf$/i.test(pdf)) {
+    return { ok: false, error: "invalid_pdf_path" };
   }
   const front = [
     "---",
@@ -536,13 +626,12 @@ function buildNewsMarkdown(fields) {
     `excerpt: "${excerpt.replace(/"/g, '\\"')}"`,
     `date: ${date}`,
     `author: "${author.replace(/"/g, '\\"')}"`,
-    `draft: ${draft}`,
-    "---",
-    "",
-    body,
-    ""
-  ].join("\n");
-  return { ok: true, path: `docs/nieuws/berichten/${date}-${slug}.md`, content: front };
+    `draft: ${draft}`
+  ];
+  if (cover) front.push(`cover: ${cover.replace(/^\.\//, "")}`);
+  if (pdf) front.push(`pdf: ${pdf.replace(/^\.\//, "")}`);
+  front.push("---", "", body, "");
+  return { ok: true, path: `docs/nieuws/berichten/${date}-${slug}.md`, content: front.join("\n") };
 }
 
 function cmsStatus() {
@@ -628,6 +717,8 @@ function cmsGetNews(repoPathRaw) {
     author: parsed.fields.author || "",
     excerpt: parsed.fields.excerpt || "",
     draft: parsed.fields.draft === true,
+    cover: parsed.fields.cover || "",
+    pdf: parsed.fields.pdf || "",
     body: parsed.body
   };
 }
@@ -687,6 +778,64 @@ function cmsUploadIcs(payload) {
   const putFeed = githubPutTextFile("docs/data/calendar-feed.json", feed, "CMS: kalender feed pointer");
   if (!putFeed.ok) return putFeed;
   return { ok: true, icsPath: "kalender/club-upload.ics", commits: [putIcs.commit, putFeed.commit] };
+}
+
+function cmsUploadNewsMedia(payload) {
+  const slug = sanitizeSlug(payload.slug);
+  if (!slug) return { ok: false, error: "missing_slug" };
+  const b64 = String(payload.media_base64 || "").replace(/\s/g, "");
+  if (!b64) return { ok: false, error: "missing_media_base64" };
+  let bytes;
+  try {
+    bytes = Utilities.base64Decode(b64);
+  } catch (e) {
+    return { ok: false, error: "invalid_base64" };
+  }
+  if (!bytes || !bytes.length) return { ok: false, error: "empty_media" };
+
+  const detected = detectMediaKindFromBytes(bytes, payload.filename, payload.kind);
+  if (!detected.ok) return detected;
+
+  const max = detected.kind === "pdf" ? 8 * 1024 * 1024 : 3 * 1024 * 1024;
+  if (bytes.length > max) {
+    return {
+      ok: false,
+      error: "media_too_large",
+      message: `Max ${Math.round(max / (1024 * 1024))} MB voor ${detected.kind}.`
+    };
+  }
+
+  let filename = sanitizeFilename(payload.filename);
+  if (filename.indexOf(".") < 0) filename = filename + "." + detected.ext;
+  else {
+    const parts = filename.split(".");
+    parts[parts.length - 1] = detected.ext;
+    filename = parts.join(".");
+  }
+
+  const relative_path = `media/${slug}/${filename}`;
+  const repoPath = `docs/nieuws/berichten/${relative_path}`;
+  // Re-encode from decoded bytes so GitHub gets raw binary base64
+  const put = githubPutBinaryFile(
+    repoPath,
+    Utilities.base64Encode(bytes),
+    `CMS: media ${relative_path}`
+  );
+  if (!put.ok) return put;
+
+  const relative_md =
+    detected.kind === "image"
+      ? `![${filename}](./${relative_path})`
+      : `[${filename}](./${relative_path})`;
+
+  return {
+    ok: true,
+    path: repoPath,
+    relative_path,
+    relative_md,
+    kind: detected.kind,
+    commit: put.commit
+  };
 }
 
 /** Run once after setting GITHUB_PAT in Script Properties → Project settings. */
