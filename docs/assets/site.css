@@ -708,6 +708,9 @@ figure.post-image { margin: 1rem 0; }
   }
 }
 
+.contact-form-panel {
+  position: relative;
+}
 .contact-form-panel .field-label {
   display: block;
   font-weight: 600;
@@ -740,7 +743,4 @@ figure.post-image { margin: 1rem 0; }
   width: 1px;
   height: 1px;
   overflow: hidden;
-}
-.contact-form-panel {
-  position: relative;
 }
