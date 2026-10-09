@@ -2,8 +2,17 @@ window.SCHEVETOREN_CONFIG = {
   /** Canonical public origin (no repo slug). See docs/data/site-public.json */
   PUBLIC_ORIGIN: "https://schevetoren.github.io",
   PUBLIC_BASE_PATH: "",
+  /**
+   * Primary API. Until the Pi is cut over, this remains Apps Script.
+   * After Pi + Cloudflare Tunnel are live, set API_URL to the tunnel
+   * (e.g. https://api.example.com/exec) and keep Apps Script as API_FALLBACK_URL.
+   */
   API_URL:
     "https://script.google.com/macros/s/AKfycbxvrh63zVaFHWOthXLCoe9VGDXUEizKo1YQOWlS6LN0DVHka0nUXBA2M1T421Ffzwpn/exec",
+  /** Used when primary times out or returns 5xx. Leave empty to disable failover. */
+  API_FALLBACK_URL: "",
+  /** Primary request timeout before trying fallback (ms). */
+  API_TIMEOUT_MS: 3000,
   SITE_NAME: "De Scheve Toren",
   SEASON_LABEL: "2026-2027",
   CLUB_TIMEZONE: "Europe/Amsterdam",

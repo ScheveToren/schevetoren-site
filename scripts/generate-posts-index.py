@@ -4,7 +4,7 @@ import json
 import os
 import re
 import sys
-from datetime import datetime
+from urllib.parse import quote, urlencode
 
 try:
     import markdown
@@ -21,6 +21,9 @@ from site_url import public_site_url  # noqa: E402
 FEN_RE = re.compile(
     r"^([rnbqkpRNBQKP1-8/]+\s+[wb]\s+[KQkq-]+\s+[a-h1-8-]+\s+\d+\s+\d+)$"
 )
+GAME_ID_RE = re.compile(r"^[a-zA-Z0-9]{8}$")
+PGN_MAX_CHARS = 50000
+ASSET_V = "20261009-cms"
 
 
 def parse_frontmatter(text):
@@ -37,40 +40,8 @@ def parse_frontmatter(text):
     return meta, parts[2].lstrip("\n")
 
 
-def parse_fen_block(body):
-    # Newline after ```fen, or FEN on the same line as ```fen (CMS paste quirks).
-    pattern = re.compile(r"```fen\s*(?:\n| )([\s\S]*?)```", re.MULTILINE)
-
-    def repl(match):
-        raw = match.group(1).strip()
-        fen = raw
-        caption = ""
-        orientation = "white"
-        for line in raw.splitlines():
-            if line.lower().startswith("fen:"):
-                fen = line.split(":", 1)[1].strip()
-            elif line.lower().startswith("caption:"):
-                caption = line.split(":", 1)[1].strip()
-            elif line.lower().startswith("orientation:"):
-                orientation = line.split(":", 1)[1].strip().lower()
-        fen_line = fen.splitlines()[0].strip()
-        if not FEN_RE.match(fen_line):
-            raise ValueError(f"Invalid FEN: {fen_line}")
-        color = "black" if orientation == "black" else "white"
-        src = lichess_analysis_embed_url(fen_line, color)
-        cap = f"<figcaption>{html.escape(caption)}</figcaption>" if caption else ""
-        return (
-            f'<figure class="chess-diagram"><iframe title="Schaakdiagram" '
-            f'src="{html.escape(src)}" loading="lazy"></iframe>{cap}</figure>'
-        )
-
-    return pattern.sub(repl, body)
-
-
 def lichess_analysis_embed_url(fen_line, color="white"):
     """Lichess iframe embed (see https://lichess.org/developers). FEN uses underscores."""
-    from urllib.parse import urlencode
-
     fen_param = fen_line.strip().replace(" ", "_")
     query = urlencode(
         {
@@ -83,6 +54,111 @@ def lichess_analysis_embed_url(fen_line, color="white"):
     return f"https://lichess.org/embed/analysis?{query}"
 
 
+def lichess_game_embed_url(game_id, color=None):
+    query = {"theme": "brown", "pieceSet": "merida"}
+    if color in ("white", "black"):
+        query["color"] = color
+    return f"https://lichess.org/embed/{game_id}?{urlencode(query)}"
+
+
+def extract_game_id(raw):
+    text = (raw or "").strip().splitlines()[0].strip() if raw else ""
+    if GAME_ID_RE.match(text):
+        return text, None
+    m = re.search(
+        r"lichess\.org/(?:embed/|game/)?([a-zA-Z0-9]{8})(?:/(white|black))?",
+        text,
+        re.I,
+    )
+    if m:
+        return m.group(1), m.group(2)
+    return None, None
+
+
+def parse_fence_meta(raw):
+    """Split caption/orientation lines from content body."""
+    caption = ""
+    orientation = "white"
+    content_lines = []
+    for line in raw.splitlines():
+        lower = line.lower().strip()
+        if lower.startswith("caption:"):
+            caption = line.split(":", 1)[1].strip()
+        elif lower.startswith("orientation:"):
+            orientation = line.split(":", 1)[1].strip().lower()
+        elif lower.startswith("fen:"):
+            content_lines.append(line.split(":", 1)[1].strip())
+        else:
+            content_lines.append(line)
+    return "\n".join(content_lines).strip(), caption, orientation
+
+
+def parse_fen_block(body):
+    pattern = re.compile(r"```fen\s*(?:\n| )([\s\S]*?)```", re.MULTILINE)
+
+    def repl(match):
+        content, caption, orientation = parse_fence_meta(match.group(1))
+        fen_line = content.splitlines()[0].strip() if content else ""
+        if not FEN_RE.match(fen_line):
+            raise ValueError(f"Invalid FEN: {fen_line}")
+        color = "black" if orientation == "black" else "white"
+        src = lichess_analysis_embed_url(fen_line, color)
+        cap = f"<figcaption>{html.escape(caption)}</figcaption>" if caption else ""
+        return (
+            f'<figure class="chess-diagram chess-analysis"><iframe title="Schaakdiagram" '
+            f'src="{html.escape(src)}" loading="lazy"></iframe>{cap}</figure>'
+        )
+
+    return pattern.sub(repl, body)
+
+
+def parse_game_block(body):
+    pattern = re.compile(r"```game\s*(?:\n| )([\s\S]*?)```", re.MULTILINE)
+
+    def repl(match):
+        content, caption, orientation = parse_fence_meta(match.group(1))
+        game_id, url_color = extract_game_id(content)
+        if not game_id:
+            raise ValueError(f"Invalid Lichess game id/url: {content[:80]}")
+        color = url_color or ("black" if orientation == "black" else None)
+        src = lichess_game_embed_url(game_id, color)
+        cap = f"<figcaption>{html.escape(caption)}</figcaption>" if caption else ""
+        return (
+            f'<figure class="chess-diagram chess-game"><iframe title="Lichess-partij" '
+            f'src="{html.escape(src)}" loading="lazy"></iframe>{cap}</figure>'
+        )
+
+    return pattern.sub(repl, body)
+
+
+def parse_pgn_block(body):
+    pattern = re.compile(r"```pgn\s*(?:\n| )([\s\S]*?)```", re.MULTILINE)
+
+    def repl(match):
+        raw = match.group(1).strip()
+        content, caption, orientation = parse_fence_meta(raw)
+        if not content:
+            raise ValueError("Empty PGN block")
+        if len(content) > PGN_MAX_CHARS:
+            raise ValueError(f"PGN too large ({len(content)} chars; max {PGN_MAX_CHARS})")
+        # Keep orientation in source for the player (not in an attribute — PGN is multi-line)
+        data_pgn = content
+        if orientation == "black":
+            data_pgn = f"orientation: black\n{content}"
+        analysis_url = "https://lichess.org/analysis/pgn/" + quote(content.replace("\n", " "), safe="")
+        cap = f"<figcaption>{html.escape(caption)}</figcaption>" if caption else ""
+        return (
+            f'<figure class="chess-diagram chess-pgn">'
+            f'<div class="pgn-player">'
+            f'<script type="text/plain" class="pgn-source">{html.escape(data_pgn)}</script>'
+            f"</div>"
+            f'<p class="pgn-analyse"><a href="{html.escape(analysis_url)}" target="_blank" rel="noopener">'
+            f"Analyseer op Lichess</a></p>{cap}</figure>"
+        )
+
+    return pattern.sub(repl, body)
+
+
 IMG_RE = re.compile(r"<img\s+([^>]*?)>", re.IGNORECASE)
 
 
@@ -91,7 +167,7 @@ def enhance_images(html_fragment):
         attrs = match.group(1)
         if "loading=" not in attrs.lower():
             attrs += ' loading="lazy"'
-        return f"<figure class=\"post-image\"><img {attrs}></figure>"
+        return f'<figure class="post-image"><img {attrs}></figure>'
 
     return IMG_RE.sub(repl, html_fragment)
 
@@ -105,8 +181,23 @@ def cover_html(meta):
     return f'<figure class="post-cover post-image"><img src="{src}" alt="{alt}" loading="lazy"></figure>'
 
 
+def pdf_html(meta):
+    pdf = meta.get("pdf", "").strip()
+    if not pdf:
+        return ""
+    src = html.escape(pdf)
+    return (
+        f'<figure class="post-pdf">'
+        f'<iframe title="PDF" src="{src}" loading="lazy"></iframe>'
+        f'<p class="pdf-download"><a class="button secondary" href="{src}" download target="_blank" rel="noopener">'
+        f"Download PDF</a></p></figure>"
+    )
+
+
 def md_to_html(body):
     body = parse_fen_block(body)
+    body = parse_game_block(body)
+    body = parse_pgn_block(body)
     if markdown:
         rendered = markdown.markdown(body, extensions=["extra", "sane_lists"])
         return enhance_images(rendered)
@@ -117,9 +208,16 @@ def wrap_article(meta, content_html):
     title = html.escape(meta.get("title", "Bericht"))
     date = html.escape(meta.get("date", ""))
     cover = meta.get("cover", "").strip()
+    has_pgn = "pgn-player" in content_html
     og_image = ""
     if cover:
-        og_image = f'\n  <meta property="og:image" content="{html.escape(public_site_url("nieuws/berichten/" + cover.lstrip("./")))}">'
+        og_image = (
+            f'\n  <meta property="og:image" content="'
+            f'{html.escape(public_site_url("nieuws/berichten/" + cover.lstrip("./")))}">'
+        )
+    pgn_assets = ""
+    if has_pgn:
+        pgn_assets = f'\n<script type="module" src="../../assets/pgn-player.js?v={ASSET_V}"></script>'
     return f"""<!doctype html>
 <html lang="nl">
 <head>
@@ -130,7 +228,7 @@ def wrap_article(meta, content_html):
   <meta property="og:title" content="{title}">
   <meta property="og:description" content="{html.escape(meta.get('excerpt', ''))}">
   <meta property="og:type" content="article">{og_image}
-  <link rel="stylesheet" href="../../assets/site.css?v=20260924">
+  <link rel="stylesheet" href="../../assets/site.css?v={ASSET_V}">
 </head>
 <body>
 <div id="site-header"></div>
@@ -141,12 +239,13 @@ def wrap_article(meta, content_html):
     <p><time datetime="{date}">{date}</time> · {html.escape(meta.get('author', 'Bestuur'))}</p>
     {cover_html(meta)}
     <div class="article-body">{content_html}</div>
+    {pdf_html(meta)}
     <p><a class="button secondary" href="../../nieuws.html">← Alle berichten</a></p>
   </article>
 </main>
 <div id="site-footer"></div>
-<script src="../../config.js?v=20260924"></script>
-<script src="../../assets/site.js?v=20260924"></script>
+<script src="../../config.js?v={ASSET_V}"></script>
+<script src="../../assets/site.js?v={ASSET_V}"></script>{pgn_assets}
 </body>
 </html>
 """

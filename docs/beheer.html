@@ -5,20 +5,51 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <title>Beheer — De Scheve Toren</title>
-  <link rel="stylesheet" href="./assets/site.css?v=20260924-cms">
+  <link rel="stylesheet" href="./assets/site.css?v=20261009-cms">
   <style>
     .cms-tabs { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0; }
     .cms-tabs button { border:1px solid var(--border); background:var(--panel); padding:.45rem .85rem; border-radius:999px; cursor:pointer; font:inherit; }
     .cms-tabs button.active { background:var(--primary); color:#fff; border-color:var(--primary); }
     .cms-panel { margin-top:1rem; }
     .field-label { display:block; font-weight:600; margin:.5rem 0 .25rem; }
-    .cms-panel input[type=text], .cms-panel input[type=date], .cms-panel textarea, .cms-panel select {
+    .cms-panel input[type=text], .cms-panel input[type=date], .cms-panel input[type=file], .cms-panel textarea, .cms-panel select {
       width:100%; max-width:40rem; padding:.5rem; border:1px solid var(--border); border-radius:.45rem; font:inherit;
     }
-    .cms-panel textarea { min-height:8rem; font-family:ui-monospace, monospace; font-size:.9rem; }
+    .cms-panel textarea { min-height:12rem; font-family:ui-monospace, monospace; font-size:.9rem; }
     #cmsPageJson { min-height:16rem; max-width:100%; }
     .lichess-login { display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; margin-top:1rem; }
-    .cms-actions { display:flex; gap:.75rem; flex-wrap:wrap; margin-top:1rem; }
+    .cms-actions { display:flex; gap:.75rem; flex-wrap:wrap; margin-top:1rem; align-items:center; }
+    .cms-toolbar {
+      display:flex; flex-wrap:wrap; gap:.35rem; margin:.35rem 0 .5rem; max-width:100%;
+    }
+    .cms-toolbar button {
+      border:1px solid var(--border); background:var(--panel); padding:.3rem .55rem;
+      border-radius:.4rem; cursor:pointer; font:inherit; font-size:.85rem;
+    }
+    .cms-toolbar button:hover { border-color:var(--primary); }
+    .cms-editor-grid {
+      display:grid; gap:1rem; grid-template-columns:1fr;
+    }
+    @media (min-width:900px) {
+      .cms-editor-grid { grid-template-columns:1fr 1fr; align-items:start; }
+      .cms-panel #newsBody, .cms-preview { max-width:none; }
+    }
+    .cms-preview {
+      min-height:12rem; max-height:32rem; overflow:auto; padding:.75rem 1rem;
+      border:1px solid var(--border); border-radius:.45rem; background:var(--panel);
+      font-family:inherit; font-size:.95rem;
+    }
+    .cms-preview .chess-diagram iframe { width:100%; max-width:100%; height:420px; border:1px solid var(--border); border-radius:12px; }
+    .cms-preview .fen-placeholder, .cms-preview .pgn-placeholder, .cms-preview .game-placeholder {
+      padding:.75rem; border:1px dashed var(--border); border-radius:.45rem; color:var(--muted); font-size:.9rem;
+    }
+    .cms-chess-helper, .cms-media-block {
+      margin-top:1rem; padding:1rem; border:1px solid var(--border); border-radius:.6rem; background:rgba(0,0,0,.02);
+      max-width:48rem;
+    }
+    .cms-chess-helper h3, .cms-media-block h3 { margin:0 0 .5rem; font-size:1rem; }
+    .cms-chess-helper textarea { min-height:5rem; }
+    .cms-hint { font-size:.88rem; color:var(--muted); margin:.25rem 0 .5rem; }
   </style>
 </head>
 <body>
@@ -62,6 +93,8 @@
       <p id="cmsNewsEditHint" class="meta" hidden></p>
       <form id="cmsNewsForm">
         <input id="newsRepoPath" name="repo_path" type="hidden" value="">
+        <input id="newsCover" name="cover" type="hidden" value="">
+        <input id="newsPdf" name="pdf" type="hidden" value="">
         <label class="field-label" for="newsTitle">Titel</label>
         <input id="newsTitle" name="title" type="text" required>
         <label class="field-label" for="newsSlug">Slug (URL)</label>
@@ -73,8 +106,67 @@
         <label class="field-label" for="newsExcerpt">Samenvatting</label>
         <input id="newsExcerpt" name="excerpt" type="text">
         <label class="field-label"><input name="draft" type="checkbox"> Concept (draft — niet op nieuwspagina)</label>
+
+        <div class="cms-media-block">
+          <h3>Media</h3>
+          <p class="cms-hint">Eerst titel/slug invullen. Bestanden gaan naar <code>media/&lt;slug&gt;/</code> in de repo.</p>
+          <label class="field-label" for="newsCoverFile">Coverafbeelding</label>
+          <div class="cms-actions">
+            <input id="newsCoverFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif">
+            <button id="newsCoverUpload" class="button secondary" type="button">Cover uploaden</button>
+            <button id="newsCoverClear" class="button muted" type="button">Cover wissen</button>
+          </div>
+          <p id="newsCoverHint" class="cms-hint" hidden></p>
+          <label class="field-label" for="newsImageFile">Afbeelding in tekst</label>
+          <div class="cms-actions">
+            <input id="newsImageFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif">
+            <button id="newsImageInsert" class="button secondary" type="button">Uploaden &amp; invoegen</button>
+          </div>
+          <label class="field-label" for="newsPdfFile">PDF-bijlage (optioneel)</label>
+          <div class="cms-actions">
+            <input id="newsPdfFile" type="file" accept="application/pdf,.pdf">
+            <button id="newsPdfUpload" class="button secondary" type="button">PDF uploaden</button>
+            <button id="newsPdfClear" class="button muted" type="button">PDF wissen</button>
+          </div>
+          <p id="newsPdfHint" class="cms-hint" hidden></p>
+        </div>
+
         <label class="field-label" for="newsBody">Inhoud (Markdown)</label>
-        <textarea id="newsBody" name="body" placeholder="Tekst, ## koppen, ```fen voor diagrammen…"></textarea>
+        <div class="cms-toolbar" id="newsToolbar" role="toolbar" aria-label="Markdown opmaak">
+          <button type="button" data-md="bold" title="Vet"><strong>B</strong></button>
+          <button type="button" data-md="italic" title="Cursief"><em>I</em></button>
+          <button type="button" data-md="heading" title="Kop">H2</button>
+          <button type="button" data-md="link" title="Link">Link</button>
+          <button type="button" data-md="list" title="Lijst">• Lijst</button>
+          <button type="button" data-md="fen" title="FEN-diagram invoegen">FEN</button>
+          <button type="button" data-md="game" title="Lichess-partij invoegen">Partij</button>
+          <button type="button" data-md="pgn" title="PGN invoegen">PGN</button>
+        </div>
+        <div class="cms-editor-grid">
+          <textarea id="newsBody" name="body" placeholder="Tekst, ## koppen, diagrammen via de knoppen…"></textarea>
+          <div>
+            <p class="field-label">Voorbeeld</p>
+            <div id="newsPreview" class="cms-preview article-body" aria-live="polite"></div>
+            <p class="cms-hint">FEN/partij-iframes laden live; PGN-navigatie werkt volledig na publicatie.</p>
+          </div>
+        </div>
+
+        <div class="cms-chess-helper">
+          <h3>Schaakdiagram / partij</h3>
+          <p class="cms-hint">Plak een FEN, Lichess-URL of PGN. Of open de Lichess-editor, stel de stelling in, kopieer de FEN terug.</p>
+          <div class="cms-actions">
+            <a class="button secondary" href="https://lichess.org/editor" target="_blank" rel="noopener">Open Lichess-editor</a>
+            <a class="button muted" href="https://lichess.org/analysis" target="_blank" rel="noopener">Open analysebord</a>
+          </div>
+          <label class="field-label" for="chessHelperInput">Plak FEN, Lichess-URL of PGN</label>
+          <textarea id="chessHelperInput" placeholder="FEN, https://lichess.org/… of volledige PGN"></textarea>
+          <div class="cms-actions">
+            <button id="chessInsertFen" class="button secondary" type="button">Invoegen als FEN</button>
+            <button id="chessInsertGame" class="button secondary" type="button">Invoegen als partij</button>
+            <button id="chessInsertPgn" class="button secondary" type="button">Invoegen als PGN</button>
+          </div>
+        </div>
+
         <div class="cms-actions">
           <button class="button primary" type="submit">Publiceren naar GitHub</button>
         </div>
@@ -108,9 +200,11 @@
   </div>
 </main>
 <div id="site-footer"></div>
-<script src="./config.js?v=20260924-cms"></script>
-<script src="./assets/site.js?v=20260924-cms"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js"></script>
+<script src="./config.js?v=20261009-cms"></script>
+<script src="./api-client.js?v=20261009-cms"></script>
+<script src="./assets/site.js?v=20261009-cms"></script>
 <script src="./lichess-auth.js?v=20260924-oauth"></script>
-<script src="./assets/cms.js?v=20260924-attfix"></script>
+<script src="./assets/cms.js?v=20261009-cms"></script>
 </body>
 </html>
