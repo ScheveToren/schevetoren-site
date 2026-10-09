@@ -407,6 +407,11 @@ function doPost(e) {
       return jsonResponse(cmsUploadNewsMedia(payload));
     }
 
+    // Public contact form (no Lichess login)
+    if (action === "contact-form") {
+      return jsonResponse(contactFormSubmit(payload));
+    }
+
     if (action === "bulk-set") {
       const auth = resolveAuth(token);
       if (!auth.ok || !auth.linked) return jsonResponse({ ok: false, error: "forbidden" });
@@ -841,4 +846,117 @@ function cmsUploadNewsMedia(payload) {
 /** Run once after setting GITHUB_PAT in Script Properties → Project settings. */
 function setupCmsGitHubPatHint() {
   Logger.log("Set Script property GITHUB_PAT (fine-grained PAT, contents read+write on %s/%s).", GITHUB_OWNER, GITHUB_REPO);
+}
+
+// --- Public contact form → e-mail to bestuur (addresses only from Sheets / Script Properties) ---
+
+function isValidEmailAddress(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
+}
+
+/**
+ * Recipients stay in the backend only (never on the static site).
+ * 1) Optional Script property CONTACT_TO (comma-separated) overrides everything.
+ * 2) Else: e-mails from sheet Admins + Players with is_admin and an email column.
+ */
+function getContactRecipients() {
+  const override = String(PropertiesService.getScriptProperties().getProperty("CONTACT_TO") || "").trim();
+  if (override) {
+    return override
+      .split(/[,;\s]+/)
+      .map(function (s) { return s.trim().toLowerCase(); })
+      .filter(isValidEmailAddress);
+  }
+
+  const seen = {};
+  const emails = [];
+  function add(addr) {
+    const e = String(addr || "").trim().toLowerCase();
+    if (!isValidEmailAddress(e) || seen[e]) return;
+    seen[e] = true;
+    emails.push(e);
+  }
+
+  try {
+    sheetRowsAsObjects("Admins").forEach(function (row) {
+      add(row.email);
+    });
+  } catch (e) {
+    // Admins sheet optional
+  }
+
+  try {
+    sheetRowsAsObjects("Players").forEach(function (row) {
+      if (parseIsAdmin(row.is_admin)) add(row.email);
+    });
+  } catch (e) {
+    // ignore
+  }
+
+  return emails;
+}
+
+function contactFormSubmit(payload) {
+  // Honeypot: bots fill hidden "website" field — pretend success
+  if (String(payload.website || "").trim()) {
+    return { ok: true, message: "sent" };
+  }
+
+  const name = String(payload.name || "").trim();
+  const email = String(payload.email || "").trim();
+  const subject = String(payload.subject || "").trim() || "Bericht via website";
+  const message = String(payload.message || "").trim();
+
+  if (!name || !email || !message) {
+    return { ok: false, error: "missing_fields", message: "Vul naam, e-mail en bericht in." };
+  }
+  if (name.length > 120 || email.length > 200 || subject.length > 200 || message.length > 5000) {
+    return { ok: false, error: "invalid_contact", message: "Een of meer velden zijn te lang." };
+  }
+  if (!isValidEmailAddress(email)) {
+    return { ok: false, error: "invalid_contact", message: "Ongeldig e-mailadres." };
+  }
+
+  const recipients = getContactRecipients();
+  if (!recipients.length) {
+    return { ok: false, error: "contact_email_not_configured" };
+  }
+
+  const cache = CacheService.getScriptCache();
+  const rateKey = "contact:" + email.toLowerCase();
+  if (cache.get(rateKey)) {
+    return { ok: false, error: "rate_limited", message: "Je hebt zojuist een bericht gestuurd. Probeer het zo opnieuw." };
+  }
+
+  const body = [
+    "Nieuw bericht via de contactpagina van schevetoren.github.io",
+    "",
+    "Naam: " + name,
+    "E-mail: " + email,
+    "Onderwerp: " + subject,
+    "",
+    message,
+    "",
+    "—",
+    "Je kunt op dit bericht antwoorden (reply-to is het adres van de afzender)."
+  ].join("\n");
+
+  try {
+    MailApp.sendEmail({
+      to: recipients.join(","),
+      replyTo: email,
+      name: "De Scheve Toren website",
+      subject: "[Scheve Toren contact] " + subject,
+      body: body
+    });
+  } catch (error) {
+    return {
+      ok: false,
+      error: "contact_send_failed",
+      message: String(error && error.message ? error.message : error)
+    };
+  }
+
+  cache.put(rateKey, "1", 60);
+  return { ok: true, message: "sent" };
 }

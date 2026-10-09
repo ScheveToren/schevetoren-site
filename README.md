@@ -49,12 +49,14 @@ The “Inloggen met Lichess” button sends users to `https://lichess.org/oauth?
 
 | Tab | Purpose |
 |-----|---------|
-| `Players` | `player_name`, `lichess_username`, `is_admin`, … |
+| `Players` | `player_name`, `lichess_username`, `is_admin`, … (optional `email` for contact form) |
 | `InviteCodes` | One-time codes to link Lichess → player |
 | `Attendance` | Per player/date status |
+| `Admins` | `email`, `role`, `added_at` — contact-form recipients (backend only) |
 | `Settings` | Optional club metadata |
 
-**Admins:** set `is_admin` to `TRUE` and fill `lichess_username` for board members.
+**Admins (site login):** set `is_admin` to `TRUE` and fill `lichess_username` for board members.  
+**Admins (contact e-mail):** put bestuur e-mail addresses in the **Admins** tab (not published on the website).
 
 **Members:** receive invite code → log in with Lichess → link account → manage own attendance only.
 
@@ -92,6 +94,8 @@ Board members with `is_admin` can publish news, page JSON, and calendar ICS from
 4. On beheer, use **Test GitHub-verbinding** to verify.
 
 CMS POST actions (admin + Lichess token): `cms-status`, `cms-test-commit`, `cms-list-news`, `cms-get-news`, `cms-publish-news`, `cms-publish-page`, `cms-get-page`, `cms-upload-ics`, `cms-upload-news-media`.
+
+Public POST (no login): `contact-form` — e-mails the contact form to admin addresses from the spreadsheet (`Admins.email` and/or `Players` with `is_admin` + `email`), via Apps Script `MailApp`. Addresses are never exposed on the static site.
 
 ### API (privacy)
 
