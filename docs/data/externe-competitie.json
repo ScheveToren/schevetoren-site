@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "updatedAt": "2026-10-09T13:11:23Z",
+  "updatedAt": "2026-10-10T12:25:39Z",
   "source": "netstand",
   "teams": [
     {
@@ -25,7 +25,7 @@
           "dateIso": "2026-10-09",
           "home": "Scheve Toren 1",
           "away": "RSC-Belgisch Park 1",
-          "score": "?",
+          "score": "3½ – 4½",
           "homeIsUs": true,
           "awayIsUs": false
         },
@@ -83,24 +83,24 @@
       "standings": [
         {
           "rank": 1,
-          "team": "DD 3",
-          "mp": "2",
-          "bp": "5.5",
+          "team": "RSC-Belgisch Park 1",
+          "mp": "4",
+          "bp": "10",
           "isUs": false
         },
         {
           "rank": 2,
-          "team": "RSC-Belgisch Park 1",
+          "team": "Scheve Toren 1",
           "mp": "2",
-          "bp": "5.5",
-          "isUs": false
+          "bp": "8",
+          "isUs": true
         },
         {
           "rank": 3,
-          "team": "Scheve Toren 1",
+          "team": "DD 3",
           "mp": "2",
-          "bp": "4.5",
-          "isUs": true
+          "bp": "5.5",
+          "isUs": false
         },
         {
           "rank": 4,
