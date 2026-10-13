@@ -36,8 +36,36 @@ def parse_frontmatter(text):
     for line in parts[1].strip().splitlines():
         if ":" in line:
             key, value = line.split(":", 1)
-            meta[key.strip()] = value.strip().strip('"')
+            key = key.strip()
+            value = value.strip().strip('"')
+            if key == "pdfs":
+                try:
+                    parsed = json.loads(value)
+                    if isinstance(parsed, list):
+                        meta[key] = [str(p).strip() for p in parsed if str(p).strip()]
+                        continue
+                except json.JSONDecodeError:
+                    pass
+            meta[key] = value
     return meta, parts[2].lstrip("\n")
+
+
+def collect_pdfs(meta):
+    pdfs = []
+    raw = meta.get("pdfs")
+    if isinstance(raw, list):
+        pdfs.extend(str(p).strip() for p in raw if str(p).strip())
+    elif isinstance(raw, str) and raw.strip():
+        try:
+            parsed = json.loads(raw)
+            if isinstance(parsed, list):
+                pdfs.extend(str(p).strip() for p in parsed if str(p).strip())
+        except json.JSONDecodeError:
+            pdfs.extend(p.strip() for p in raw.split(",") if p.strip())
+    single = meta.get("pdf", "").strip()
+    if single and single not in pdfs:
+        pdfs.insert(0, single)
+    return pdfs
 
 
 def lichess_analysis_embed_url(fen_line, color="white"):
@@ -182,16 +210,22 @@ def cover_html(meta):
 
 
 def pdf_html(meta):
-    pdf = meta.get("pdf", "").strip()
-    if not pdf:
+    pdfs = collect_pdfs(meta)
+    if not pdfs:
         return ""
-    src = html.escape(pdf)
-    return (
-        f'<figure class="post-pdf">'
-        f'<iframe title="PDF" src="{src}" loading="lazy"></iframe>'
-        f'<p class="pdf-download"><a class="button secondary" href="{src}" download target="_blank" rel="noopener">'
-        f"Download PDF</a></p></figure>"
-    )
+    parts = []
+    for i, pdf in enumerate(pdfs):
+        src = html.escape(pdf)
+        name = html.escape(os.path.basename(pdf) or f"bijlage-{i + 1}.pdf")
+        title = f"PDF: {name}" if len(pdfs) > 1 else "PDF"
+        label = f"Download {name}" if len(pdfs) > 1 else "Download PDF"
+        parts.append(
+            f'<figure class="post-pdf">'
+            f'<iframe title="{html.escape(title)}" src="{src}" loading="lazy"></iframe>'
+            f'<p class="pdf-download"><a class="button secondary" href="{src}" download target="_blank" rel="noopener">'
+            f"{label}</a></p></figure>"
+        )
+    return "\n".join(parts)
 
 
 def md_to_html(body):
