@@ -55,6 +55,27 @@
     return response.json();
   }
 
+  function escapeHtml(value) {
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function eventHref(ev) {
+    if (ev.url) return ev.url;
+    if (ev.newsSlug) return `./nieuws/berichten/${ev.newsSlug}.html`;
+    return "";
+  }
+
+  function renderLabel(ev) {
+    const label = escapeHtml(ev.label);
+    const href = eventHref(ev);
+    if (!href) return `<span class="calendar-label">${label}</span>`;
+    return `<a class="calendar-label" href="${escapeHtml(href)}">${label}</a>`;
+  }
+
   function tupleToEvent(tuple) {
     const [date, label, kind] = tuple;
     return { date, label, kind: kind || "regular" };
@@ -64,7 +85,9 @@
     return {
       date: obj.date,
       label: obj.label,
-      kind: obj.kind || "regular"
+      kind: obj.kind || "regular",
+      newsSlug: obj.newsSlug || obj.news_slug || "",
+      url: obj.url || ""
     };
   }
 
@@ -112,7 +135,7 @@
       ${upcoming.map(e => `
         <li class="calendar-item kind-${e.kind}">
           <time datetime="${e.date}">${formatDateNl(e.date)}</time>
-          <span class="calendar-label">${e.label}</span>
+          ${renderLabel(e)}
           <span class="calendar-kind">${KIND_LABEL[e.kind] || e.kind}</span>
         </li>`).join("")}
     </ul>`;
@@ -128,7 +151,7 @@
       ${inMonth.map(e => `
         <li class="calendar-item kind-${e.kind}">
           <time datetime="${e.date}">${formatDateNl(e.date)}</time>
-          <span class="calendar-label">${e.label}</span>
+          ${renderLabel(e)}
           <span class="calendar-kind">${KIND_LABEL[e.kind] || e.kind}</span>
         </li>`).join("")}
     </ul>`;
@@ -152,7 +175,14 @@
         .filter(Boolean)
         .join(" ");
       const evHtml = dayEvents.length
-        ? dayEvents.map(ev => `<span class="cal-ev kind-${ev.kind}" title="${ev.label.replace(/"/g, "&quot;")}">${ev.label}</span>`).join("")
+        ? dayEvents.map(ev => {
+            const title = escapeHtml(ev.label);
+            const href = eventHref(ev);
+            const inner = href
+              ? `<a class="cal-ev kind-${ev.kind}" href="${escapeHtml(href)}" title="${title}">${title}</a>`
+              : `<span class="cal-ev kind-${ev.kind}" title="${title}">${title}</span>`;
+            return inner;
+          }).join("")
         : "";
       cells += `<div class="${cls}"><span class="cal-day">${day}</span>${evHtml}</div>`;
     }

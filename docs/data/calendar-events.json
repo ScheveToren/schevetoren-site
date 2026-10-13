@@ -8,11 +8,23 @@
     ["2026-10-09", "HSB: ST1 thuis vs RSC-Belgisch Park 1", "external"],
     ["2026-10-11", "Jeugd GP1 — Botwinnik (Zoetermeer)", "youth"],
     ["2026-10-16", "HSB: ST2 thuis vs DSC 6", "external"],
+    {
+      "date": "2026-10-25",
+      "label": "Open NK snelschaken jeugd (Gorinchem)",
+      "kind": "youth",
+      "newsSlug": "jeugdtoernooien-oktober-november-2026"
+    },
     ["2026-10-30", "HSB: ST2 uit @ DCSV", "external"],
     ["2026-10-31", "KNSB 6H: ST1 thuis vs Kasteel Lekstroom 2", "external"],
     ["2026-11-07", "Jeugd GP2 — SHTV (Den Haag)", "youth"],
     ["2026-11-19", "HSB: ST1 uit @ SHTV 2", "external"],
     ["2026-11-21", "KNSB 6H: ST1 uit @ Kennemer Combinatie 5", "external"],
+    {
+      "date": "2026-11-28",
+      "label": "Dekker Tweetallen familietoernooi (Spijkenisse)",
+      "kind": "youth",
+      "newsSlug": "jeugdtoernooien-oktober-november-2026"
+    },
     ["2026-11-29", "Jeugd GP3 — Promotie (Zoetermeer)", "youth"],
     ["2026-12-11", "HSB: ST1 thuis vs DD 3", "external"],
     ["2026-12-12", "KNSB 6H: ST1 thuis vs Overschie", "external"],
