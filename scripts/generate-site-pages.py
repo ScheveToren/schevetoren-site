@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PAGES_DIR = ROOT / "docs" / "content" / "pages"
 DOCS = ROOT / "docs"
-CSS_V = "20260924-cms"
+CSS_V = "20261009-contact"
 
 
 def esc(s: str) -> str:
@@ -40,6 +40,9 @@ def write_contact(data):
     i18n = data.get("i18nTitleKey", "")
     h1 = f'<h1 data-i18n="{esc(i18n)}">{esc(title)}</h1>' if i18n else f"<h1>{esc(title)}</h1>"
     body = render_blocks(data.get("blocks"))
+    form = data.get("form") or {}
+    form_title = esc(form.get("heading", "Stuur een bericht"))
+    form_intro = esc(form.get("intro", "Vul het formulier in; het bestuur ontvangt je bericht per e-mail."))
     return f"""<!doctype html>
 <!-- Generated from docs/content/pages/contact.json — do not edit by hand -->
 <html lang="nl">
@@ -57,11 +60,35 @@ def write_contact(data):
   <section class="panel intro-panel">
 {body}
   </section>
+  <section class="panel contact-form-panel" aria-labelledby="contact-form-heading">
+    <h2 id="contact-form-heading">{form_title}</h2>
+    <p class="meta">{form_intro}</p>
+    <form id="contactForm" class="contact-form" novalidate>
+      <label class="field-label" for="contactName">Naam</label>
+      <input id="contactName" name="name" type="text" autocomplete="name" required maxlength="120">
+      <label class="field-label" for="contactEmail">E-mail</label>
+      <input id="contactEmail" name="email" type="email" autocomplete="email" required maxlength="200">
+      <label class="field-label" for="contactSubject">Onderwerp</label>
+      <input id="contactSubject" name="subject" type="text" maxlength="200" placeholder="Bijv. lidmaatschap, jeugd, wedstrijd…">
+      <label class="field-label" for="contactMessage">Bericht</label>
+      <textarea id="contactMessage" name="message" required maxlength="5000" rows="6" placeholder="Je vraag of opmerking…"></textarea>
+      <div class="contact-hp" aria-hidden="true">
+        <label for="contactWebsite">Website</label>
+        <input id="contactWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+      <div class="cms-actions contact-form-actions">
+        <button class="button primary" type="submit">Versturen</button>
+      </div>
+      <p id="contactFormStatus" class="api-status" role="status"></p>
+    </form>
+  </section>
 </main>
 <div id="site-footer"></div>
 <script src="./config.js?v={CSS_V}"></script>
+<script src="./api-client.js?v={CSS_V}"></script>
 <script src="./assets/site.js?v={CSS_V}"></script>
 <script src="./assets/calendar-feed.js?v={CSS_V}"></script>
+<script src="./assets/contact.js?v={CSS_V}"></script>
 </body>
 </html>
 """

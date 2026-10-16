@@ -1,0 +1,24 @@
+/** Club calendar — keep in sync with scripts/google-apps-script-live.gs SEASON. */
+const SEASON = [
+  ["2026-08-28", "ALV", "event"], ["2026-09-04", "Speeldag 1", "regular"],
+  ["2026-09-11", "Speeldag 2", "regular"], ["2026-09-18", "Speeldag 3", "regular"],
+  ["2026-09-25", "Speeldag 4", "regular"], ["2026-10-02", "Speeldag 5", "regular"],
+  ["2026-10-09", "Rapid 1", "rapid"], ["2026-10-16", "Rapid 2", "rapid"],
+  ["2026-10-30", "Rapid 3", "rapid"], ["2026-11-06", "Speeldag 7", "regular"],
+  ["2026-11-13", "Schaak-Off", "regular"], ["2026-11-20", "Speeldag 8", "regular"],
+  ["2026-11-27", "Speeldag 9", "regular"], ["2026-12-04", "Speeldag 10", "regular"],
+  ["2026-12-11", "Rapid 4", "rapid"], ["2026-12-18", "Rapid 5 / Kerstschaak", "rapid"],
+  ["2027-01-08", "Speeldag 11", "regular"], ["2027-01-15", "Speeldag 12", "regular"],
+  ["2027-01-22", "Speeldag 13", "regular"], ["2027-01-29", "Speeldag 14", "regular"],
+  ["2027-02-05", "Speeldag 15", "regular"], ["2027-02-12", "Speeldag 16", "regular"],
+  ["2027-02-19", "Speeldag 17", "regular"], ["2027-03-05", "Speeldag 18", "regular"],
+  ["2027-03-12", "Rapid 6", "rapid"], ["2027-03-19", "Rapid 7", "rapid"],
+  ["2027-04-02", "Speeldag 19", "regular"], ["2027-04-09", "Speeldag 20", "regular"],
+  ["2027-04-16", "Speeldag 21", "regular"], ["2027-04-23", "Speeldag 22", "regular"],
+  ["2027-05-14", "Speeldag 23", "regular"], ["2027-05-21", "Speeldag 24", "regular"],
+  ["2027-05-28", "Speeldag 25", "regular"], ["2027-06-04", "Speeldag 26", "regular"],
+  ["2027-06-11", "Speeldag 27", "regular"], ["2027-06-18", "Speeldag 28", "regular"],
+  ["2027-06-25", "Speeldag 29", "regular"]
+];
+
+module.exports = { SEASON };
