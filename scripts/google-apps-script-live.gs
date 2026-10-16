@@ -395,6 +395,18 @@ function doPost(e) {
       return jsonResponse(cmsGetPage(payload.page_key || payload.key));
     }
 
+    if (action === "cms-get-rapid-ladder") {
+      const auth = requireCmsAdmin(token);
+      if (!auth.ok) return jsonResponse({ ok: false, error: auth.error || "forbidden" });
+      return jsonResponse(cmsGetRapidLadder());
+    }
+
+    if (action === "cms-publish-rapid-ladder") {
+      const auth = requireCmsAdmin(token);
+      if (!auth.ok) return jsonResponse({ ok: false, error: auth.error || "forbidden" });
+      return jsonResponse(cmsPublishRapidLadder(payload));
+    }
+
     if (action === "cms-upload-ics") {
       const auth = requireCmsAdmin(token);
       if (!auth.ok) return jsonResponse({ ok: false, error: auth.error || "forbidden" });
@@ -760,6 +772,48 @@ function cmsGetPage(keyRaw) {
   } catch (e) {
     return { ok: false, error: "invalid_json" };
   }
+}
+
+function normalizeRapidPlayer(entry) {
+  if (!entry || typeof entry !== "object") return null;
+  const name = String(entry.name || "").trim();
+  if (!name) return null;
+  const out = { name: name };
+  const rating = Number(entry.rating);
+  if (!isNaN(rating) && isFinite(rating)) out.rating = rating;
+  return out;
+}
+
+function cmsGetRapidLadder() {
+  const meta = githubGetFileMeta("docs/data/rapid-ladder.json");
+  if (!meta.ok) return meta;
+  if (!meta.exists) return { ok: false, error: "not_found" };
+  const b64 = String(meta.content || "").replace(/\s/g, "");
+  const decoded = Utilities.newBlob(Utilities.base64Decode(b64)).getDataAsString();
+  try {
+    return { ok: true, ladder: JSON.parse(decoded) };
+  } catch (e) {
+    return { ok: false, error: "invalid_json" };
+  }
+}
+
+function cmsPublishRapidLadder(payload) {
+  const ladder = payload.ladder;
+  if (!ladder || typeof ladder !== "object") return { ok: false, error: "missing rapid ladder json" };
+  const players = Array.isArray(ladder.players)
+    ? ladder.players.map(normalizeRapidPlayer).filter(Boolean)
+    : [];
+  if (!players.length && Array.isArray(ladder.players) && ladder.players.length) {
+    return { ok: false, error: "invalid_rapid_ladder" };
+  }
+  const next = {
+    season: String(ladder.season || "").trim() || "2026-2027",
+    source: String(ladder.source || "").trim(),
+    updated: String(ladder.updated || "").trim() || Utilities.formatDate(new Date(), "GMT+1", "yyyy-MM-dd"),
+    players: players
+  };
+  const content = JSON.stringify(next, null, 2) + "\n";
+  return githubPutTextFile("docs/data/rapid-ladder.json", content, "CMS: rapid-ladder.json");
 }
 
 function cmsUploadIcs(payload) {
