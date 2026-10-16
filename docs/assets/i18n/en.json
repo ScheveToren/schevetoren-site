@@ -29,7 +29,7 @@
   "rapid.nav": "Rapid groups",
   "rapid.title": "Rapid four-round groups",
   "rapid.badge": "Internal rapid (R)",
-  "rapid.intro": "Check who is playing tonight. Groups follow the rapid ladder (strongest first, groups of four).",
+  "rapid.intro": "Check who is playing tonight. Groups follow the rapid ladder (strongest first, groups of four). Colors: (w) = white, (z) = black — at most two games with the same color per four-player group.",
   "rapid.evening": "Rapid evening",
   "rapid.ladder": "Rapid ladder",
   "rapid.indeling": "Pairings",

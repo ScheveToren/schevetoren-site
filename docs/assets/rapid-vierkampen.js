@@ -110,24 +110,29 @@
     return groups;
   }
 
+  function formatPairing(white, black) {
+    return `${white} (w) – ${black} (z)`;
+  }
+
+  /** Berger vierkamp: each player gets 2× one color and 1× the other (never 3× the same). */
   function pairingsForGroup(group) {
     const p = group.players;
     if (group.kind === "vierkamp" && p.length === 4) {
       return [
-        { round: 1, boards: [`${p[0]} – ${p[1]}`, `${p[2]} – ${p[3]}`] },
-        { round: 2, boards: [`${p[0]} – ${p[2]}`, `${p[1]} – ${p[3]}`] },
-        { round: 3, boards: [`${p[0]} – ${p[3]}`, `${p[1]} – ${p[2]}`] }
+        { round: 1, boards: [formatPairing(p[0], p[3]), formatPairing(p[1], p[2])] },
+        { round: 2, boards: [formatPairing(p[3], p[2]), formatPairing(p[0], p[1])] },
+        { round: 3, boards: [formatPairing(p[1], p[3]), formatPairing(p[2], p[0])] }
       ];
     }
     if (group.kind === "driekamp" && p.length === 3) {
       return [
-        { round: 1, boards: [`${p[0]} – ${p[1]}`] },
-        { round: 2, boards: [`${p[0]} – ${p[2]}`] },
-        { round: 3, boards: [`${p[1]} – ${p[2]}`] }
+        { round: 1, boards: [formatPairing(p[0], p[1])] },
+        { round: 2, boards: [formatPairing(p[2], p[0])] },
+        { round: 3, boards: [formatPairing(p[1], p[2])] }
       ];
     }
     if (group.kind === "duel" && p.length === 2) {
-      return [{ round: 1, boards: [`${p[0]} – ${p[1]}`] }];
+      return [{ round: 1, boards: [formatPairing(p[0], p[1])] }];
     }
     return [];
   }
