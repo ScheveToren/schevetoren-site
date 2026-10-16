@@ -14,12 +14,9 @@ Programma externe teams: [Externe competitie](../../externe-competitie.html).
 
 ## Jeroens eindspel
 
-**Wit (Jeroen):** Kh1, b2, c4, f4, g4, h4.  
-**Zwart:** Ke6, a7, c5, g6, h6.
-
 Wit staat duidelijk gewonnen, aangezien de zwarte koning niet actief kan worden. Het plan is de witte koning naar e4 te brengen, vervolgens de f-pion op te spelen en dan met Ke4-d5 de zwarte c-pion te veroveren en op c8 een dame te halen. Zwart kan slechts machteloos toekijken. In de partij werd gekozen voor een toreneindspel dat remise gaf.
 
-Zijns beste kans na **1. Kg2** is misschien nog **1…h5**, in de hoop op **2. g5? Ke5**, **3. Kf3 a6**, **4. b3 a5**, **5. Ke3 Kg4**, **6. Ke4 Kxh4** — en het lijkt remise, maar na **7. Kf3** wint wit alsnog. Ruilen op h5 wint echter eenvoudig (evenals **2. f5+ gxf5 3. gxh5**).
+Zijn beste kans na **1. Kg2** is misschien nog **1…h5**, in de hoop op **2. g5? Ke5**, **3. Kf3 a6**, **4. b3 a5**, **5. Ke3 Kg4**, **6. Ke4 Kxh4** — en het lijkt remise, maar na **7. Kf3** wint wit alsnog. Ruilen op h5 wint echter eenvoudig (evenals **2. f5+ gxf5 3. gxh5**).
 
 ```pgn
 orientation: white
