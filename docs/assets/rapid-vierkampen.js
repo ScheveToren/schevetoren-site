@@ -274,6 +274,13 @@
     return results;
   }
 
+  /** Ladder is grouped in blocks of 4; winner swaps with #4 of the block above (4 ranks up). */
+  function promoteTargetIndex(ladderIndex) {
+    const groupIndex = Math.floor(ladderIndex / 4);
+    if (groupIndex <= 0) return -1;
+    return groupIndex * 4 - 1;
+  }
+
   function applyLadderMoves(players, results) {
     const names = players.map((p) => p.name);
     const moves = [];
@@ -282,11 +289,18 @@
       if (!winner || !last || winner === last) continue;
 
       let wi = names.indexOf(winner);
-      if (wi > 0) {
-        moves.push(`${winner} ↑ (wissel met ${names[wi - 1]})`);
-        const tmp = names[wi - 1];
-        names[wi - 1] = names[wi];
-        names[wi] = tmp;
+      if (wi >= 0) {
+        const target = promoteTargetIndex(wi);
+        if (target >= 0 && target !== wi) {
+          moves.push(
+            `${winner} ↑ (wissel met ${names[target]}, #4 groep erboven)`
+          );
+          const tmp = names[target];
+          names[target] = names[wi];
+          names[wi] = tmp;
+        } else if (target < 0) {
+          moves.push(`${winner} — al in hoogste ladder-groep, geen promotie`);
+        }
       }
 
       let li = names.indexOf(last);
