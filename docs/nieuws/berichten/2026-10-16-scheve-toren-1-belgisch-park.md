@@ -17,13 +17,7 @@ Programma externe teams: [Externe competitie](../../externe-competitie.html).
 **Wit (Jeroen):** Kh1, b2, c4, f4, g4, h4.  
 **Zwart:** Ke6, a7, c5, g6, h6.
 
-Wit staat duidelijk gewonnen, aangezien de zwarte koning niet actief kan worden. Het plan is de witte koning naar e4 te brengen, vervolgens de f-pion op te spelen en dan met Ke4-d5 de zwarte c-pion te veroveren en op c8 een dame te halen. Zwart kan slechts machteloos toekijken.
-
-```fen
-8/p7/4k1pp/2p5/2P2PPP/8/1P6/7K w - - 0 1
-orientation: white
-caption: Jeroen (wit) — winnend pionneneindspel; in de partij werd gekozen voor een toreneindspel dat remise gaf.
-```
+Wit staat duidelijk gewonnen, aangezien de zwarte koning niet actief kan worden. Het plan is de witte koning naar e4 te brengen, vervolgens de f-pion op te spelen en dan met Ke4-d5 de zwarte c-pion te veroveren en op c8 een dame te halen. Zwart kan slechts machteloos toekijken. In de partij werd gekozen voor een toreneindspel dat remise gaf.
 
 Zijns beste kans na **1. Kg2** is misschien nog **1…h5**, in de hoop op **2. g5? Ke5**, **3. Kf3 a6**, **4. b3 a5**, **5. Ke3 Kg4**, **6. Ke4 Kxh4** — en het lijkt remise, maar na **7. Kf3** wint wit alsnog. Ruilen op h5 wint echter eenvoudig (evenals **2. f5+ gxf5 3. gxh5**).
 
@@ -39,7 +33,7 @@ caption: Winnende lijn na 1…h5 (2. gxh5)
 [SetUp "1"]
 [FEN "8/p7/4k1pp/2p5/2P2PPP/8/1P6/7K w - - 0 1"]
 
-1. Kg2 h5 2. gxh5 gxh5 3. Kf3 Kf5 4. b3 a6 5. Ke3 Kg4 6. Ke4 Kxh4 7. f5 Kg5 8. Ke5 h4 9. fxg6 h3 10. f6 h2 11. f7 h1=Q 12. Qg8+ Kh6 13. Qh8#
+1. Kg2 h5 2. gxh5 gxh5 3. Kf3 Kf5 4. b3 a6 5. Ke3 Kg4 6. Ke4 Kxh4 7. f5 Kg5 8. Ke5 h4 9. f6 h3 10. f7 h2 11. f8=Q h1=Q 12. Qg8+ Kh6 13. Qh8#
 ```
 
 Merk op dat na **2. f5+ gxf5** wit met **3. g5?** niet verder komt:
