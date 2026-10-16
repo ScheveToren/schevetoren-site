@@ -26,6 +26,12 @@ PGN_MAX_CHARS = 50000
 ASSET_V = "20261009-cms"
 
 
+def escape_script_text(raw: str) -> str:
+    """Keep PGN quotes literal inside <script>; only break closing script tags."""
+    text = str(raw or "")
+    return re.sub(r"</script", r"<\\/script", text, flags=re.IGNORECASE)
+
+
 def parse_frontmatter(text):
     if not text.startswith("---"):
         return {}, text
@@ -178,7 +184,7 @@ def parse_pgn_block(body):
         return (
             f'<figure class="chess-diagram chess-pgn">'
             f'<div class="pgn-player">'
-            f'<script type="text/plain" class="pgn-source">{html.escape(data_pgn)}</script>'
+            f'<script type="text/plain" class="pgn-source">{escape_script_text(data_pgn)}</script>'
             f"</div>"
             f'<p class="pgn-analyse"><a href="{html.escape(analysis_url)}" target="_blank" rel="noopener">'
             f"Analyseer op Lichess</a></p>{cap}</figure>"
