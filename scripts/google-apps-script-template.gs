@@ -36,7 +36,9 @@ const PLAYER_ROSTER = [
   "Tim Ip",
   "Sam Ip",
   "Thomas Ellerbroek",
-  "Thijs van Straalen"
+  "Thijs van Straalen",
+  "Julian van der Heijden",
+  "Oxana"
 ];
 
 const SEASON_WEEKS = [

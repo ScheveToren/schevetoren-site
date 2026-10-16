@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "source": "Sevilla 2026-2027 ratings; Thijs van Straalen bumped to 1550 for internal form",
+  "source": "Sevilla 2026-2027 ratings; Thijs van Straalen bumped to 1550; Oxana and Julian van der Heijden",
   "updated": "2026-10-16",
   "players": [
     { "name": "Erik Jan Tromp", "rating": 1987 },
@@ -14,6 +14,7 @@
     { "name": "Casper Ruigt", "rating": 1838 },
     { "name": "Agus Sutrisno", "rating": 1802 },
     { "name": "Piet Perrels", "rating": 1780 },
+    { "name": "Oxana", "rating": 1750 },
     { "name": "Wim Bergers", "rating": 1722 },
     { "name": "Ivo Wilms", "rating": 1687 },
     { "name": "Frank Stelwagen", "rating": 1652 },
@@ -40,6 +41,7 @@
     { "name": "Yufei Huang", "rating": 1300 },
     { "name": "Tim Ip", "rating": 1300 },
     { "name": "Sam Ip", "rating": 1300 },
-    { "name": "Thomas Ellerbroek", "rating": 1300 }
+    { "name": "Thomas Ellerbroek", "rating": 1300 },
+    { "name": "Julian van der Heijden", "rating": 1300 }
   ]
 }
