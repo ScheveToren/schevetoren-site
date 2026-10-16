@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Rapid vierkampen — De Scheve Toren</title>
+  <link rel="stylesheet" href="./assets/site.css?v=20261016-rapid">
+  <style>
+    .rapid-toolbar { display:flex; flex-wrap:wrap; gap:.75rem; align-items:flex-end; margin:1rem 0; }
+    .rapid-toolbar label { display:flex; flex-direction:column; gap:.25rem; font-weight:600; font-size:.9rem; }
+    .rapid-toolbar select { min-width:12rem; padding:.45rem .6rem; border:1px solid var(--border); border-radius:.45rem; font:inherit; }
+    .rapid-actions { display:flex; flex-wrap:wrap; gap:.5rem; margin:.75rem 0; }
+    .rapid-ladder { list-style:none; padding:0; margin:0; max-width:36rem; }
+    .rapid-ladder li {
+      display:flex; align-items:center; gap:.65rem; padding:.4rem .55rem;
+      border-bottom:1px solid var(--border);
+    }
+    .rapid-ladder li:nth-child(odd) { background:rgba(0,0,0,.02); }
+    .rapid-rank { width:2rem; text-align:right; color:var(--muted); font-variant-numeric:tabular-nums; }
+    .rapid-groups { display:grid; gap:1rem; margin-top:1.25rem; }
+    @media (min-width:720px) { .rapid-groups { grid-template-columns:1fr 1fr; } }
+    .rapid-group { border:1px solid var(--border); border-radius:.6rem; padding:.85rem 1rem; background:var(--panel); }
+    .rapid-group h3 { margin:0 0 .5rem; font-size:1.05rem; }
+    .rapid-seed { margin:0 0 .65rem; padding-left:1.1rem; }
+    .rapid-seed li { margin:.15rem 0; }
+    .rapid-rounds { margin:.5rem 0 0; font-size:.92rem; }
+    .rapid-rounds dt { font-weight:600; margin-top:.35rem; }
+    .rapid-rounds dd { margin:.15rem 0 0 1rem; }
+    .rapid-copy { width:100%; max-width:40rem; min-height:6rem; font-family:ui-monospace, monospace; font-size:.85rem; margin-top:.75rem; }
+    .rapid-float { padding:.65rem .85rem; border:1px dashed var(--border); border-radius:.45rem; color:var(--muted); }
+    #adminPanel[hidden] { display:none !important; }
+    .admin-group-row {
+      border:1px solid var(--border); border-radius:.45rem; padding:.65rem .75rem; margin:.5rem 0;
+      display:grid; gap:.5rem;
+    }
+    @media (min-width:640px) {
+      .admin-group-row { grid-template-columns:1fr 1fr 1fr; align-items:end; }
+    }
+    .admin-preview { font-size:.9rem; margin:.75rem 0; padding:.65rem; background:rgba(0,0,0,.03); border-radius:.45rem; }
+    .lichess-login { display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; margin-top:.75rem; }
+  </style>
+</head>
+<body>
+<div id="site-header"></div>
+<main class="page-shell">
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">De Scheve Toren</p>
+      <h1 data-i18n="rapid.title">Rapid vierkampen</h1>
+    </div>
+    <a class="button secondary" href="./interne-competitie.html" data-i18n="nav.back">← Terug</a>
+  </header>
+
+  <section class="panel intro-panel">
+    <p class="status-badge" data-i18n="rapid.badge">Interne rapid (R)</p>
+    <p data-i18n="rapid.intro">Vink aan wie vanavond meedoet. De indeling volgt de rapid-ladder (sterkste eerst, groepen van vier).</p>
+    <p id="loadStatus" class="api-status" role="status">Laden…</p>
+
+    <div class="rapid-toolbar">
+      <label>
+        <span data-i18n="rapid.evening">Rapid-avond</span>
+        <select id="rapidDateSelect" aria-label="Rapid-avond"></select>
+      </label>
+    </div>
+
+    <div class="rapid-actions">
+      <button type="button" class="button secondary" id="selectAllBtn">Iedereen aan</button>
+      <button type="button" class="button secondary" id="selectNoneBtn">Niemand</button>
+      <button type="button" class="button secondary" id="copyPrevBtn">Zelfde als vorige rapid-avond</button>
+      <button type="button" class="button primary" id="copyLinkBtn" data-i18n="rapid.copyLink">Kopieer link</button>
+      <button type="button" class="button secondary" id="copyTextBtn" data-i18n="rapid.copyText">Kopieer indeling</button>
+    </div>
+
+    <h2 class="list-heading" style="margin-top:1.25rem" data-i18n="rapid.ladder">Rapid-ladder</h2>
+    <ul id="ladderList" class="rapid-ladder" aria-label="Rapid-ladder"></ul>
+  </section>
+
+  <section class="panel">
+    <h2 class="list-heading" data-i18n="rapid.indeling">Indeling</h2>
+    <p id="indelingSummary" class="meta"></p>
+    <div id="groupsRoot" class="rapid-groups"></div>
+    <div id="floatRoot" class="rapid-float" hidden></div>
+    <textarea id="copyBlock" class="rapid-copy" readonly hidden aria-label="Indeling tekst"></textarea>
+  </section>
+
+  <section id="adminPanel" class="panel" hidden>
+    <h2 class="list-heading">Admin: uitslag &amp; ladder</h2>
+    <p class="meta">Log in met Lichess (admin). Winnaar schuift één plek omhoog, laatste één plek omlaag in de rapid-ladder.</p>
+    <div class="lichess-login">
+      <button id="lichessLoginBtn" class="button secondary" type="button">Inloggen met Lichess</button>
+      <button id="lichessLogoutBtn" class="button secondary" type="button" hidden>Uitloggen</button>
+      <span id="lichessUser" class="meta" hidden></span>
+    </div>
+    <p id="adminStatus" class="api-status" role="status"></p>
+    <div id="adminGroups"></div>
+    <div id="adminPreview" class="admin-preview" hidden></div>
+    <div class="rapid-actions">
+      <button type="button" class="button secondary" id="previewLadderBtn">Preview ladder</button>
+      <button type="button" class="button success" id="publishLadderBtn">Publiceer ladder</button>
+    </div>
+  </section>
+</main>
+<div id="site-footer"></div>
+<script src="./config.js?v=20261016-rapid"></script>
+<script src="./api-client.js?v=20261016-rapid"></script>
+<script src="./assets/site.js?v=20261016-rapid"></script>
+<script src="./lichess-auth.js?v=20261016-rapid"></script>
+<script src="./assets/rapid-vierkampen.js?v=20261016-rapid"></script>
+</body>
+</html>

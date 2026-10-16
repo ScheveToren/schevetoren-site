@@ -39,7 +39,9 @@
     "unsupported_media",
     "media_too_large",
     "invalid_cover_path",
-    "invalid_pdf_path"
+    "invalid_pdf_path",
+    "invalid_rapid_ladder",
+    "missing rapid ladder json"
   ]);
 
   function endpoints() {
