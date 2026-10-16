@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "updatedAt": "2026-10-15T11:22:20Z",
+  "updatedAt": "2026-10-16T11:17:12Z",
   "source": "netstand",
   "teams": [
     {
@@ -219,58 +219,58 @@
       "standings": [
         {
           "rank": 1,
+          "team": "DCSV",
+          "mp": "2",
+          "bp": "8",
+          "isUs": false
+        },
+        {
+          "rank": 2,
           "team": "DSC 6",
           "mp": "2",
           "bp": "7.5",
           "isUs": false
         },
         {
-          "rank": 2,
+          "rank": 3,
           "team": "Scheve Toren 2",
           "mp": "2",
           "bp": "6",
           "isUs": true
         },
         {
-          "rank": 3,
+          "rank": 4,
           "team": "HSV",
           "mp": "2",
           "bp": "5",
           "isUs": false
         },
         {
-          "rank": 4,
+          "rank": 5,
           "team": "Wassenaar",
           "mp": "2",
           "bp": "4.5",
           "isUs": false
         },
         {
-          "rank": 5,
-          "team": "DCSV",
+          "rank": 6,
+          "team": "DSC 8",
           "mp": "0",
-          "bp": "3.5",
+          "bp": "4",
           "isUs": false
         },
         {
-          "rank": 6,
+          "rank": 7,
           "team": "Promotie 4",
           "mp": "0",
           "bp": "3",
           "isUs": false
         },
         {
-          "rank": 7,
+          "rank": 8,
           "team": "Haeghe Ooievaar 2",
           "mp": "0",
           "bp": "2",
-          "isUs": false
-        },
-        {
-          "rank": 8,
-          "team": "DSC 8",
-          "mp": "0",
-          "bp": "0.5",
           "isUs": false
         }
       ]
