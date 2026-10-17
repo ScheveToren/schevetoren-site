@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "updatedAt": "2026-10-16T11:17:12Z",
+  "updatedAt": "2026-10-17T10:36:57Z",
   "source": "netstand",
   "teams": [
     {
@@ -161,7 +161,7 @@
           "dateIso": "2026-10-16",
           "home": "Scheve Toren 2",
           "away": "DSC 6",
-          "score": "?",
+          "score": "2 – 6",
           "homeIsUs": true,
           "awayIsUs": false
         },
@@ -219,23 +219,23 @@
       "standings": [
         {
           "rank": 1,
+          "team": "DSC 6",
+          "mp": "4",
+          "bp": "13.5",
+          "isUs": false
+        },
+        {
+          "rank": 2,
           "team": "DCSV",
           "mp": "2",
           "bp": "8",
           "isUs": false
         },
         {
-          "rank": 2,
-          "team": "DSC 6",
-          "mp": "2",
-          "bp": "7.5",
-          "isUs": false
-        },
-        {
           "rank": 3,
           "team": "Scheve Toren 2",
           "mp": "2",
-          "bp": "6",
+          "bp": "8",
           "isUs": true
         },
         {
