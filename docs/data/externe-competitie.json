@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "updatedAt": "2026-10-19T13:04:23Z",
+  "updatedAt": "2026-10-20T11:30:12Z",
   "source": "netstand",
   "teams": [
     {
@@ -226,24 +226,24 @@
         },
         {
           "rank": 2,
+          "team": "HSV",
+          "mp": "4",
+          "bp": "13",
+          "isUs": false
+        },
+        {
+          "rank": 3,
           "team": "DCSV",
           "mp": "2",
           "bp": "8",
           "isUs": false
         },
         {
-          "rank": 3,
+          "rank": 4,
           "team": "Scheve Toren 2",
           "mp": "2",
           "bp": "8",
           "isUs": true
-        },
-        {
-          "rank": 4,
-          "team": "HSV",
-          "mp": "2",
-          "bp": "5",
-          "isUs": false
         },
         {
           "rank": 5,
