@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "updatedAt": "2026-10-23T11:32:39Z",
+  "updatedAt": "2026-10-24T10:52:55Z",
   "source": "netstand",
   "teams": [
     {
@@ -90,35 +90,35 @@
         },
         {
           "rank": 2,
+          "team": "Botwinnik 2",
+          "mp": "2",
+          "bp": "9",
+          "isUs": false
+        },
+        {
+          "rank": 3,
+          "team": "DD 3",
+          "mp": "2",
+          "bp": "8",
+          "isUs": false
+        },
+        {
+          "rank": 4,
           "team": "Scheve Toren 1",
           "mp": "2",
           "bp": "8",
           "isUs": true
         },
         {
-          "rank": 3,
-          "team": "DD 3",
-          "mp": "2",
-          "bp": "5.5",
-          "isUs": false
-        },
-        {
-          "rank": 4,
+          "rank": 5,
           "team": "Promotie 2",
           "mp": "2",
           "bp": "4.5",
           "isUs": false
         },
         {
-          "rank": 5,
-          "team": "Voorburg 2",
-          "mp": "0",
-          "bp": "3.5",
-          "isUs": false
-        },
-        {
           "rank": 6,
-          "team": "Botwinnik 2",
+          "team": "Voorburg 2",
           "mp": "0",
           "bp": "3.5",
           "isUs": false
