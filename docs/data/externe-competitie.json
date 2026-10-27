@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "updatedAt": "2026-10-26T12:53:19Z",
+  "updatedAt": "2026-10-27T12:04:53Z",
   "source": "netstand",
   "teams": [
     {
@@ -247,30 +247,30 @@
         },
         {
           "rank": 5,
+          "team": "Promotie 4",
+          "mp": "2",
+          "bp": "7.5",
+          "isUs": false
+        },
+        {
+          "rank": 6,
           "team": "Wassenaar",
           "mp": "2",
           "bp": "4.5",
           "isUs": false
         },
         {
-          "rank": 6,
-          "team": "DSC 8",
-          "mp": "0",
-          "bp": "4",
-          "isUs": false
-        },
-        {
           "rank": 7,
-          "team": "Promotie 4",
+          "team": "Haeghe Ooievaar 2",
           "mp": "0",
-          "bp": "3",
+          "bp": "5.5",
           "isUs": false
         },
         {
           "rank": 8,
-          "team": "Haeghe Ooievaar 2",
+          "team": "DSC 8",
           "mp": "0",
-          "bp": "2",
+          "bp": "4",
           "isUs": false
         }
       ]
