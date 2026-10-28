@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "updatedAt": "2026-10-27T12:04:53Z",
+  "updatedAt": "2026-10-28T12:45:28Z",
   "source": "netstand",
   "teams": [
     {
@@ -83,44 +83,44 @@
       "standings": [
         {
           "rank": 1,
+          "team": "Promotie 2",
+          "mp": "4",
+          "bp": "10.5",
+          "isUs": false
+        },
+        {
+          "rank": 2,
           "team": "RSC-Belgisch Park 1",
           "mp": "4",
           "bp": "10",
           "isUs": false
         },
         {
-          "rank": 2,
+          "rank": 3,
           "team": "Botwinnik 2",
           "mp": "2",
           "bp": "9",
           "isUs": false
         },
         {
-          "rank": 3,
+          "rank": 4,
           "team": "DD 3",
           "mp": "2",
           "bp": "8",
           "isUs": false
         },
         {
-          "rank": 4,
+          "rank": 5,
           "team": "Scheve Toren 1",
           "mp": "2",
           "bp": "8",
           "isUs": true
         },
         {
-          "rank": 5,
-          "team": "Promotie 2",
-          "mp": "2",
-          "bp": "4.5",
-          "isUs": false
-        },
-        {
           "rank": 6,
           "team": "Voorburg 2",
           "mp": "0",
-          "bp": "3.5",
+          "bp": "5.5",
           "isUs": false
         },
         {
