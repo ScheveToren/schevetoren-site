@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "updatedAt": "2026-10-28T12:45:28Z",
+  "updatedAt": "2026-10-29T12:54:54Z",
   "source": "netstand",
   "teams": [
     {
@@ -118,23 +118,23 @@
         },
         {
           "rank": 6,
-          "team": "Voorburg 2",
-          "mp": "0",
-          "bp": "5.5",
+          "team": "DSC 3 (jeugd)",
+          "mp": "2",
+          "bp": "7.5",
           "isUs": false
         },
         {
           "rank": 7,
           "team": "SHTV 2",
           "mp": "0",
-          "bp": "2.5",
+          "bp": "5.5",
           "isUs": false
         },
         {
           "rank": 8,
-          "team": "DSC 3 (jeugd)",
+          "team": "Voorburg 2",
           "mp": "0",
-          "bp": "2.5",
+          "bp": "5.5",
           "isUs": false
         }
       ]
