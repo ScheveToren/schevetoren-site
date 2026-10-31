@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "updatedAt": "2026-10-30T12:47:37Z",
+  "updatedAt": "2026-10-31T12:18:27Z",
   "source": "netstand",
   "teams": [
     {
@@ -171,7 +171,7 @@
           "dateIso": "2026-10-30",
           "home": "DCSV",
           "away": "Scheve Toren 2",
-          "score": "?",
+          "score": "4½ – 3½",
           "homeIsUs": false,
           "awayIsUs": true
         },
@@ -234,15 +234,15 @@
         {
           "rank": 3,
           "team": "DCSV",
-          "mp": "2",
-          "bp": "8",
+          "mp": "4",
+          "bp": "12.5",
           "isUs": false
         },
         {
           "rank": 4,
           "team": "Scheve Toren 2",
           "mp": "2",
-          "bp": "8",
+          "bp": "11.5",
           "isUs": true
         },
         {
