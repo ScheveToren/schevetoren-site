@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "updatedAt": "2026-10-31T12:18:27Z",
+  "updatedAt": "2026-11-01T13:14:39Z",
   "source": "netstand",
   "teams": [
     {
@@ -297,7 +297,7 @@
           "dateIso": "2026-10-31",
           "home": "De Scheve Toren 1",
           "away": "Kasteel Lekstroom 2",
-          "score": "?",
+          "score": "4½ – 3½",
           "homeIsUs": true,
           "awayIsUs": false
         },
@@ -355,58 +355,58 @@
       "standings": [
         {
           "rank": 1,
-          "team": "De Scheve Toren 1",
-          "mp": "2",
-          "bp": "6.5",
-          "isUs": true
+          "team": "Voorburg 1",
+          "mp": "4",
+          "bp": "13",
+          "isUs": false
         },
         {
           "rank": 2,
-          "team": "Voorburg 1",
-          "mp": "2",
-          "bp": "6",
-          "isUs": false
+          "team": "De Scheve Toren 1",
+          "mp": "4",
+          "bp": "11",
+          "isUs": true
         },
         {
           "rank": 3,
           "team": "Overschie 2",
-          "mp": "2",
-          "bp": "5.5",
+          "mp": "4",
+          "bp": "10",
           "isUs": false
         },
         {
           "rank": 4,
           "team": "HWP Haarlem 5",
           "mp": "2",
-          "bp": "5.5",
+          "bp": "9",
           "isUs": false
         },
         {
           "rank": 5,
-          "team": "Sliedrecht 4",
-          "mp": "0",
-          "bp": "2.5",
+          "team": "Onesimus 1",
+          "mp": "2",
+          "bp": "7.5",
           "isUs": false
         },
         {
           "rank": 6,
-          "team": "Kennemer Combinatie 5",
+          "team": "Kasteel Lekstroom 2",
           "mp": "0",
-          "bp": "2.5",
+          "bp": "5.5",
           "isUs": false
         },
         {
           "rank": 7,
-          "team": "Kasteel Lekstroom 2",
+          "team": "Sliedrecht 4",
           "mp": "0",
-          "bp": "2",
+          "bp": "4.5",
           "isUs": false
         },
         {
           "rank": 8,
-          "team": "Onesimus 1",
+          "team": "Kennemer Combinatie 5",
           "mp": "0",
-          "bp": "1.5",
+          "bp": "3.5",
           "isUs": false
         }
       ]
