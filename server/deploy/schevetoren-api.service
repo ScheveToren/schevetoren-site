@@ -1,0 +1,18 @@
+[Unit]
+Description=Scheve Toren attendance API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=schevetoren
+WorkingDirectory=/opt/schevetoren-api
+EnvironmentFile=/opt/schevetoren-api/.env
+ExecStart=/usr/bin/node /opt/schevetoren-api/src/index.js
+Restart=on-failure
+RestartSec=5
+# Keep SQLite and secrets readable only by this user
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

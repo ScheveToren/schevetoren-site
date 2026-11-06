@@ -1,0 +1,23 @@
+{
+  "name": "schevetoren-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "De Scheve Toren attendance API (Pi + SQLite, Sheets sync)",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "seed": "node scripts/seed-from-sheets.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "googleapis": "^144.0.0",
+    "nodemailer": "^6.10.1"
+  }
+}

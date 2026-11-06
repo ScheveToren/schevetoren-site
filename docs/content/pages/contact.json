@@ -5,7 +5,7 @@
   "blocks": [
     {
       "type": "paragraph",
-      "text": "Voor vragen over lidmaatschap, uitnodigingscodes of de website kun je contact opnemen met het bestuur via de clubkanalen."
+      "text": "Voor vragen over lidmaatschap, uitnodigingscodes of de website kun je het formulier hieronder gebruiken of contact opnemen via de clubkanalen."
     },
     {
       "type": "labeled",
@@ -29,5 +29,9 @@
       "href": "./gedragsregels.html",
       "text": "Gedragsregels Scheve Toren"
     }
-  ]
+  ],
+  "form": {
+    "heading": "Stuur een bericht",
+    "intro": "Je bericht gaat naar het bestuur per e-mail. We proberen zo snel mogelijk te reageren."
+  }
 }

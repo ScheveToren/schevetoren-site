@@ -1,0 +1,16 @@
+# Example Cloudflare Tunnel config for the Scheve Toren API.
+# Install cloudflared, then:
+#   cloudflared tunnel login
+#   cloudflared tunnel create schevetoren-api
+#   cloudflared tunnel route dns schevetoren-api api.example.com
+# Copy credentials JSON path below, then:
+#   sudo cp this file to /etc/cloudflared/config.yml
+#   sudo systemctl enable --now cloudflared
+
+tunnel: REPLACE_WITH_TUNNEL_UUID
+credentials-file: /etc/cloudflared/REPLACE_WITH_TUNNEL_UUID.json
+
+ingress:
+  - hostname: api.example.com
+    service: http://127.0.0.1:8787
+  - service: http_status:404

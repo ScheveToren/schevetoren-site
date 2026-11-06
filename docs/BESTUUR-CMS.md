@@ -64,6 +64,16 @@ Tip: open de **Lichess-editor**, zet de stelling klaar, kopieer de FEN of URL te
 - De GitHub PAT leeft alleen in Apps Script Script Properties of de Pi `.env`.
 - Elke publicatie is een **git commit** — historie blijft bewaard in GitHub.
 
+## Contactformulier
+
+Op [`contact.html`](contact.html) staat een publiek formulier. Ontvangers staan **alleen in de backend** (niet op de website):
+
+1. Spreadsheet-tabblad **Admins**, kolom `email` (primaire bron), en/of
+2. **Players** met `is_admin` = `TRUE` én een kolom `email` ingevuld.
+
+- Werkt via Apps Script `MailApp` (actie `contact-form`) — **na code-update web app opnieuw deployen**.
+- Nood-override: Script property `CONTACT_TO` (kommagescheiden); overschrijft de sheet-lijst.
+
 ## Gerelateerd
 
 - Aanwezigheid en invite-codes: [`admin.html`](admin.html) en [`attendance.html`](attendance.html).

@@ -41,7 +41,12 @@
     "invalid_cover_path",
     "invalid_pdf_path",
     "invalid_rapid_ladder",
-    "missing rapid ladder json"
+    "missing rapid ladder json",
+    "missing_fields",
+    "invalid_contact",
+    "rate_limited",
+    "contact_email_not_configured",
+    "contact_send_failed"
   ]);
 
   function endpoints() {
