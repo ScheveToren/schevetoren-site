@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "updatedAt": "2026-11-09T16:08:21Z",
+  "updatedAt": "2026-11-10T14:47:43Z",
   "source": "netstand",
   "teams": [
     {
@@ -83,16 +83,16 @@
       "standings": [
         {
           "rank": 1,
-          "team": "Promotie 2",
-          "mp": "4",
-          "bp": "10.5",
+          "team": "RSC-Belgisch Park 1",
+          "mp": "6",
+          "bp": "16",
           "isUs": false
         },
         {
           "rank": 2,
-          "team": "RSC-Belgisch Park 1",
+          "team": "Promotie 2",
           "mp": "4",
-          "bp": "10",
+          "bp": "12.5",
           "isUs": false
         },
         {
@@ -219,16 +219,16 @@
       "standings": [
         {
           "rank": 1,
-          "team": "DSC 6",
+          "team": "HSV",
           "mp": "4",
-          "bp": "13.5",
+          "bp": "16",
           "isUs": false
         },
         {
           "rank": 2,
-          "team": "HSV",
+          "team": "DSC 6",
           "mp": "4",
-          "bp": "13",
+          "bp": "13.5",
           "isUs": false
         },
         {
@@ -240,37 +240,37 @@
         },
         {
           "rank": 4,
+          "team": "Wassenaar",
+          "mp": "4",
+          "bp": "9",
+          "isUs": false
+        },
+        {
+          "rank": 5,
           "team": "Scheve Toren 2",
           "mp": "2",
           "bp": "11.5",
           "isUs": true
         },
         {
-          "rank": 5,
+          "rank": 6,
+          "team": "Haeghe Ooievaar 2",
+          "mp": "2",
+          "bp": "10.5",
+          "isUs": false
+        },
+        {
+          "rank": 7,
           "team": "Promotie 4",
           "mp": "2",
           "bp": "7.5",
           "isUs": false
         },
         {
-          "rank": 6,
-          "team": "Wassenaar",
-          "mp": "2",
-          "bp": "4.5",
-          "isUs": false
-        },
-        {
-          "rank": 7,
-          "team": "Haeghe Ooievaar 2",
-          "mp": "0",
-          "bp": "5.5",
-          "isUs": false
-        },
-        {
           "rank": 8,
           "team": "DSC 8",
           "mp": "0",
-          "bp": "4",
+          "bp": "7.5",
           "isUs": false
         }
       ]
