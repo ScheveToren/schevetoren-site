@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "updatedAt": "2026-11-12T15:05:40Z",
+  "updatedAt": "2026-11-13T14:29:36Z",
   "source": "netstand",
   "teams": [
     {
@@ -219,16 +219,16 @@
       "standings": [
         {
           "rank": 1,
-          "team": "HSV",
-          "mp": "4",
-          "bp": "16",
+          "team": "DSC 6",
+          "mp": "6",
+          "bp": "19.5",
           "isUs": false
         },
         {
           "rank": 2,
-          "team": "DSC 6",
+          "team": "HSV",
           "mp": "4",
-          "bp": "13.5",
+          "bp": "16",
           "isUs": false
         },
         {
@@ -263,7 +263,7 @@
           "rank": 7,
           "team": "Promotie 4",
           "mp": "2",
-          "bp": "7.5",
+          "bp": "9.5",
           "isUs": false
         },
         {
