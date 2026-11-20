@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "updatedAt": "2026-11-19T15:40:11Z",
+  "updatedAt": "2026-11-20T15:21:51Z",
   "source": "netstand",
   "teams": [
     {
@@ -35,7 +35,7 @@
           "dateIso": "2026-11-19",
           "home": "SHTV 2",
           "away": "Scheve Toren 1",
-          "score": "?",
+          "score": "2 – 6",
           "homeIsUs": false,
           "awayIsUs": true
         },
@@ -90,51 +90,51 @@
         },
         {
           "rank": 2,
+          "team": "Botwinnik 2",
+          "mp": "4",
+          "bp": "14.5",
+          "isUs": false
+        },
+        {
+          "rank": 3,
+          "team": "Scheve Toren 1",
+          "mp": "4",
+          "bp": "14",
+          "isUs": true
+        },
+        {
+          "rank": 4,
+          "team": "DSC 3 (jeugd)",
+          "mp": "4",
+          "bp": "13.5",
+          "isUs": false
+        },
+        {
+          "rank": 5,
           "team": "Promotie 2",
           "mp": "4",
           "bp": "12.5",
           "isUs": false
         },
         {
-          "rank": 3,
-          "team": "Botwinnik 2",
-          "mp": "2",
-          "bp": "9",
-          "isUs": false
-        },
-        {
-          "rank": 4,
+          "rank": 6,
           "team": "DD 3",
           "mp": "2",
-          "bp": "8",
-          "isUs": false
-        },
-        {
-          "rank": 5,
-          "team": "Scheve Toren 1",
-          "mp": "2",
-          "bp": "8",
-          "isUs": true
-        },
-        {
-          "rank": 6,
-          "team": "DSC 3 (jeugd)",
-          "mp": "2",
-          "bp": "7.5",
+          "bp": "10",
           "isUs": false
         },
         {
           "rank": 7,
-          "team": "SHTV 2",
+          "team": "Voorburg 2",
           "mp": "0",
-          "bp": "5.5",
+          "bp": "8",
           "isUs": false
         },
         {
           "rank": 8,
-          "team": "Voorburg 2",
+          "team": "SHTV 2",
           "mp": "0",
-          "bp": "5.5",
+          "bp": "7.5",
           "isUs": false
         }
       ]
