@@ -1,6 +1,6 @@
 {
   "season": "2026-2027",
-  "updatedAt": "2026-11-21T14:34:57Z",
+  "updatedAt": "2026-11-22T14:29:37Z",
   "source": "netstand",
   "teams": [
     {
@@ -307,7 +307,7 @@
           "dateIso": "2026-11-21",
           "home": "Kennemer Combinatie 5",
           "away": "De Scheve Toren 1",
-          "score": "?",
+          "score": "3½ – 4½",
           "homeIsUs": false,
           "awayIsUs": true
         },
@@ -355,58 +355,58 @@
       "standings": [
         {
           "rank": 1,
-          "team": "Voorburg 1",
-          "mp": "4",
-          "bp": "13",
+          "team": "Overschie 2",
+          "mp": "6",
+          "bp": "15.5",
           "isUs": false
         },
         {
           "rank": 2,
           "team": "De Scheve Toren 1",
-          "mp": "4",
-          "bp": "11",
+          "mp": "6",
+          "bp": "15.5",
           "isUs": true
         },
         {
           "rank": 3,
-          "team": "Overschie 2",
+          "team": "Voorburg 1",
           "mp": "4",
-          "bp": "10",
+          "bp": "15.5",
           "isUs": false
         },
         {
           "rank": 4,
-          "team": "HWP Haarlem 5",
-          "mp": "2",
-          "bp": "9",
+          "team": "Onesimus 1",
+          "mp": "4",
+          "bp": "13",
           "isUs": false
         },
         {
           "rank": 5,
-          "team": "Onesimus 1",
+          "team": "HWP Haarlem 5",
           "mp": "2",
-          "bp": "7.5",
+          "bp": "11.5",
           "isUs": false
         },
         {
           "rank": 6,
           "team": "Kasteel Lekstroom 2",
-          "mp": "0",
-          "bp": "5.5",
+          "mp": "1",
+          "bp": "9.5",
           "isUs": false
         },
         {
           "rank": 7,
           "team": "Sliedrecht 4",
-          "mp": "0",
-          "bp": "4.5",
+          "mp": "1",
+          "bp": "8.5",
           "isUs": false
         },
         {
           "rank": 8,
           "team": "Kennemer Combinatie 5",
           "mp": "0",
-          "bp": "3.5",
+          "bp": "7",
           "isUs": false
         }
       ]
