@@ -156,17 +156,6 @@ function wrapSelection(textarea, before, after = before, placeholder = "tekst") 
   updateNewsPreview();
 }
 
-function lichessAnalysisUrl(fen, color = "white") {
-  const fenParam = fen.trim().replace(/ /g, "_");
-  const q = new URLSearchParams({
-    fen: fenParam,
-    color: color === "black" ? "black" : "white",
-    theme: "brown",
-    pieceSet: "merida"
-  });
-  return `https://lichess.org/embed/analysis?${q}`;
-}
-
 function extractFenFromText(raw) {
   const text = String(raw || "").trim();
   if (!text) return null;
@@ -231,19 +220,39 @@ function looksLikePgn(raw) {
   return /^\s*1\./.test(text) || /\b1\.\s*\S+/.test(text);
 }
 
+function stellingPgnFromFen(fen) {
+  return [
+    'orientation: white',
+    'caption: Stelling',
+    '[Event "Stelling"]',
+    '[Site "?"]',
+    '[Date "????.??.??"]',
+    '[Round "-"]',
+    '[White "Wit"]',
+    '[Black "Zwart"]',
+    '[Result "*"]',
+    '[SetUp "1"]',
+    `[FEN "${fen}"]`,
+    "",
+    "*"
+  ].join("\n");
+}
+
+function pgnPreviewPlaceholder(raw) {
+  const lines = String(raw || "")
+    .trim()
+    .split(/\n/)
+    .filter(l => !/^(caption|orientation):/i.test(l.trim()));
+  const preview = lines.slice(0, 4).join(" ").slice(0, 160);
+  return `<div class="pgn-placeholder">Clubbord (na publicatie met navigatie)<br><code>${escapeHtml(preview)}${preview.length >= 160 ? "…" : ""}</code></div>`;
+}
+
 function renderPreviewMarkdown(src) {
   let body = String(src || "");
   body = body.replace(/```fen\s*(?:\n| )([\s\S]*?)```/g, (_, raw) => {
     const fen = extractFenFromText(raw) || extractFenFromText(raw.split(/\n/).find(l => !/^(caption|orientation):/i.test(l)) || "");
-    if (!fen) return `<div class="fen-placeholder">FEN-diagram (ongeldig of leeg)</div>`;
-    let orientation = "white";
-    for (const line of raw.split(/\n/)) {
-      if (line.toLowerCase().startsWith("orientation:")) {
-        orientation = line.split(":").slice(1).join(":").trim().toLowerCase();
-      }
-    }
-    const srcUrl = lichessAnalysisUrl(fen, orientation);
-    return `<figure class="chess-diagram"><iframe title="Schaakdiagram" src="${srcUrl}" loading="lazy"></iframe></figure>`;
+    if (!fen) return `<div class="pgn-placeholder">Stelling (ongeldige of lege FEN)</div>`;
+    return pgnPreviewPlaceholder(stellingPgnFromFen(fen));
   });
   body = body.replace(/```game\s*(?:\n| )([\s\S]*?)```/g, (_, raw) => {
     const id = extractGameId(raw.trim().split(/\n/)[0] || "");
@@ -251,11 +260,7 @@ function renderPreviewMarkdown(src) {
     const srcUrl = `https://lichess.org/embed/${id}?theme=brown&pieceSet=merida`;
     return `<figure class="chess-diagram chess-game"><iframe title="Lichess-partij" src="${srcUrl}" loading="lazy"></iframe></figure>`;
   });
-  body = body.replace(/```pgn\s*(?:\n| )([\s\S]*?)```/g, (_, raw) => {
-    const lines = raw.trim().split(/\n/).filter(l => !/^(caption|orientation):/i.test(l.trim()));
-    const preview = lines.slice(0, 4).join(" ").slice(0, 160);
-    return `<div class="pgn-placeholder">PGN-viewer (na publicatie met navigatie)<br><code>${escapeHtml(preview)}${preview.length >= 160 ? "…" : ""}</code></div>`;
-  });
+  body = body.replace(/```pgn\s*(?:\n| )([\s\S]*?)```/g, (_, raw) => pgnPreviewPlaceholder(raw));
   if (window.marked?.parse) {
     return window.marked.parse(body, { breaks: true });
   }
@@ -300,7 +305,10 @@ function initMarkdownToolbar() {
       wrapSelection(body, "[", `](${url})`, "linktekst");
     } else if (action === "list") wrapSelection(body, "- ", "", "punt");
     else if (action === "fen") {
-      insertAtCursor(body, "\n```fen\n\norientation: white\n```\n");
+      insertAtCursor(
+        body,
+        "\n```pgn\norientation: white\ncaption: Stelling\n[Event \"Stelling\"]\n[Site \"?\"]\n[Date \"????.??.??\"]\n[Round \"-\"]\n[White \"Wit\"]\n[Black \"Zwart\"]\n[Result \"*\"]\n[SetUp \"1\"]\n[FEN \"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\"]\n\n*\n```\n"
+      );
       document.getElementById("chessHelperInput")?.focus();
     } else if (action === "game") {
       insertAtCursor(body, "\n```game\n\n```\n");
@@ -321,8 +329,8 @@ function initChessHelper(statusEl) {
   document.getElementById("chessInsertFen")?.addEventListener("click", () => {
     const fen = extractFenFromText(input.value);
     if (!fen) return setStatus(statusEl, "Geen geldige FEN of Lichess-URL gevonden.", false);
-    insertAtCursor(body, `\n\`\`\`fen\n${fen}\norientation: white\n\`\`\`\n`);
-    setStatus(statusEl, "FEN-diagram ingevoegd.", true);
+    insertAtCursor(body, `\n\`\`\`pgn\n${stellingPgnFromFen(fen)}\n\`\`\`\n`);
+    setStatus(statusEl, "Stelling (clubbord) ingevoegd.", true);
   });
 
   document.getElementById("chessInsertGame")?.addEventListener("click", () => {

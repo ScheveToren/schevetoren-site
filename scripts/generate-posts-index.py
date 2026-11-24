@@ -74,20 +74,6 @@ def collect_pdfs(meta):
     return pdfs
 
 
-def lichess_analysis_embed_url(fen_line, color="white"):
-    """Lichess iframe embed (see https://lichess.org/developers). FEN uses underscores."""
-    fen_param = fen_line.strip().replace(" ", "_")
-    query = urlencode(
-        {
-            "fen": fen_param,
-            "color": color,
-            "theme": "brown",
-            "pieceSet": "merida",
-        }
-    )
-    return f"https://lichess.org/embed/analysis?{query}"
-
-
 def lichess_game_embed_url(game_id, color=None):
     query = {"theme": "brown", "pieceSet": "merida"}
     if color in ("white", "black"):
@@ -127,7 +113,44 @@ def parse_fence_meta(raw):
     return "\n".join(content_lines).strip(), caption, orientation
 
 
+def pgn_figure_html(content, caption="", orientation="white"):
+    """Shared Chessground PGN viewer (stellingen and games with moves)."""
+    if not content:
+        raise ValueError("Empty PGN content")
+    if len(content) > PGN_MAX_CHARS:
+        raise ValueError(f"PGN too large ({len(content)} chars; max {PGN_MAX_CHARS})")
+    data_pgn = content
+    if orientation == "black":
+        data_pgn = f"orientation: black\n{content}"
+    analysis_url = "https://lichess.org/analysis/pgn/" + quote(content.replace("\n", " "), safe="")
+    cap = f"<figcaption>{html.escape(caption)}</figcaption>" if caption else ""
+    return (
+        f'<figure class="chess-diagram chess-pgn">'
+        f'<div class="pgn-player">'
+        f'<script type="text/plain" class="pgn-source">{escape_script_text(data_pgn)}</script>'
+        f"</div>"
+        f'<p class="pgn-analyse"><a href="{html.escape(analysis_url)}" target="_blank" rel="noopener">'
+        f"Analyseer op Lichess</a></p>{cap}</figure>"
+    )
+
+
+def fen_to_stelling_pgn(fen):
+    return (
+        '[Event "Stelling"]\n'
+        '[Site "?"]\n'
+        '[Date "????.??.??"]\n'
+        '[Round "-"]\n'
+        '[White "Wit"]\n'
+        '[Black "Zwart"]\n'
+        '[Result "*"]\n'
+        '[SetUp "1"]\n'
+        f'[FEN "{fen}"]\n'
+        "\n*"
+    )
+
+
 def parse_fen_block(body):
+    """Legacy ```fen fences → same in-page PGN viewer as ```pgn (no Lichess iframe)."""
     pattern = re.compile(r"```fen\s*(?:\n| )([\s\S]*?)```", re.MULTILINE)
 
     def repl(match):
@@ -135,13 +158,7 @@ def parse_fen_block(body):
         fen_line = content.splitlines()[0].strip() if content else ""
         if not FEN_RE.match(fen_line):
             raise ValueError(f"Invalid FEN: {fen_line}")
-        color = "black" if orientation == "black" else "white"
-        src = lichess_analysis_embed_url(fen_line, color)
-        cap = f"<figcaption>{html.escape(caption)}</figcaption>" if caption else ""
-        return (
-            f'<figure class="chess-diagram chess-analysis"><iframe title="Schaakdiagram" '
-            f'src="{html.escape(src)}" loading="lazy"></iframe>{cap}</figure>'
-        )
+        return pgn_figure_html(fen_to_stelling_pgn(fen_line), caption, orientation)
 
     return pattern.sub(repl, body)
 
@@ -171,24 +188,7 @@ def parse_pgn_block(body):
     def repl(match):
         raw = match.group(1).strip()
         content, caption, orientation = parse_fence_meta(raw)
-        if not content:
-            raise ValueError("Empty PGN block")
-        if len(content) > PGN_MAX_CHARS:
-            raise ValueError(f"PGN too large ({len(content)} chars; max {PGN_MAX_CHARS})")
-        # Keep orientation in source for the player (not in an attribute — PGN is multi-line)
-        data_pgn = content
-        if orientation == "black":
-            data_pgn = f"orientation: black\n{content}"
-        analysis_url = "https://lichess.org/analysis/pgn/" + quote(content.replace("\n", " "), safe="")
-        cap = f"<figcaption>{html.escape(caption)}</figcaption>" if caption else ""
-        return (
-            f'<figure class="chess-diagram chess-pgn">'
-            f'<div class="pgn-player">'
-            f'<script type="text/plain" class="pgn-source">{escape_script_text(data_pgn)}</script>'
-            f"</div>"
-            f'<p class="pgn-analyse"><a href="{html.escape(analysis_url)}" target="_blank" rel="noopener">'
-            f"Analyseer op Lichess</a></p>{cap}</figure>"
-        )
+        return pgn_figure_html(content, caption, orientation)
 
     return pattern.sub(repl, body)
 

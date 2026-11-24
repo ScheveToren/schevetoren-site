@@ -36,15 +36,17 @@ Open: [`beheer.html`](beheer.html) (ook bereikbaar via de footer-link **Beheer**
 - **Afbeeldingen / cover:** upload via het mediablok (max. ca. 3 MB; jpeg/png/webp/gif). Cover komt boven het bericht; “Uploaden & invoegen” plaatst Markdown in de tekst. Bestanden landen in `media/<slug>/`.
 - **PDF-bijlage (optioneel):** één PDF per bericht (max. ca. 8 MB). Op de site: ingesloten viewer + downloadknop (handig op telefoons).
 
-### Schaak: FEN, partij, PGN
+### Schaak: stelling, partij, PGN
+
+Gebruik voor diagrammen **altijd** het clubbord (`pgn`-blok), niet een Lichess-analyse-iframe. Zie ook `docs/nieuws/_template.md`.
 
 | Type | Hoe | Wat bezoekers zien |
 |------|-----|--------------------|
-| **FEN** | Knop **FEN**, of plak FEN/Lichess-URL in het schaakhulpblok → **Invoegen als FEN** | Interactief Lichess-analysebord |
-| **Partij** | Plak een Lichess-partij-URL → **Invoegen als partij** | Officiële Lichess game-embed (zetten navigatie) |
-| **PGN** | Plak PGN → **Invoegen als PGN** | Bord met vorige/volgende, zettenlijst, flip; link “Analyseer op Lichess” |
+| **Stelling** | Knop **Stelling**, of plak FEN/Lichess-URL → **Invoegen als stelling** | Eigen bordviewer (Chessground); optioneel zetten + “Analyseer op Lichess” |
+| **Partij** | Plak een Lichess-partij-URL → **Invoegen als partij** | Officiële Lichess game-embed |
+| **PGN** | Plak PGN → **Invoegen als PGN** | Zelfde bordviewer met zetten-navigatie |
 
-Tip: open de **Lichess-editor**, zet de stelling klaar, kopieer de FEN of URL terug naar beheer.
+Tip: open de **Lichess-editor**, zet de stelling klaar, kopieer de FEN terug → **Invoegen als stelling**.
 
 ## Pagina’s (contact, jeugd, gedragsregels)
 

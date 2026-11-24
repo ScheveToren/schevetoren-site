@@ -29,8 +29,18 @@ winstplan zou kunnen zijn.
 Onder de beste oplossingen (in te leveren op papier op 4 december) worden
 chocolade letters verloot.
 
-```fen
-8/3n4/p3k3/P1p1p2p/1pP1Pp1b/1P3P2/3B2K1/5N2 w - - 0 1
+```pgn
 orientation: white
 caption: Prijsvraag — wit aan zet
+[Event "Prijsvraag"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "-"]
+[White "Wit"]
+[Black "Zwart"]
+[Result "*"]
+[SetUp "1"]
+[FEN "8/3n4/p3k3/P1p1p2p/1pP1Pp1b/1P3P2/3B2K1/5N2 w - - 0 1"]
+
+*
 ```

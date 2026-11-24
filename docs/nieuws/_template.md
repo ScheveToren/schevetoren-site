@@ -17,25 +17,31 @@ Plaats bestanden in `docs/nieuws/berichten/media/<slug>/` (of upload via CMS) en
 
 ![Omschrijving](./media/unieke-slug/foto.jpg)
 
-## FEN-diagram (Lichess analysebord)
+## Stelling / diagram (eigen bordviewer)
 
-```fen
-rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+Gebruik altijd een `pgn`-blok met `[SetUp "1"]` en `[FEN "…"]`. Zo krijg je hetzelfde bord als bij clubanalyses (Chessground + knoppen + “Analyseer op Lichess”), ook zonder zetten.
+
+```pgn
 orientation: white
 caption: Optioneel onderschrift
+[Event "Stelling"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "-"]
+[White "Wit"]
+[Black "Zwart"]
+[Result "*"]
+[SetUp "1"]
+[FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"]
+
+*
 ```
 
-Bewerk op https://lichess.org/editor en plak FEN of URL terug in beheer.
+Tip: open https://lichess.org/editor, zet de stelling klaar, kopieer de FEN. In beheer: plak FEN → **Invoegen als stelling**.
 
-## Lichess-partij
+## PGN met zetten
 
-```game
-abcdefgh
-```
-
-Of plak een volledige Lichess-URL; CI maakt de officiële game-embed.
-
-## PGN (eigen viewer met zetten-navigatie)
+Zelfde viewer; voeg zetten toe onder de headers (of plak een volledige PGN via beheer → **Invoegen als PGN**).
 
 ```pgn
 orientation: white
@@ -43,4 +49,12 @@ caption: Clubpartij
 1. e4 e5 2. Nf3 Nc6 3. Bb5 a6
 ```
 
-Bezoekers kunnen zetten doorlopen; “Analyseer op Lichess” opent de PGN daar.
+## Lichess-partij
+
+Alleen voor een bestaande Lichess-partij (officiële game-embed):
+
+```game
+abcdefgh
+```
+
+Of plak een volledige Lichess-URL in beheer → **Invoegen als partij**.

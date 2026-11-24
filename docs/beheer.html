@@ -138,7 +138,7 @@
           <button type="button" data-md="heading" title="Kop">H2</button>
           <button type="button" data-md="link" title="Link">Link</button>
           <button type="button" data-md="list" title="Lijst">• Lijst</button>
-          <button type="button" data-md="fen" title="FEN-diagram invoegen">FEN</button>
+          <button type="button" data-md="fen" title="Stelling (PGN-bord) invoegen">Stelling</button>
           <button type="button" data-md="game" title="Lichess-partij invoegen">Partij</button>
           <button type="button" data-md="pgn" title="PGN invoegen">PGN</button>
         </div>
@@ -147,13 +147,13 @@
           <div>
             <p class="field-label">Voorbeeld</p>
             <div id="newsPreview" class="cms-preview article-body" aria-live="polite"></div>
-            <p class="cms-hint">FEN/partij-iframes laden live; PGN-navigatie werkt volledig na publicatie.</p>
+            <p class="cms-hint">Stellingen en PGN gebruiken het clubbord (volledig na publicatie); Lichess-partijen laden als iframe.</p>
           </div>
         </div>
 
         <div class="cms-chess-helper">
           <h3>Schaakdiagram / partij</h3>
-          <p class="cms-hint">Plak een FEN, Lichess-URL of PGN. Of open de Lichess-editor, stel de stelling in, kopieer de FEN terug.</p>
+          <p class="cms-hint">Stellingen altijd als PGN-bord (zelfde viewer als analyses). Plak FEN of open de Lichess-editor, kopieer de FEN terug → <strong>Invoegen als stelling</strong>.</p>
           <div class="cms-actions">
             <a class="button secondary" href="https://lichess.org/editor" target="_blank" rel="noopener">Open Lichess-editor</a>
             <a class="button muted" href="https://lichess.org/analysis" target="_blank" rel="noopener">Open analysebord</a>
@@ -161,7 +161,7 @@
           <label class="field-label" for="chessHelperInput">Plak FEN, Lichess-URL of PGN</label>
           <textarea id="chessHelperInput" placeholder="FEN, https://lichess.org/… of volledige PGN"></textarea>
           <div class="cms-actions">
-            <button id="chessInsertFen" class="button secondary" type="button">Invoegen als FEN</button>
+            <button id="chessInsertFen" class="button secondary" type="button">Invoegen als stelling</button>
             <button id="chessInsertGame" class="button secondary" type="button">Invoegen als partij</button>
             <button id="chessInsertPgn" class="button secondary" type="button">Invoegen als PGN</button>
           </div>
@@ -205,6 +205,6 @@
 <script src="./api-client.js?v=20261009-cms"></script>
 <script src="./assets/site.js?v=20261009-cms"></script>
 <script src="./lichess-auth.js?v=20260924-oauth"></script>
-<script src="./assets/cms.js?v=20261009-cms"></script>
+<script src="./assets/cms.js?v=20261124-stelling"></script>
 </body>
 </html>
