@@ -32,6 +32,7 @@ chocolade letters verloot.
 ```pgn
 orientation: white
 caption: Prijsvraag — wit aan zet
+analyse: false
 [Event "Prijsvraag"]
 [Site "?"]
 [Date "????.??.??"]

@@ -242,7 +242,7 @@ function pgnPreviewPlaceholder(raw) {
   const lines = String(raw || "")
     .trim()
     .split(/\n/)
-    .filter(l => !/^(caption|orientation):/i.test(l.trim()));
+    .filter(l => !/^(caption|orientation|analyse):/i.test(l.trim()));
   const preview = lines.slice(0, 4).join(" ").slice(0, 160);
   return `<div class="pgn-placeholder">Clubbord (na publicatie met navigatie)<br><code>${escapeHtml(preview)}${preview.length >= 160 ? "…" : ""}</code></div>`;
 }

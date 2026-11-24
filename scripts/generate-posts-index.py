@@ -96,9 +96,10 @@ def extract_game_id(raw):
 
 
 def parse_fence_meta(raw):
-    """Split caption/orientation lines from content body."""
+    """Split caption/orientation/analyse lines from content body."""
     caption = ""
     orientation = "white"
+    analyse = True
     content_lines = []
     for line in raw.splitlines():
         lower = line.lower().strip()
@@ -106,14 +107,16 @@ def parse_fence_meta(raw):
             caption = line.split(":", 1)[1].strip()
         elif lower.startswith("orientation:"):
             orientation = line.split(":", 1)[1].strip().lower()
+        elif lower.startswith("analyse:"):
+            analyse = line.split(":", 1)[1].strip().lower() not in ("false", "0", "no", "nee")
         elif lower.startswith("fen:"):
             content_lines.append(line.split(":", 1)[1].strip())
         else:
             content_lines.append(line)
-    return "\n".join(content_lines).strip(), caption, orientation
+    return "\n".join(content_lines).strip(), caption, orientation, analyse
 
 
-def pgn_figure_html(content, caption="", orientation="white"):
+def pgn_figure_html(content, caption="", orientation="white", analyse=True):
     """Shared Chessground PGN viewer (stellingen and games with moves)."""
     if not content:
         raise ValueError("Empty PGN content")
@@ -122,15 +125,20 @@ def pgn_figure_html(content, caption="", orientation="white"):
     data_pgn = content
     if orientation == "black":
         data_pgn = f"orientation: black\n{content}"
-    analysis_url = "https://lichess.org/analysis/pgn/" + quote(content.replace("\n", " "), safe="")
+    analyse_html = ""
+    if analyse:
+        analysis_url = "https://lichess.org/analysis/pgn/" + quote(content.replace("\n", " "), safe="")
+        analyse_html = (
+            f'<p class="pgn-analyse"><a href="{html.escape(analysis_url)}" target="_blank" rel="noopener">'
+            f"Analyseer op Lichess</a></p>"
+        )
     cap = f"<figcaption>{html.escape(caption)}</figcaption>" if caption else ""
     return (
         f'<figure class="chess-diagram chess-pgn">'
         f'<div class="pgn-player">'
         f'<script type="text/plain" class="pgn-source">{escape_script_text(data_pgn)}</script>'
         f"</div>"
-        f'<p class="pgn-analyse"><a href="{html.escape(analysis_url)}" target="_blank" rel="noopener">'
-        f"Analyseer op Lichess</a></p>{cap}</figure>"
+        f"{analyse_html}{cap}</figure>"
     )
 
 
@@ -154,11 +162,11 @@ def parse_fen_block(body):
     pattern = re.compile(r"```fen\s*(?:\n| )([\s\S]*?)```", re.MULTILINE)
 
     def repl(match):
-        content, caption, orientation = parse_fence_meta(match.group(1))
+        content, caption, orientation, analyse = parse_fence_meta(match.group(1))
         fen_line = content.splitlines()[0].strip() if content else ""
         if not FEN_RE.match(fen_line):
             raise ValueError(f"Invalid FEN: {fen_line}")
-        return pgn_figure_html(fen_to_stelling_pgn(fen_line), caption, orientation)
+        return pgn_figure_html(fen_to_stelling_pgn(fen_line), caption, orientation, analyse)
 
     return pattern.sub(repl, body)
 
@@ -167,7 +175,7 @@ def parse_game_block(body):
     pattern = re.compile(r"```game\s*(?:\n| )([\s\S]*?)```", re.MULTILINE)
 
     def repl(match):
-        content, caption, orientation = parse_fence_meta(match.group(1))
+        content, caption, orientation, _analyse = parse_fence_meta(match.group(1))
         game_id, url_color = extract_game_id(content)
         if not game_id:
             raise ValueError(f"Invalid Lichess game id/url: {content[:80]}")
@@ -187,8 +195,8 @@ def parse_pgn_block(body):
 
     def repl(match):
         raw = match.group(1).strip()
-        content, caption, orientation = parse_fence_meta(raw)
-        return pgn_figure_html(content, caption, orientation)
+        content, caption, orientation, analyse = parse_fence_meta(raw)
+        return pgn_figure_html(content, caption, orientation, analyse)
 
     return pattern.sub(repl, body)
 

@@ -37,6 +37,8 @@ caption: Optioneel onderschrift
 *
 ```
 
+Optioneel: `analyse: false` verbergt de link “Analyseer op Lichess” (handig bij een prijsvraag).
+
 Tip: open https://lichess.org/editor, zet de stelling klaar, kopieer de FEN. In beheer: plak FEN → **Invoegen als stelling**.
 
 ## PGN met zetten
